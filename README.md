@@ -65,6 +65,19 @@ BlackJack With Views
   ## Implementing your Blackjack Game 
 
   - add a property of type BlackjackGame to your BlackjackGameViewController's .h file. In the viewDidLoad method,  alloc]init] your BlackjackGame property.
+
+  ```objc
+  - (void)viewDidLoad
+  {
+  	self = [super viewDidLoad];
+  	if (self)
+	{
+		self.blackjackGame = [[BlackjackGame alloc] init];
+	}
+
+  }
+```
+
   - Next, also in your viewDidLoad method, call your BlackjackGame's deal method and update your first two card labels.  UILabel has a text property.  You should update the text of your label to match the description of each of your playing cards.  
   - Implement your deal and hit methods to perform the appropriate functions. ie. in deal, instantiate a new game, remove all label text and add two new labels for a new deal, and in hit, call the game's hit method and update a third (or 4th or 5th) card with the description of the card that was hit.  
   - After each move you should update your score label, and if you bust or get a blackjack you should update your bust/blackjack label.  
