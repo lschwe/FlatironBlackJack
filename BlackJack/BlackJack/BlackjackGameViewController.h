@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FISBlackJackGame.h"
 
 @interface BlackjackGameViewController : UIViewController
 
@@ -15,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *card3;
 @property (weak, nonatomic) IBOutlet UILabel *card4;
 @property (weak, nonatomic) IBOutlet UILabel *card5;
+@property (strong, nonatomic) FISBlackJackGame *blackJackGame;
 
 @property (weak, nonatomic) IBOutlet UILabel *score;
 @property (weak, nonatomic) IBOutlet UILabel *result;

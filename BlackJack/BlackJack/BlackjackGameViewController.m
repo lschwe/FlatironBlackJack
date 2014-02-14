@@ -27,6 +27,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [self deal:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,5 +42,11 @@
 
 - (IBAction)deal:(id)sender {
     NSLog(@"Deal was tapped");
+    self.blackJackGame = [[FISBlackJackGame alloc] init];
+    [self.blackJackGame deal];
+    self.card1.text = [self.blackJackGame.hand[0] description];
+    self.card2.text = [self.blackJackGame.hand[1] description];
+    self.card1.hidden = NO;
+    self.card2.hidden = NO;
 }
 @end
