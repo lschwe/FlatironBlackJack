@@ -52,12 +52,16 @@
         self.card5.text = [self.blackJackGame.hand[4] description];
         self.card5.hidden = NO;
     }
+    
+    [self updateLabels];
 }
 
 - (IBAction)deal:(id)sender {
+    self.hitButton.enabled = YES;
     self.card3.hidden = YES;
     self.card4.hidden = YES;
     self.card5.hidden = YES;
+    self.result.hidden = YES;
     
     NSLog(@"Deal was tapped");
     self.blackJackGame = [[FISBlackJackGame alloc] init];
@@ -66,5 +70,23 @@
     self.card2.text = [self.blackJackGame.hand[1] description];
     self.card1.hidden = NO;
     self.card2.hidden = NO;
+    
+    [self updateLabels];
+}
+
+- (void)updateLabels
+{
+    self.score.text = [NSString stringWithFormat:@"Score: %@", self.blackJackGame.handScore];
+    if (self.blackJackGame.isBlackjack) {
+        self.result.text = @"Blackjack!";
+        self.result.hidden = NO;
+        self.hitButton.enabled = NO;
+    }
+    
+    if (self.blackJackGame.isBusted) {
+        self.result.text = @"Busted!";
+        self.result.hidden = NO;
+        self.hitButton.enabled = NO;
+    }
 }
 @end

@@ -20,6 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *score;
 @property (weak, nonatomic) IBOutlet UILabel *result;
+@property (weak, nonatomic) IBOutlet UIButton *hitButton;
 
 - (IBAction)hit:(id)sender;
 - (IBAction)deal:(id)sender;

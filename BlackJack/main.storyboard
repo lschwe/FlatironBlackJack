@@ -77,13 +77,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5G-Dc-zzm">
-                                <rect key="frame" x="127" y="141" width="66" height="21"/>
+                                <rect key="frame" x="85" y="142" width="151" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Result" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xa0-DN-H9r">
-                                <rect key="frame" x="127" y="206" width="66" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Blackjack!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xa0-DN-H9r">
+                                <rect key="frame" x="91" y="204" width="138" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -97,6 +97,7 @@
                         <outlet property="card3" destination="LDn-Hq-S4L" id="o3Y-6z-fBz"/>
                         <outlet property="card4" destination="vM4-aa-q5d" id="nXM-Q2-rQX"/>
                         <outlet property="card5" destination="X4K-I8-Kmt" id="Uue-Nx-c43"/>
+                        <outlet property="hitButton" destination="t99-6k-Q8q" id="oQF-kZ-9TR"/>
                         <outlet property="result" destination="Xa0-DN-H9r" id="g4J-dL-UyP"/>
                         <outlet property="score" destination="l5G-Dc-zzm" id="vdL-OG-SAL"/>
                     </connections>
