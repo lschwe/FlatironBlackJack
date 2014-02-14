@@ -29,6 +29,9 @@
 // should deal 2 new cards, add the cards to the hand, and add the card's value to the handscore.
 - (void)deal
 {
+    srand48(time(0));
+    self.playingCardDeck = [FISPlayingCardDeck new];
+    self.hand = [NSMutableArray new];
     [self.hand addObject:[self.playingCardDeck drawRandomCard]];
     [self.hand addObject:[self.playingCardDeck drawRandomCard]];
     [self updateScore];
@@ -36,6 +39,7 @@
 
 - (void)hit
 {
+    srand48(time(0));
     [self.hand addObject:[self.playingCardDeck drawRandomCard]];
     [self updateScore];
 }

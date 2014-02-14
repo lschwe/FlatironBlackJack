@@ -8,6 +8,7 @@
 
 #import "FISAppDelegate.h"
 #import "FISPlayingCardDeck.h"
+#import "FISBlackJackGame.h"
 
 @implementation FISAppDelegate
 
@@ -18,8 +19,15 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    FISPlayingCardDeck *testDeck = [[FISPlayingCardDeck alloc] init];
-    NSLog(@"%@", testDeck.cards);
+//    FISPlayingCardDeck *testDeck = [[FISPlayingCardDeck alloc] init];
+//    NSLog(@"%@", testDeck.cards);
+    
+//    FISBlackJackGame *blackJackGame = [[FISBlackJackGame alloc] init];
+//    [blackJackGame deal];
+//    while (blackJackGame.isBusted == NO && blackJackGame.isBlackjack == NO) {
+//        [blackJackGame hit];
+//    }
+    
     
     return YES;
 }

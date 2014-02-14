@@ -22,7 +22,6 @@
 
 - (Card *)drawRandomCard
 {
-    srand48(time(0));
     NSInteger indexOfCard = floor(drand48() * [self.cards count]);
     Card *result = [self.cards objectAtIndex:indexOfCard];
     [self.cards removeObjectAtIndex:indexOfCard];
