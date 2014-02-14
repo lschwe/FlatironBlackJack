@@ -1,5 +1,5 @@
 ---
-  tags: tutorial, beginner, OOP, Object-Oriented Programming, model 
+  tags: tutorial, beginner, OOP, Object-Oriented Programming, views 
   languages: objc
 ---
 
