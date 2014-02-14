@@ -58,11 +58,18 @@
 }
 
 - (IBAction)deal:(id)sender {
+    
     self.hitButton.enabled = YES;
     self.card3.hidden = YES;
     self.card4.hidden = YES;
     self.card5.hidden = YES;
     self.result.hidden = YES;
+    
+    if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
+        self.blackJackGame = [FISBlackJackGame new];
+        self.result.text = @"Fresh Deck";
+        self.result.hidden = NO;
+    }
     
     NSLog(@"Deal was tapped");
     [self.blackJackGame deal];
@@ -77,6 +84,24 @@
 - (IBAction)stay:(id)sender {
     [self.blackJackGame stay];
     self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
+    if (([self.blackJackGame.player.handScore integerValue] > [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) || (self.blackJackGame.dealerPlayer.isBusted == YES && self.blackJackGame.player.isBusted == NO)) {
+        if (self.blackJackGame.player.isBlackjack) {
+            self.result.text = @"Player Wins with Black Jack!";
+        } else {
+            self.result.text = @"Player Wins";
+        }
+        self.result.hidden = NO;
+    } else if ([self.blackJackGame.player.handScore integerValue] == [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) {
+        self.result.text = @"Push";
+        self.result.hidden = NO;
+    } else {
+        if (self.blackJackGame.player.isBusted) {
+            self.result.text = @"Player Busted and Dealer Wins";
+        } else {
+            self.result.text = @"Dealer Wins";
+        }
+        self.result.hidden = NO;
+    }
 }
 
 - (void)updateLabels
@@ -87,12 +112,14 @@
         self.result.text = @"Blackjack!";
         self.result.hidden = NO;
         self.hitButton.enabled = NO;
+        [self stay:nil];
     }
     
     if (self.blackJackGame.player.isBusted) {
         self.result.text = @"Busted!";
         self.result.hidden = NO;
         self.hitButton.enabled = NO;
+        [self stay:nil];
     }
 }
 @end
