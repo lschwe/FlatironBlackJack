@@ -38,9 +38,27 @@
 
 - (IBAction)hit:(id)sender {
     NSLog(@"Hit was tapped");
+    [self.blackJackGame hit];
+    if([self.blackJackGame.hand count] > 2) {
+        self.card3.text = [self.blackJackGame.hand[2] description];
+        self.card3.hidden = NO;
+
+    }
+    if([self.blackJackGame.hand count] > 3) {
+        self.card4.text = [self.blackJackGame.hand[3] description];
+        self.card4.hidden = NO;
+    }
+    if([self.blackJackGame.hand count] > 4) {
+        self.card5.text = [self.blackJackGame.hand[4] description];
+        self.card5.hidden = NO;
+    }
 }
 
 - (IBAction)deal:(id)sender {
+    self.card3.hidden = YES;
+    self.card4.hidden = YES;
+    self.card5.hidden = YES;
+    
     NSLog(@"Deal was tapped");
     self.blackJackGame = [[FISBlackJackGame alloc] init];
     [self.blackJackGame deal];
