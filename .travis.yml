@@ -1,0 +1,8 @@
+script: rspec -f json
+rvm:
+  - 2.1.0
+notifications:
+  webhooks: http://progress.flatironschool.com/submissions
+cache: bundler
+
+install: gem install rspec
