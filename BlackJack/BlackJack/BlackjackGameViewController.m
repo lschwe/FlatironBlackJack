@@ -27,6 +27,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.blackJackGame = [[FISBlackJackGame alloc] init];
     [self deal:nil];
 }
 
@@ -39,17 +40,17 @@
 - (IBAction)hit:(id)sender {
     NSLog(@"Hit was tapped");
     [self.blackJackGame hit];
-    if([self.blackJackGame.hand count] > 2) {
-        self.card3.text = [self.blackJackGame.hand[2] description];
+    if([self.blackJackGame.player.hand count] > 2) {
+        self.card3.text = [self.blackJackGame.player.hand[2] description];
         self.card3.hidden = NO;
 
     }
-    if([self.blackJackGame.hand count] > 3) {
-        self.card4.text = [self.blackJackGame.hand[3] description];
+    if([self.blackJackGame.player.hand count] > 3) {
+        self.card4.text = [self.blackJackGame.player.hand[3] description];
         self.card4.hidden = NO;
     }
-    if([self.blackJackGame.hand count] > 4) {
-        self.card5.text = [self.blackJackGame.hand[4] description];
+    if([self.blackJackGame.player.hand count] > 4) {
+        self.card5.text = [self.blackJackGame.player.hand[4] description];
         self.card5.hidden = NO;
     }
     
@@ -64,26 +65,31 @@
     self.result.hidden = YES;
     
     NSLog(@"Deal was tapped");
-    self.blackJackGame = [[FISBlackJackGame alloc] init];
     [self.blackJackGame deal];
-    self.card1.text = [self.blackJackGame.hand[0] description];
-    self.card2.text = [self.blackJackGame.hand[1] description];
+    self.card1.text = [self.blackJackGame.player.hand[0] description];
+    self.card2.text = [self.blackJackGame.player.hand[1] description];
     self.card1.hidden = NO;
     self.card2.hidden = NO;
     
     [self updateLabels];
 }
 
+- (IBAction)stay:(id)sender {
+    [self.blackJackGame stay];
+    self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
+}
+
 - (void)updateLabels
 {
-    self.score.text = [NSString stringWithFormat:@"Score: %@", self.blackJackGame.handScore];
-    if (self.blackJackGame.isBlackjack) {
+    self.score.text = [NSString stringWithFormat:@"%@", self.blackJackGame.player.handScore];
+    self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
+    if (self.blackJackGame.player.isBlackjack) {
         self.result.text = @"Blackjack!";
         self.result.hidden = NO;
         self.hitButton.enabled = NO;
     }
     
-    if (self.blackJackGame.isBusted) {
+    if (self.blackJackGame.player.isBusted) {
         self.result.text = @"Busted!";
         self.result.hidden = NO;
         self.hitButton.enabled = NO;

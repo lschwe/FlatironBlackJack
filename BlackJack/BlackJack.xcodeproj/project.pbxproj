@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DF14F75A18AEB0000049F8AD /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF14F75918AEB0000049F8AD /* main.storyboard */; };
 		DF14F75D18AEB1CC0049F8AD /* BlackjackGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */; };
+		DF14F76018AEBF990049F8AD /* BlackJackPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75F18AEBF990049F8AD /* BlackJackPlayer.m */; };
 		DF73E51118AC1F3E001A5048 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73E51018AC1F3E001A5048 /* Foundation.framework */; };
 		DF73E51318AC1F3E001A5048 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73E51218AC1F3E001A5048 /* CoreGraphics.framework */; };
 		DF73E51518AC1F3E001A5048 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73E51418AC1F3E001A5048 /* UIKit.framework */; };
@@ -43,6 +44,8 @@
 		DF14F75918AEB0000049F8AD /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = main.storyboard; path = ../main.storyboard; sourceTree = "<group>"; };
 		DF14F75B18AEB1CC0049F8AD /* BlackjackGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackjackGameViewController.h; sourceTree = "<group>"; };
 		DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackjackGameViewController.m; sourceTree = "<group>"; };
+		DF14F75E18AEBF990049F8AD /* BlackJackPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackJackPlayer.h; sourceTree = "<group>"; };
+		DF14F75F18AEBF990049F8AD /* BlackJackPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackJackPlayer.m; sourceTree = "<group>"; };
 		DF73E50D18AC1F3E001A5048 /* BlackJack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlackJack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF73E51018AC1F3E001A5048 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DF73E51218AC1F3E001A5048 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -140,6 +143,8 @@
 				DF73E54318AC1FA2001A5048 /* FISPlayingCardDeck.m */,
 				DF73E54A18AC22C4001A5048 /* FISBlackJackGame.h */,
 				DF73E54B18AC22C4001A5048 /* FISBlackJackGame.m */,
+				DF14F75E18AEBF990049F8AD /* BlackJackPlayer.h */,
+				DF14F75F18AEBF990049F8AD /* BlackJackPlayer.m */,
 				DF73E51F18AC1F3E001A5048 /* FISAppDelegate.h */,
 				DF73E52018AC1F3E001A5048 /* FISAppDelegate.m */,
 				DF73E53F18AC1F90001A5048 /* FISDeck.h */,
@@ -280,6 +285,7 @@
 				DF73E55418AC2E2A001A5048 /* PlayingCard.m in Sources */,
 				DF73E51D18AC1F3E001A5048 /* main.m in Sources */,
 				DF73E52118AC1F3E001A5048 /* FISAppDelegate.m in Sources */,
+				DF14F76018AEBF990049F8AD /* BlackJackPlayer.m in Sources */,
 				DF73E54418AC1FA2001A5048 /* FISPlayingCardDeck.m in Sources */,
 				DF73E54C18AC22C4001A5048 /* FISBlackJackGame.m in Sources */,
 				DF73E55518AC2E2A001A5048 /* Card.m in Sources */,
