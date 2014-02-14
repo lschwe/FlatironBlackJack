@@ -12,11 +12,11 @@ BlackJack With Views
 
 ### Instructions 
 
-BlackJack isn't very fun with NSLogging.  Let's add a view so someone can actually play our blackjack game on an iPhone. We'll think about what elements are necessary on our view to play a game of blackjack.  
+**BlackJack isn't very fun with NSLogging.  Let's add a view so someone can actually play our blackjack game on an iPhone. We'll think about which elements are necessary in our view to play a game of blackjack.**  
 
 ## Storyboard
 
-First we need to add a storyboard to our project.  The storyboard gives us a place to configure the user interface of our app.  Add a storyboard to your project and make sure it's setup as the default storyboard for your project.  
+**First we need to add a storyboard to our project.  The storyboard gives us a place to configure the user interface of our app.  Add a storyboard to your project and make sure it's setup as the default storyboard.**  
 
   1. Select File -> New File -> User Interface -> Storyboard
   2. Select iPhone for Device Family 
@@ -37,7 +37,7 @@ First we need to add a storyboard to our project.  The storyboard gives us a pla
 
   ## User Interface 
 
-  Next let's add the UI elements to our ViewController that we'll need to play a game of Blackjack.  
+  **Next let's add the UI elements to our ViewController that we'll need to play a game of Blackjack.**  
 
   1. We're going to have two buttons in our interface.  One will deal the initial hand and the other will hit.  
   2. Drag two UIButtons from the object library and place them to your liking.  Modify the labels to say (you guessed it.. ) hit and deal. 
@@ -50,7 +50,7 @@ First we need to add a storyboard to our project.  The storyboard gives us a pla
 
   ## UIViewController Subclass 
 
-  We've created our UI, but right now we don't have a way to interact with it in code.  We connect our storyboards to code by creating a subclass of UIViewController and assigning that subclass to our storyboard View Controller
+  **We've created our UI, but right now we don't have a way to interact with it in code.  We connect our storyboards to code by creating a subclass of UIViewController and assigning that subclass to our storyboard View Controller**
 
   1. Create a new file - > Objective-C Class  
   2. Give your class the name "BlackjackGameViewController" with Subclass of UIViewController 
@@ -69,7 +69,7 @@ First we need to add a storyboard to our project.  The storyboard gives us a pla
   3. Implement your deal and hit methods to perform the appropriate functions. ie. in deal, instantiate a new game, remove all label text and add two new labels for a new deal, and in hit, call the game's hit method and update a third (or 4th or 5th) card with the description of the card that was hit.  
   4. After each move you should upgrade your score label, and if you bust or get a blackjack you should appropriate your bust/blackjack label.  
 
-  You might want to create an 'updateUI' method that you call after each action to update the UIElements that are changing.  You don't necessarily have to do this, but it will probably present itself in refactoring.      
+  **You might want to create an 'updateUI' method that you call after each action to update the UIElements that are changing.  You don't necessarily have to do this, but it will probably present itself in refactoring.**      
 
 
 
