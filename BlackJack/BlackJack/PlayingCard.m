@@ -29,7 +29,19 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@%@", self.rank, self.suit];
+    NSString *rankString = [NSString stringWithFormat:@"%@",self.rank];
+    
+    if ([self.rank integerValue] == 11) {
+        rankString = @"J";
+    } else if ([self.rank integerValue] == 12) {
+        rankString = @"Q";
+    } else if ([self.rank integerValue] == 13) {
+        rankString = @"K";
+    } else if ([self.rank integerValue] == 1) {
+        rankString = @"A";
+    }
+    
+    return [NSString stringWithFormat:@"%@%@", rankString, self.suit];
 }
 
 - (BOOL)validRank:(NSNumber *)rank

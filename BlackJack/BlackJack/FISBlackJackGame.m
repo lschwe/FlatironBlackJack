@@ -9,6 +9,7 @@
 #import "FISBlackJackGame.h"
 #import "FISPlayingCardDeck.h"
 #import "PlayingCard.h"
+#import "Card.h"
 
 @implementation FISBlackJackGame
 
@@ -43,6 +44,12 @@
     [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
     [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
     [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+    
+//    testing when dealer gets soft 17
+//    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
+//    PlayingCard *six = [[PlayingCard alloc] initWithRank:@6 Suit:@"♠"];
+//    [self.dealerPlayer.hand addObjectsFromArray:@[ace,six]];
+    
     [self updateScore];
 }
 
@@ -55,10 +62,29 @@
 
 - (void)stay
 {
-    srand48(time(0));
-    while ([self.dealerPlayer.handScore integerValue] < 17) {
-        [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
-        [self updateScore];
+    if (!self.player.isBusted) {
+        srand48(time(0));
+        
+        NSInteger AceCount = 0;
+        for (PlayingCard *card in self.dealerPlayer.hand) {
+            if ([card.rank  isEqual: @1]){
+                AceCount ++;
+            }
+        }
+        NSLog(@"%@", self.dealerPlayer.hand);
+        
+        if ([self.dealerPlayer.handScore integerValue] == 17 && AceCount > 0) {
+            [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+            [self updateScore];
+            NSLog(@"soft 17");
+            NSLog(@"%@",[self.dealerPlayer.hand lastObject]);
+        }
+        
+        while ([self.dealerPlayer.handScore integerValue] < 17) {
+            [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+            [self updateScore];
+            NSLog(@"%@",[self.dealerPlayer.hand lastObject]);
+        }
     }
 }
 
@@ -69,7 +95,10 @@
         currentPlayer.isBlackjack = NO;
         
         NSInteger score = 0;
-        for (PlayingCard *card in currentPlayer.hand) {
+        NSSortDescriptor *sortByRank = [NSSortDescriptor sortDescriptorWithKey:@"rank" ascending:NO];
+        NSArray *currentHandInOrder = [currentPlayer.hand sortedArrayUsingDescriptors:@[sortByRank]];
+        
+        for (PlayingCard *card in currentHandInOrder) {
             NSInteger cardScore = [card.rank integerValue];
             if (cardScore > 10) {
                 cardScore = 10;

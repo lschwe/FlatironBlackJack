@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *result;
 @property (weak, nonatomic) IBOutlet UIButton *hitButton;
 @property (weak, nonatomic) IBOutlet UIButton *stayButton;
+@property (strong, nonatomic) IBOutlet UILabel *dealerFirstCard;
 
 - (IBAction)hit:(id)sender;
 - (IBAction)deal:(id)sender;

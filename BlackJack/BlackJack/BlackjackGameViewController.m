@@ -7,6 +7,7 @@
 //
 
 #import "BlackjackGameViewController.h"
+#import "PlayingCard.h"
 
 @interface BlackjackGameViewController ()
 
@@ -108,6 +109,8 @@
 {
     self.score.text = [NSString stringWithFormat:@"%@", self.blackJackGame.player.handScore];
     self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
+    PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[0];
+    self.dealerFirstCard.text = [NSString stringWithFormat:@"%@", dealerCard.rank];
     if (self.blackJackGame.player.isBlackjack) {
         self.result.text = @"Blackjack!";
         self.result.hidden = NO;
