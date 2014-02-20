@@ -125,4 +125,12 @@
         [self stay:nil];
     }
 }
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake) {
+        [self.blackJackGame.playingCardDeck.cards removeAllObjects];
+        [self deal:nil];
+    }
+}
+
 @end

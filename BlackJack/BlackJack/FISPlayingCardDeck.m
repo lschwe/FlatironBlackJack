@@ -16,6 +16,7 @@
 -(id)init
 {
     NSMutableArray *playingCards = [NSMutableArray new];
+    
     for (NSInteger i = 1; i <= 13; i++)
     {
         PlayingCard *newCard = [[PlayingCard alloc]initWithRank:@(i) Suit:@"♥"];
@@ -36,9 +37,12 @@
         [playingCards addObject:newCard];
     }
     
-   
+    NSMutableArray *sixDecksOfCards = [NSMutableArray arrayWithArray:playingCards];
+    [sixDecksOfCards addObjectsFromArray:playingCards];
+    [sixDecksOfCards addObjectsFromArray:playingCards];
+    [sixDecksOfCards addObjectsFromArray:sixDecksOfCards];
     
-    self = [super initWithCards:playingCards];
+    self = [super initWithCards:sixDecksOfCards];
     
     return self;
 }
