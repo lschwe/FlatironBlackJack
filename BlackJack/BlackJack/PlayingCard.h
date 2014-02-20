@@ -15,5 +15,6 @@
 
 - (NSString *)description;
 - (id)initWithRank:(NSNumber *)rankNumber Suit:(NSString *)suitString;
+- (NSString *)formattedCardRank;
 
 @end

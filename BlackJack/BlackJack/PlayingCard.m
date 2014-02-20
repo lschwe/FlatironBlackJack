@@ -27,7 +27,7 @@
     return self;
 }
 
-- (NSString *)description
+- (NSString *)formattedCardRank
 {
     NSString *rankString = [NSString stringWithFormat:@"%@",self.rank];
     
@@ -41,7 +41,12 @@
         rankString = @"A";
     }
     
-    return [NSString stringWithFormat:@"%@%@", rankString, self.suit];
+    return [NSString stringWithFormat:@"%@", rankString];
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@%@",[self formattedCardRank], self.suit];
 }
 
 - (BOOL)validRank:(NSNumber *)rank
