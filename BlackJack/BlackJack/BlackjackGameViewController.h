@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FISBlackJackGame.h"
 
-@interface BlackjackGameViewController : UIViewController
+@interface BlackjackGameViewController : UIViewController<UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *card1;
 @property (weak, nonatomic) IBOutlet UILabel *card2;
