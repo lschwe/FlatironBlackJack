@@ -15,6 +15,8 @@
 @property (strong, nonatomic) FISPlayingCardDeck *playingCardDeck;
 @property (strong, nonatomic) BlackJackPlayer *player;
 @property (strong, nonatomic) BlackJackPlayer *dealerPlayer;
+@property (strong, nonatomic) NSNumber *chips;
+@property (strong, nonatomic) NSNumber *currentBet;
 
 
 - (id)init; // should initialize playingCardDeck with a new deck and set score and isBusted to default values
