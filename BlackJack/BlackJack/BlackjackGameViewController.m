@@ -12,6 +12,7 @@
 @interface BlackjackGameViewController ()
 
 @property (strong, nonatomic) UIAlertView *shakeAlert;
+- (IBAction)tapped:(id)sender;
 
 @end
 

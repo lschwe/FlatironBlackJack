@@ -125,6 +125,10 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="tRS-P8-eJR" appends="YES" id="Tca-xn-EOA"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="card1" destination="9U4-qN-7gq" id="zvY-23-1tp"/>
@@ -141,6 +145,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sZV-96-8dC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="tRS-P8-eJR">
+                    <connections>
+                        <action selector="hit:" destination="GqW-35-3c0" id="ZbK-yH-SvW"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="118" y="-78"/>
         </scene>
