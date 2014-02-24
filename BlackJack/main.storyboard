@@ -128,6 +128,8 @@
                         <gestureRecognizers/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="tRS-P8-eJR" appends="YES" id="Tca-xn-EOA"/>
+                            <outletCollection property="gestureRecognizers" destination="3Lp-7P-fLT" appends="YES" id="dqB-ni-ZWM"/>
+                            <outletCollection property="gestureRecognizers" destination="CX1-YV-UQh" appends="YES" id="GFH-0K-8m2"/>
                         </connections>
                     </view>
                     <connections>
@@ -150,6 +152,16 @@
                         <action selector="hit:" destination="GqW-35-3c0" id="ZbK-yH-SvW"/>
                     </connections>
                 </tapGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="3Lp-7P-fLT">
+                    <connections>
+                        <action selector="stay:" destination="GqW-35-3c0" id="Ppo-t7-l59"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="CX1-YV-UQh">
+                    <connections>
+                        <action selector="stay:" destination="GqW-35-3c0" id="d4X-ht-van"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="118" y="-78"/>
         </scene>
