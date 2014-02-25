@@ -11,7 +11,7 @@
 
 @interface BlackjackGameViewController ()
 
-@property (strong, nonatomic) UIAlertView *shakeAlert;
+
 
 
 @end
@@ -157,8 +157,8 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (motion == UIEventSubtypeMotionShake) {
-        self.shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?" message:@"Click OK to quit the current game and deal fresh decks" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-        [self.shakeAlert show];
+        UIAlertView *shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?" message:@"Click OK to quit the current game and deal fresh decks" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        [shakeAlert show];
         
         
     }
@@ -166,7 +166,7 @@
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == [self.shakeAlert cancelButtonIndex]){
+    if (buttonIndex == alertView.cancelButtonIndex){
         
     }else{
         [self.blackJackGame.playingCardDeck.cards removeAllObjects];
