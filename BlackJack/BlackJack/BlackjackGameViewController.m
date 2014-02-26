@@ -43,8 +43,8 @@
     PlayingCardView *deckCard3 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"4" withSuit:@"♥" isVisible:NO];
     PlayingCardView *dealerCardHidden = [[PlayingCardView alloc] initWithFrame:CGRectMake(170, 100, cardWidth, cardHeight) withRank:@"5" withSuit:@"♥" isVisible:NO];
     PlayingCardView *dealerCardVisible = [[PlayingCardView alloc] initWithFrame:CGRectMake(185, 115, cardWidth, cardHeight) withRank:@"6" withSuit:@"♥" isVisible:YES];
-    PlayingCardView *playerCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"K" withSuit:@"♣" isVisible:NO];
-    PlayingCardView *playerCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"A" withSuit:@"♣" isVisible:NO];
+    PlayingCardView *playerCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"10" withSuit:@"♣" isVisible:NO];
+    PlayingCardView *playerCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"10" withSuit:@"♥" isVisible:NO];
     
     [self.view addSubview:deckCard1];
     [self.view addSubview:deckCard2];
@@ -56,12 +56,15 @@
     
     [UIView animateWithDuration:0.3 animations:^{
         playerCard1.frame = CGRectMake(60, 300, cardWidth, cardHeight);
+        [playerCard1 tiltCardWithDegrees:350];
+
     } completion:^(BOOL finished){
         [playerCard1 flipCard];
         [UIView animateWithDuration:0.3 animations:^{
             playerCard2.frame = CGRectMake(80, 320, cardWidth, cardHeight);
         } completion:^(BOOL finished){
             [playerCard2 flipCard];
+            [playerCard2 tiltCardRandomly];
         }];
     }];
     
