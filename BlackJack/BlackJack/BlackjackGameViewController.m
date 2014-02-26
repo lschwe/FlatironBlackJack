@@ -24,6 +24,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
     return self;
 }
@@ -31,8 +32,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.notification = [CWStatusBarNotification new];
+    self.notification.notificationStyle = CWNotificationStyleNavigationBarNotification;
+    self.notification.notificationLabelBackgroundColor = UIColorFromRGB(0x45A1CD);
+//    self.notification.notificationLabelBackgroundColor = [UIColor clearColor];
+    
 	// Do any additional setup after loading the view.
-
+    
     NSInteger cardWidth = 80;
     NSInteger cardHeight = 112;
 //    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pokerFeltBackground320x568"]];
@@ -104,11 +110,17 @@
     [bulbButton setAttributedTitle:[bulbIcon attributedString] forState:UIControlStateNormal];
     [self.view addSubview:bulbButton];
     
+    [bulbButton addTarget:self action:@selector(flashMessage) forControlEvents:UIControlEventTouchUpInside];
     
     self.blackJackGame = [[FISBlackJackGame alloc] init];
     
     
     [self deal:nil];
+}
+- (void)flashMessage
+{
+    NSLog(@"flashing");
+    [self.notification displayNotificationWithMessage:@"Testing" forDuration:0.4];
 }
 
 - (void)didReceiveMemoryWarning

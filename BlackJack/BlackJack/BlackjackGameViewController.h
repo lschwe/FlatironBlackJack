@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FISBlackJackGame.h"
 #import <FontAwesomeKit/FontAwesomeKit.h>
+#import <CWStatusBarNotification.h>
 
 @interface BlackjackGameViewController : UIViewController<UIAlertViewDelegate>
 
@@ -18,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *card4;
 @property (weak, nonatomic) IBOutlet UILabel *card5;
 @property (strong, nonatomic) FISBlackJackGame *blackJackGame;
+@property (strong, nonatomic) CWStatusBarNotification *notification;
 
 @property (weak, nonatomic) IBOutlet UILabel *score;
 @property (weak, nonatomic) IBOutlet UILabel *dealerScore;
@@ -26,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *stayButton;
 @property (strong, nonatomic) IBOutlet UILabel *dealerFirstCard;
 
+- (void)flashMessage;
 - (IBAction)hit:(id)sender;
 - (IBAction)deal:(id)sender;
 - (IBAction)stay:(id)sender;

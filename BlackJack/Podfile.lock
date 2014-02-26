@@ -1,4 +1,5 @@
 PODS:
+  - CWStatusBarNotification (2.1.0)
   - FontAwesomeKit (2.1.4):
     - FontAwesomeKit/Core
     - FontAwesomeKit/FontAwesome
@@ -16,9 +17,11 @@ PODS:
     - FontAwesomeKit/Core
 
 DEPENDENCIES:
+  - CWStatusBarNotification (~> 2.1.0)
   - FontAwesomeKit (~> 2.1.0)
 
 SPEC CHECKSUMS:
+  CWStatusBarNotification: 8d9c4a866a4137b00016433c9476db86052a883a
   FontAwesomeKit: 082a427b37f26cd535b7f295cb686f8ab0da707e
 
 COCOAPODS: 0.29.0
