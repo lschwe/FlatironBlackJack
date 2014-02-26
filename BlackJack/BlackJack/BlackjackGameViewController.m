@@ -36,7 +36,7 @@
     NSInteger cardWidth = 80;
     NSInteger cardHeight = 112;
 //    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pokerFeltBackground320x568"]];
-    self.view.backgroundColor = UIColorFromRGB(0x1fa67a);
+    self.view.backgroundColor = UIColorFromRGB(0x2cc36b);
     
     PlayingCardView *deckCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(60, 100, cardWidth, cardHeight) withRank:@"2" withSuit:@"♥" isVisible:NO];
     PlayingCardView *deckCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(63, 103, cardWidth, cardHeight) withRank:@"3" withSuit:@"♥" isVisible:NO];
