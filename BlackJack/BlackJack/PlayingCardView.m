@@ -152,7 +152,7 @@
 - (void)tiltCardRandomly
 {
     srand48(time(0));
-    double tilt = (drand48()*20)-5;
+    double tilt = (drand48()*10)-5;
     if (tilt < 0) {
         tilt += 360;
     }

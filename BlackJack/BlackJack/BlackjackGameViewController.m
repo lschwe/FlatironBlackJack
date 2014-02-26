@@ -67,7 +67,41 @@
 //        }];
 //    }];
     
+    FAKFontAwesome *plusIcon = [FAKFontAwesome plusSquareOIconWithSize:25];
+    UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake(220,320,25,25)];
+    plusButton.titleLabel.textColor = [UIColor whiteColor];
+    [plusButton setAttributedTitle:[plusIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:plusButton];
     
+    FAKFontAwesome *chipIcon = [FAKFontAwesome certificateIconWithSize:50];
+    UIButton *chipButton = [[UIButton alloc] initWithFrame:CGRectMake(207,350,50,50)];
+    chipButton.titleLabel.textColor = [UIColor whiteColor];
+    [chipButton setAttributedTitle:[chipIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:chipButton];
+    
+    FAKFontAwesome *minusIcon = [FAKFontAwesome minusSquareOIconWithSize:25];
+    UIButton *minusButton = [[UIButton alloc] initWithFrame:CGRectMake(220,410,25,25)];
+    minusButton.titleLabel.textColor = [UIColor whiteColor];
+    [minusButton setAttributedTitle:[minusIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:minusButton];
+    
+    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:25];
+    UIButton *questionButton = [[UIButton alloc] initWithFrame:CGRectMake(220,450,25,25)];
+    questionButton.titleLabel.textColor = [UIColor whiteColor];
+    [questionButton setAttributedTitle:[questionIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:questionButton];
+    
+    FAKFontAwesome *gearIcon = [FAKFontAwesome cogIconWithSize:25];
+    UIButton *gearButton = [[UIButton alloc] initWithFrame:CGRectMake(220,480,25,25)];
+    gearButton.titleLabel.textColor = [UIColor whiteColor];
+    [gearButton setAttributedTitle:[gearIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:gearButton];
+    
+    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:25];
+    UIButton *bulbButton = [[UIButton alloc] initWithFrame:CGRectMake(220,510,25,25)];
+    bulbButton.titleLabel.textColor = [UIColor whiteColor];
+    [bulbButton setAttributedTitle:[bulbIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:bulbButton];
     
     
     self.blackJackGame = [[FISBlackJackGame alloc] init];
@@ -115,6 +149,7 @@
         playerCardView.frame = CGRectMake(xcoord+20, ycoord+20, cardWidth, cardHeight);
     } completion:^(BOOL finished){
         [playerCardView flipCard];
+        [playerCardView tiltCardRandomly];
     }];
     
 //    if([self.blackJackGame.player.hand count] > 2) {
@@ -192,17 +227,21 @@
         playerCardView1.frame = CGRectMake(40, 300, cardWidth, cardHeight);
     } completion:^(BOOL finished){
         [playerCardView1 flipCard];
+        [playerCardView1 tiltCardRandomly];
         [UIView animateWithDuration:0.3 animations:^{
             dealerCardView1.frame = CGRectMake(150, 100, cardWidth, cardHeight);
         } completion:^(BOOL finished){
+            [dealerCardView1 tiltCardRandomly];
             [UIView animateWithDuration:0.3 animations:^{
                 playerCardView2.frame = CGRectMake(60, 320, cardWidth, cardHeight);
             } completion:^(BOOL finished){
                 [playerCardView2 flipCard];
+                [playerCardView2 tiltCardRandomly];
                 [UIView animateWithDuration:0.3 animations:^{
                     dealerCardView2.frame = CGRectMake(170, 120, cardWidth, cardHeight);
                 } completion:^(BOOL finished){
                     [dealerCardView2 flipCard];
+                    [dealerCardView2 tiltCardRandomly];
                 }];
             }];
         }];
@@ -248,6 +287,7 @@
                 dealerCardView.frame = CGRectMake(xcoord, ycoord, cardWidth, cardHeight);
             } completion:^(BOOL finished){
                 [dealerCardView flipCard];
+                [dealerCardView tiltCardRandomly];
             }];
         }
     }
