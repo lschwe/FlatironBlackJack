@@ -291,12 +291,16 @@
     } else {
         NSLog(@"Push. Player keeps his %@ chips", self.blackJackGame.chips);
     }
+    
+    self.chipCountLabel.text = [NSString stringWithFormat:@"%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
 }
 
 - (void)updateLabels
 {
     self.score.text = [NSString stringWithFormat:@"%@", self.blackJackGame.player.handScore];
     self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
+    [self.currentBetLabel setTitle:[NSString stringWithFormat:@"%@",self.blackJackGame.currentBet] forState:UIControlStateNormal];
+    self.chipCountLabel.text = [NSString stringWithFormat:@"%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
     PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[0];
     self.dealerFirstCard.text = [NSString stringWithFormat:@"%@", dealerCard.rank];
     if (self.blackJackGame.player.isBlackjack) {
@@ -333,4 +337,19 @@
     }
 }
 
+- (IBAction)lessBet:(id)sender {
+    NSInteger bet = [self.blackJackGame.currentBet integerValue];
+    if (bet-1 != 0) {
+        self.blackJackGame.currentBet = @(bet-1);
+    }
+    [self updateLabels];
+}
+
+- (IBAction)moreBet:(id)sender {
+    NSInteger bet = [self.blackJackGame.currentBet integerValue];
+    if (bet+1 <= [self.blackJackGame.chips integerValue]) {
+        self.blackJackGame.currentBet = @(bet+1);
+    }
+    [self updateLabels];
+}
 @end
