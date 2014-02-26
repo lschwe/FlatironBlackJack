@@ -12,8 +12,17 @@
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-@interface BlackjackGameViewController ()
+@interface BlackjackGameViewController () {
+    CGRect dealerRect;
+    CGRect playerRect;
+    CGRect deckRect;
+    NSInteger cardWidth;
+    NSInteger cardHeight;
+
+}
 @property (strong, nonatomic) NSMutableArray *cardsInGame;
+@property (weak, nonatomic) IBOutlet UIButton *minusButton;
+@property (weak, nonatomic) IBOutlet UIButton *plusButton;
 
 
 @end
@@ -36,62 +45,35 @@
     self.notification = [CWStatusBarNotification new];
     self.notification.notificationStyle = CWNotificationStyleNavigationBarNotification;
     self.notification.notificationLabelBackgroundColor = UIColorFromRGB(0x45A1CD);
-//    self.notification.notificationLabelBackgroundColor = [UIColor clearColor];
     
 	// Do any additional setup after loading the view.
 
     self.cardsInGame = [[NSMutableArray alloc] init];
 	// Do any additional setup after loading the view.
-    NSInteger cardWidth = 80;
-    NSInteger cardHeight = 112;
+    cardWidth = 80;
+    cardHeight = 112;
+    dealerRect = CGRectMake(40, 100, cardWidth, cardHeight);
+    playerRect = CGRectMake(40, 300, cardWidth, cardHeight);
+    deckRect = CGRectMake(220, 106, cardWidth, cardHeight);
+    
 
-//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pokerFeltBackground320x568"]];
     self.view.backgroundColor = UIColorFromRGB(0x2cc36b);
     
-    PlayingCardView *deckCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(40, 100, cardWidth, cardHeight) withRank:@"2" withSuit:@"♥" isVisible:NO];
-    PlayingCardView *deckCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(43, 103, cardWidth, cardHeight) withRank:@"3" withSuit:@"♥" isVisible:NO];
-    PlayingCardView *deckCard3 = [[PlayingCardView alloc] initWithFrame:CGRectMake(46, 106, cardWidth, cardHeight) withRank:@"4" withSuit:@"♥" isVisible:NO];
-//    PlayingCardView *dealerCardHidden = [[PlayingCardView alloc] initWithFrame:CGRectMake(170, 100, cardWidth, cardHeight) withRank:@"5" withSuit:@"♥" isVisible:NO];
-//    PlayingCardView *dealerCardVisible = [[PlayingCardView alloc] initWithFrame:CGRectMake(185, 115, cardWidth, cardHeight) withRank:@"6" withSuit:@"♥" isVisible:YES];
-//    PlayingCardView *playerCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"K" withSuit:@"♣" isVisible:NO];
-//    PlayingCardView *playerCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"A" withSuit:@"♣" isVisible:NO];
+    PlayingCardView *deckCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(deckRect.origin.x-6, deckRect.origin.y-6, cardWidth, cardHeight) withRank:@"2" withSuit:@"♥" isVisible:NO];
+    PlayingCardView *deckCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(deckRect.origin.x-3, deckRect.origin.y-3, cardWidth, cardHeight) withRank:@"3" withSuit:@"♥" isVisible:NO];
+    PlayingCardView *deckCard3 = [[PlayingCardView alloc] initWithFrame:deckRect withRank:@"4" withSuit:@"♥" isVisible:NO];
     
     [self.view addSubview:deckCard1];
     [self.view addSubview:deckCard2];
     [self.view addSubview:deckCard3];
-//    [self.view addSubview:dealerCardHidden];
-//    [self.view addSubview:dealerCardVisible];
-//    [self.view addSubview:playerCard1];
-//    [self.view addSubview:playerCard2];
     
-//    [UIView animateWithDuration:0.3 animations:^{
-//        playerCard1.frame = CGRectMake(60, 300, cardWidth, cardHeight);
-//    } completion:^(BOOL finished){
-//        [playerCard1 flipCard];
-//        [UIView animateWithDuration:0.3 animations:^{
-//            playerCard2.frame = CGRectMake(80, 320, cardWidth, cardHeight);
-//        } completion:^(BOOL finished){
-//            [playerCard2 flipCard];
-//        }];
-//    }];
+    FAKFontAwesome *plusIcon = [FAKFontAwesome plusSquareOIconWithSize:35];
+    self.plusButton.titleLabel.textColor = [UIColor whiteColor];
+    [self.plusButton setAttributedTitle:[plusIcon attributedString] forState:UIControlStateNormal];
     
-    FAKFontAwesome *plusIcon = [FAKFontAwesome plusSquareOIconWithSize:25];
-    UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake(220,320,25,25)];
-    plusButton.titleLabel.textColor = [UIColor whiteColor];
-    [plusButton setAttributedTitle:[plusIcon attributedString] forState:UIControlStateNormal];
-    [self.view addSubview:plusButton];
-    
-    FAKFontAwesome *chipIcon = [FAKFontAwesome certificateIconWithSize:50];
-    UIButton *chipButton = [[UIButton alloc] initWithFrame:CGRectMake(207,350,50,50)];
-    chipButton.titleLabel.textColor = [UIColor whiteColor];
-    [chipButton setAttributedTitle:[chipIcon attributedString] forState:UIControlStateNormal];
-    [self.view addSubview:chipButton];
-    
-    FAKFontAwesome *minusIcon = [FAKFontAwesome minusSquareOIconWithSize:25];
-    UIButton *minusButton = [[UIButton alloc] initWithFrame:CGRectMake(220,410,25,25)];
-    minusButton.titleLabel.textColor = [UIColor whiteColor];
-    [minusButton setAttributedTitle:[minusIcon attributedString] forState:UIControlStateNormal];
-    [self.view addSubview:minusButton];
+    FAKFontAwesome *minusIcon = [FAKFontAwesome minusSquareOIconWithSize:35];
+    self.minusButton.titleLabel.textColor = [UIColor whiteColor];
+    [self.minusButton setAttributedTitle:[minusIcon attributedString] forState:UIControlStateNormal];
     
     FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:25];
     UIButton *questionButton = [[UIButton alloc] initWithFrame:CGRectMake(220,450,25,25)];
@@ -133,16 +115,13 @@
 - (IBAction)hit:(id)sender {
     NSLog(@"Hit was tapped");
     [self.blackJackGame hit];
-    NSInteger cardWidth = 80;
-    NSInteger cardHeight = 112;
-    
     
     PlayingCard *playerCard = [self.blackJackGame.player.hand lastObject];
     NSString *playerCardRank = [playerCard formattedCardRank];
     NSString *playerCardSuit = playerCard.suit;
     
     
-    PlayingCardView *playerCardView = [[PlayingCardView alloc] initWithFrame:CGRectMake(46, 106, cardWidth, cardHeight) withRank:playerCardRank withSuit:playerCardSuit isVisible:NO];
+    PlayingCardView *playerCardView = [[PlayingCardView alloc] initWithFrame:deckRect withRank:playerCardRank withSuit:playerCardSuit isVisible:NO];
     
     [self.cardsInGame addObject:playerCardView];
     [self.view addSubview:playerCardView];
@@ -166,33 +145,11 @@
         [playerCardView tiltCardRandomly];
     }];
     
-//    if([self.blackJackGame.player.hand count] > 2) {
-//        self.card3.text = [self.blackJackGame.player.hand[2] description];
-//        self.card3.hidden = NO;
-//
-//    }
-//    if([self.blackJackGame.player.hand count] > 3) {
-//        self.card4.text = [self.blackJackGame.player.hand[3] description];
-//        self.card4.hidden = NO;
-//    }
-//    if([self.blackJackGame.player.hand count] > 4) {
-//        self.card5.text = [self.blackJackGame.player.hand[4] description];
-//        self.card5.hidden = NO;
-//    }
-    
     [self updateLabels];
 }
 
 - (IBAction)deal:(id)sender {
     
-    NSInteger cardWidth = 80;
-    NSInteger cardHeight = 112;
-    
-    self.hitButton.enabled = YES;
-    self.stayButton.enabled = YES;
-//    self.card3.hidden = YES;
-//    self.card4.hidden = YES;
-//    self.card5.hidden = YES;
     self.result.hidden = YES;
     
     if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
@@ -223,12 +180,12 @@
     PlayingCard *dealerCard2 = self.blackJackGame.dealerPlayer.hand[1];
     NSString *dealerCard2Suit = dealerCard2.suit;
     
-    PlayingCardView *playerCardView1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(46, 106, cardWidth, cardHeight) withRank:playerCard1Rank withSuit:playerCard1Suit isVisible:NO];
-    PlayingCardView *playerCardView2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(46, 106, cardWidth, cardHeight) withRank:playerCard2Rank withSuit:playerCard2Suit isVisible:NO];
+    PlayingCardView *playerCardView1 = [[PlayingCardView alloc] initWithFrame:deckRect withRank:playerCard1Rank withSuit:playerCard1Suit isVisible:NO];
+    PlayingCardView *playerCardView2 = [[PlayingCardView alloc] initWithFrame:deckRect withRank:playerCard2Rank withSuit:playerCard2Suit isVisible:NO];
     
     
-    PlayingCardView *dealerCardView1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(46, 106, cardWidth, cardHeight) withRank:dealerCard1Rank withSuit:dealerCard1Suit isVisible:NO];
-    PlayingCardView *dealerCardView2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(46, 106, cardWidth, cardHeight) withRank:dealerCard2Rank withSuit:dealerCard2Suit isVisible:NO];
+    PlayingCardView *dealerCardView1 = [[PlayingCardView alloc] initWithFrame:deckRect withRank:dealerCard1Rank withSuit:dealerCard1Suit isVisible:NO];
+    PlayingCardView *dealerCardView2 = [[PlayingCardView alloc] initWithFrame:deckRect withRank:dealerCard2Rank withSuit:dealerCard2Suit isVisible:NO];
     
     [self.view addSubview:playerCardView1];
     [self.view addSubview:playerCardView2];
@@ -238,21 +195,21 @@
     
     
     [UIView animateWithDuration:0.3 animations:^{
-        playerCardView1.frame = CGRectMake(40, 300, cardWidth, cardHeight);
+        playerCardView1.frame = playerRect;
     } completion:^(BOOL finished){
         [playerCardView1 flipCard];
         [playerCardView1 tiltCardRandomly];
         [UIView animateWithDuration:0.3 animations:^{
-            dealerCardView1.frame = CGRectMake(150, 100, cardWidth, cardHeight);
+            dealerCardView1.frame = dealerRect;
         } completion:^(BOOL finished){
             [dealerCardView1 tiltCardRandomly];
             [UIView animateWithDuration:0.3 animations:^{
-                playerCardView2.frame = CGRectMake(60, 320, cardWidth, cardHeight);
+                playerCardView2.frame = CGRectMake(playerRect.origin.x+20, playerRect.origin.y+20, cardWidth, cardHeight);
             } completion:^(BOOL finished){
                 [playerCardView2 flipCard];
                 [playerCardView2 tiltCardRandomly];
                 [UIView animateWithDuration:0.3 animations:^{
-                    dealerCardView2.frame = CGRectMake(170, 120, cardWidth, cardHeight);
+                    dealerCardView2.frame = CGRectMake(dealerRect.origin.x+20, dealerRect.origin.y+20, cardWidth, cardHeight);
                 } completion:^(BOOL finished){
                     [dealerCardView2 flipCard];
                     [dealerCardView2 tiltCardRandomly];
@@ -260,28 +217,18 @@
             }];
         }];
     }];
-//    
-//    self.card1.text = [self.blackJackGame.player.hand[0] description];
-//    self.card2.text = [self.blackJackGame.player.hand[1] description];
-//    self.card1.hidden = NO;
-//    self.card2.hidden = NO;
     
     [self updateLabels];
     NSLog(@"Player has %@ chips and is currently betting %@", self.blackJackGame.chips, self.blackJackGame.currentBet);
 }
 
 - (IBAction)stay:(id)sender {
-    NSInteger cardWidth = 80;
-    NSInteger cardHeight = 112;
-    
     [self.blackJackGame stay];
-    self.stayButton.enabled = NO;
-    
     PlayingCardView *dealerHiddenCard = self.cardsInGame[2];
     [dealerHiddenCard flipCard];
     
-    CGFloat xcoord = 170;
-    CGFloat ycoord = 120;
+    CGFloat xcoord = dealerRect.origin.x+20;
+    CGFloat ycoord = dealerRect.origin.y+20;
     
     if ([self.blackJackGame.dealerPlayer.hand count]>2) {
         for (NSInteger i = 2; i < [self.blackJackGame.dealerPlayer.hand count]; i++) {
@@ -292,7 +239,7 @@
             NSString *dealerCardRank = [dealerCard formattedCardRank];
             NSString *dealerCardSuit = dealerCard.suit;
             
-            PlayingCardView *dealerCardView = [[PlayingCardView alloc] initWithFrame:CGRectMake(46, 106, cardWidth, cardHeight) withRank:dealerCardRank withSuit:dealerCardSuit isVisible:NO];
+            PlayingCardView *dealerCardView = [[PlayingCardView alloc] initWithFrame:deckRect withRank:dealerCardRank withSuit:dealerCardSuit isVisible:NO];
             
             [self.cardsInGame addObject:dealerCardView];
             [self.view addSubview:dealerCardView];
@@ -353,21 +300,17 @@
 {
     self.score.text = [NSString stringWithFormat:@"%@", self.blackJackGame.player.handScore];
     self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
-    [self.currentBetLabel setTitle:[NSString stringWithFormat:@"%@",self.blackJackGame.currentBet] forState:UIControlStateNormal];
-    self.chipCountLabel.text = [NSString stringWithFormat:@"%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
-    PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[0];
-    self.dealerFirstCard.text = [NSString stringWithFormat:@"%@", dealerCard.rank];
+    [self.currentBetLabel setTitle:[NSString stringWithFormat:@"$%@",self.blackJackGame.currentBet] forState:UIControlStateNormal];
+    self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
     if (self.blackJackGame.player.isBlackjack) {
         self.result.text = @"Blackjack!";
         self.result.hidden = NO;
-        self.hitButton.enabled = NO;
         [self stay:nil];
     }
     
     if (self.blackJackGame.player.isBusted) {
         self.result.text = @"Busted!";
         self.result.hidden = NO;
-        self.hitButton.enabled = NO;
         [self stay:nil];
     }
 }
