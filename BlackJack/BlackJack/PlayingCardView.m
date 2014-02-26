@@ -21,14 +21,14 @@
         _isVisible = isVisible;
         
         // Customize Card Label properties
-        _fontFamily = @"TimesNewRomanPS-BoldMT";
-        _rankFontSize = 16;
+        _fontFamily = @"HelveticaNeue-Light";
+        _rankFontSize = 24;
         _suitFontSize = 16;
         
         NSDictionary *fontColorDictionary = @{@"♠":[UIColor blackColor],
                                               @"♣":[UIColor blackColor],
-                                              @"♥":[UIColor redColor],
-                                              @"♦":[UIColor redColor]
+                                              @"♥":UIColorFromRGB(0xe74c3c),
+                                              @"♦":UIColorFromRGB(0xe74c3c)
                                               };
         _labelColor = fontColorDictionary[_suit];
 
@@ -57,9 +57,9 @@
         NSInteger cardLabelWidth = 20;
         NSInteger cardLabelHeight = 20;
         
-        NSInteger xOffset = 0;
-        NSInteger yOffset = 0;
-        NSInteger yPadding = 13;
+        NSInteger xOffset = 3;
+        NSInteger yOffset = 8;
+        NSInteger yPadding = 20;
         
         CGRect topRankFrame = CGRectMake(xOffset, yOffset, cardLabelWidth, cardLabelHeight);
         CGRect topSuitFrame = CGRectMake(xOffset, yOffset + yPadding, cardLabelWidth, cardLabelHeight);
@@ -91,6 +91,14 @@
     newLabel.textAlignment = NSTextAlignmentCenter;
     newLabel.textColor = self.labelColor;
     newLabel.font = [UIFont fontWithName:self.fontFamily size:fontSize];
+    
+    NSArray *suitArray = @[@"♦",@"♠",@"♣",@"♥"];
+    if ([suitArray containsObject:text]) {
+        newLabel.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:fontSize];
+    } else {
+        newLabel.font = [UIFont fontWithName:self.fontFamily size:fontSize];
+    }
+    
     if (angleAsRadians != 0) {
         [newLabel setTransform:CGAffineTransformMakeRotation(angleAsRadians)];
     }
