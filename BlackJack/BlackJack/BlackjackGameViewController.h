@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FISBlackJackGame.h"
+#import <FontAwesomeKit/FontAwesomeKit.h>
 
 @interface BlackjackGameViewController : UIViewController<UIAlertViewDelegate>
 

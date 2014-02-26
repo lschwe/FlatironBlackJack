@@ -68,7 +68,24 @@
         }];
     }];
     
+    FAKFontAwesome *plusIcon = [FAKFontAwesome plusSquareOIconWithSize:25];
+    UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake(220,320,25,25)];
+    plusButton.titleLabel.textColor = [UIColor whiteColor];
+    [plusButton setAttributedTitle:[plusIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:plusButton];
     
+
+    FAKFontAwesome *minusIcon = [FAKFontAwesome minusSquareOIconWithSize:25];
+    UIButton *minusButton = [[UIButton alloc] initWithFrame:CGRectMake(220,360,25,25)];
+    minusButton.titleLabel.textColor = [UIColor whiteColor];
+    [minusButton setAttributedTitle:[minusIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:minusButton];
+
+    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:25];
+    UIButton *questionButton = [[UIButton alloc] initWithFrame:CGRectMake(220,400,25,25)];
+    questionButton.titleLabel.textColor = [UIColor whiteColor];
+    [questionButton setAttributedTitle:[questionIcon attributedString] forState:UIControlStateNormal];
+    [self.view addSubview:questionButton];
     
     
     self.blackJackGame = [[FISBlackJackGame alloc] init];
