@@ -24,16 +24,21 @@
         _fontFamily = @"TimesNewRomanPS-BoldMT";
         _rankFontSize = 16;
         _suitFontSize = 16;
-        _labelColor = [UIColor blackColor];
+        
+        NSDictionary *fontColorDictionary = @{@"♠":[UIColor blackColor],
+                                              @"♣":[UIColor blackColor],
+                                              @"♥":[UIColor redColor],
+                                              @"♦":[UIColor redColor]
+                                              };
+        _labelColor = fontColorDictionary[_suit];
 
         // Set up card
         self.layer.cornerRadius = 5.0;
         self.layer.masksToBounds = YES;
         self.layer.borderColor = [UIColor blackColor].CGColor;
-        self.layer.borderWidth = 1;
+        self.layer.borderWidth = 0;
         self.backgroundColor = [UIColor whiteColor];
         
-
         // Set up back of card subview
         _cardBackSubview = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width, self.frame.size.height)];
         UIGraphicsBeginImageContext(_cardBackSubview.frame.size);
@@ -41,6 +46,7 @@
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         _cardBackSubview.backgroundColor = [UIColor colorWithPatternImage:image];
+//        _cardBackSubview.backgroundColor = UIColorFromRGB(0x1fa67a);
 
         // Set up front of card subview
         _cardFrontSubview = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width, self.frame.size.height)];
@@ -77,6 +83,7 @@
 
 - (void)createLabelForCardWithFrame:(CGRect)frame withText:(NSString *)text withFontSize:(NSInteger)fontSize withTransformation:(CGFloat)angleAsRadians
 {
+
     UILabel *newLabel = [[UILabel alloc] initWithFrame:frame];
     newLabel.text = text;
     newLabel.textAlignment = NSTextAlignmentCenter;
@@ -95,7 +102,7 @@
         [self addSubview:self.cardBackSubview];
         [UIView transitionFromView:self.cardFrontSubview
                             toView:self.cardBackSubview
-                          duration:0.7
+                          duration:0.5
                            options:UIViewAnimationOptionTransitionFlipFromLeft
                         completion:NULL];
 
@@ -105,7 +112,7 @@
         [self addSubview:self.cardFrontSubview];
         [UIView transitionFromView:self.cardBackSubview
                             toView:self.cardFrontSubview
-                          duration:0.7
+                          duration:0.5
                            options:UIViewAnimationOptionTransitionFlipFromLeft
                         completion:NULL];
         [self.cardBackSubview removeFromSuperview];

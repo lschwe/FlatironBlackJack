@@ -10,9 +10,9 @@
 #import "PlayingCardView.h"
 #import "PlayingCard.h"
 
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
 @interface BlackjackGameViewController ()
-
-
 
 
 @end
@@ -35,14 +35,15 @@
 
     NSInteger cardWidth = 80;
     NSInteger cardHeight = 112;
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pokerFeltBackground320x568"]];
+//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pokerFeltBackground320x568"]];
+    self.view.backgroundColor = UIColorFromRGB(0x1fa67a);
     
     PlayingCardView *deckCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(60, 100, cardWidth, cardHeight) withRank:@"2" withSuit:@"♥" isVisible:NO];
     PlayingCardView *deckCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(63, 103, cardWidth, cardHeight) withRank:@"3" withSuit:@"♥" isVisible:NO];
     PlayingCardView *deckCard3 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"4" withSuit:@"♥" isVisible:NO];
     PlayingCardView *dealerCardHidden = [[PlayingCardView alloc] initWithFrame:CGRectMake(170, 100, cardWidth, cardHeight) withRank:@"5" withSuit:@"♥" isVisible:NO];
     PlayingCardView *dealerCardVisible = [[PlayingCardView alloc] initWithFrame:CGRectMake(185, 115, cardWidth, cardHeight) withRank:@"6" withSuit:@"♥" isVisible:YES];
-    PlayingCardView *playerCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(0, 0, cardWidth, cardHeight) withRank:@"K" withSuit:@"♥" isVisible:NO];
+    PlayingCardView *playerCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(66, 106, cardWidth, cardHeight) withRank:@"K" withSuit:@"♣" isVisible:NO];
     
     [self.view addSubview:deckCard1];
     [self.view addSubview:deckCard2];
@@ -51,7 +52,7 @@
     [self.view addSubview:dealerCardVisible];
     [self.view addSubview:playerCard1];
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         playerCard1.frame = CGRectMake(60, 300, cardWidth, cardHeight);
     } completion:^(BOOL finished){
         [playerCard1 flipCard];
