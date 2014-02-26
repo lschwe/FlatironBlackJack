@@ -12,6 +12,9 @@
 
 @interface BlackjackGameViewController ()
 
+
+
+
 @end
 
 @implementation BlackjackGameViewController
@@ -57,6 +60,8 @@
     
     
     self.blackJackGame = [[FISBlackJackGame alloc] init];
+    
+    
     [self deal:nil];
 }
 
@@ -89,13 +94,16 @@
 - (IBAction)deal:(id)sender {
     
     self.hitButton.enabled = YES;
+    self.stayButton.enabled = YES;
     self.card3.hidden = YES;
     self.card4.hidden = YES;
     self.card5.hidden = YES;
     self.result.hidden = YES;
     
     if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
+        CGFloat chipCount = [self.blackJackGame.chips floatValue];
         self.blackJackGame = [FISBlackJackGame new];
+        self.blackJackGame.chips = @(chipCount);
         self.result.text = @"Fresh Deck";
         self.result.hidden = NO;
     }
@@ -107,16 +115,22 @@
     self.card2.hidden = NO;
     
     [self updateLabels];
+    NSLog(@"Player has %@ chips and is currently betting %@", self.blackJackGame.chips, self.blackJackGame.currentBet);
 }
 
 - (IBAction)stay:(id)sender {
     [self.blackJackGame stay];
+    self.stayButton.enabled = NO;
+    NSString *winner = @"";
+    CGFloat multiple = 1;
     self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
     if (([self.blackJackGame.player.handScore integerValue] > [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) || (self.blackJackGame.dealerPlayer.isBusted == YES && self.blackJackGame.player.isBusted == NO)) {
         if (self.blackJackGame.player.isBlackjack) {
             self.result.text = @"Player Wins with Black Jack!";
+            winner = @"Player";
         } else {
             self.result.text = @"Player Wins";
+            winner = @"Player";
         }
         self.result.hidden = NO;
     } else if ([self.blackJackGame.player.handScore integerValue] == [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) {
@@ -125,10 +139,25 @@
     } else {
         if (self.blackJackGame.player.isBusted) {
             self.result.text = @"Player Busted and Dealer Wins";
+            winner = @"Dealer";
         } else {
             self.result.text = @"Dealer Wins";
+            winner = @"Dealer";
         }
         self.result.hidden = NO;
+    }
+    
+    if ([winner isEqualToString:@"Player"]) {
+        if (self.blackJackGame.player.isBlackjack) {
+            multiple = 1.5;
+        }
+        self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] + [self.blackJackGame.currentBet floatValue]*multiple);
+        NSLog(@"Player has won %@ chips. Now he has %@", @([self.blackJackGame.currentBet floatValue]*multiple), self.blackJackGame.chips);
+    } else if ([winner isEqualToString:@"Dealer"]){
+        self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue]);
+        NSLog(@"Player has lost %@ chips. Now he has %@", self.blackJackGame.currentBet, self.blackJackGame.chips);
+    } else {
+        NSLog(@"Push. Player keeps his %@ chips", self.blackJackGame.chips);
     }
 }
 
@@ -155,6 +184,18 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (motion == UIEventSubtypeMotionShake) {
+        UIAlertView *shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?" message:@"Click OK to quit the current game and deal fresh decks" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        [shakeAlert show];
+        
+        
+    }
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex){
+        
+    }else{
         [self.blackJackGame.playingCardDeck.cards removeAllObjects];
         [self deal:nil];
     }

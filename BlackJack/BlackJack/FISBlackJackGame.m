@@ -29,6 +29,11 @@
         _dealerPlayer.isBusted = NO;
         _dealerPlayer.isBlackjack = NO;
         _dealerPlayer.hand = [NSMutableArray new];
+       
+        // start with 10 chips
+        _chips = @10;
+        // start with 1 chip bets
+        _currentBet = @1;
     }
     return self;
 }
