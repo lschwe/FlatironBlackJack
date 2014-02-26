@@ -200,7 +200,6 @@
         [UIView animateWithDuration:0.3 animations:^{
             dealerCardView1.frame = dealerRect;
         } completion:^(BOOL finished){
-            [dealerCardView1 tiltCardRandomly];
             [UIView animateWithDuration:0.3 animations:^{
                 playerCardView2.frame = CGRectMake(playerRect.origin.x+20, playerRect.origin.y+20, cardWidth, cardHeight);
             } completion:^(BOOL finished){
