@@ -75,11 +75,20 @@
                                     <action selector="lessBet:" destination="GqW-35-3c0" eventType="touchUpInside" id="WgG-oy-vKI"/>
                                 </connections>
                             </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b55-zW-MCC">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Help" style="plain" id="bgS-G5-WVH"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="aHw-K3-YXw"/>
+                                    <barButtonItem title="Hint" style="plain" id="tWu-44-WTY"/>
+                                </items>
+                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </toolbar>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Chips" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sP7-Nf-qlY">
-                                <rect key="frame" x="20" y="520" width="280" height="21"/>
+                                <rect key="frame" x="59" y="535" width="200" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -95,6 +104,8 @@
                         <outlet property="chipCountLabel" destination="sP7-Nf-qlY" id="Fed-XV-0Gp"/>
                         <outlet property="currentBetLabel" destination="BeR-Tn-lfi" id="Zme-ME-rQc"/>
                         <outlet property="dealerScore" destination="3ed-hD-yij" id="ZtF-vz-0hc"/>
+                        <outlet property="helpBarButton" destination="bgS-G5-WVH" id="tFg-0J-VoF"/>
+                        <outlet property="hintBarButton" destination="tWu-44-WTY" id="7xP-tT-z8m"/>
                         <outlet property="minusButton" destination="IZu-St-842" id="xFH-4Z-ZPv"/>
                         <outlet property="plusButton" destination="hGg-dF-Mr8" id="vNj-81-1on"/>
                         <outlet property="result" destination="Xa0-DN-H9r" id="g4J-dL-UyP"/>

@@ -23,6 +23,8 @@
 @property (strong, nonatomic) NSMutableArray *cardsInGame;
 @property (weak, nonatomic) IBOutlet UIButton *minusButton;
 @property (weak, nonatomic) IBOutlet UIButton *plusButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *helpBarButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *hintBarButton;
 
 
 @end
@@ -75,26 +77,22 @@
     self.minusButton.titleLabel.textColor = [UIColor whiteColor];
     [self.minusButton setAttributedTitle:[minusIcon attributedString] forState:UIControlStateNormal];
     
-    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:25];
-    UIButton *questionButton = [[UIButton alloc] initWithFrame:CGRectMake(220,450,25,25)];
-    questionButton.titleLabel.textColor = [UIColor whiteColor];
-    [questionButton setAttributedTitle:[questionIcon attributedString] forState:UIControlStateNormal];
-    [self.view addSubview:questionButton];
+    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:20];
+    [questionIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *leftImage = [questionIcon imageWithSize:CGSizeMake(20, 20)];
+    self.helpBarButton.image = leftImage;
     
-    FAKFontAwesome *gearIcon = [FAKFontAwesome cogIconWithSize:25];
-    UIButton *gearButton = [[UIButton alloc] initWithFrame:CGRectMake(220,480,25,25)];
-    gearButton.titleLabel.textColor = [UIColor whiteColor];
-    [gearButton setAttributedTitle:[gearIcon attributedString] forState:UIControlStateNormal];
-    [self.view addSubview:gearButton];
+//    FAKFontAwesome *gearIcon = [FAKFontAwesome cogIconWithSize:25];
+//    UIButton *gearButton = [[UIButton alloc] initWithFrame:CGRectMake(220,480,25,25)];
+//    gearButton.titleLabel.textColor = [UIColor whiteColor];
+//    [gearButton setAttributedTitle:[gearIcon attributedString] forState:UIControlStateNormal];
+//    [self.view addSubview:gearButton];
     
     FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:25];
-    UIButton *bulbButton = [[UIButton alloc] initWithFrame:CGRectMake(220,510,25,25)];
-    bulbButton.titleLabel.textColor = [UIColor whiteColor];
-    [bulbButton setAttributedTitle:[bulbIcon attributedString] forState:UIControlStateNormal];
-    [self.view addSubview:bulbButton];
-    
-    [bulbButton addTarget:self action:@selector(flashMessage) forControlEvents:UIControlEventTouchUpInside];
-    
+    [bulbIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(20, 20)];
+    self.hintBarButton.image = rightImage;
+        
     self.blackJackGame = [[FISBlackJackGame alloc] init];
     
     
