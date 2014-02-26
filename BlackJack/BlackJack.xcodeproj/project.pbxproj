@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8716B28D18BBFA1B004124F9 /* PlayingCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716B28C18BBFA1B004124F9 /* PlayingCardView.m */; };
-		DF14F75A18AEB0000049F8AD /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF14F75918AEB0000049F8AD /* main.storyboard */; };
+		D178727F18BE68CE00C6EE3A /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D178727E18BE68CE00C6EE3A /* main.storyboard */; };
 		DF14F75D18AEB1CC0049F8AD /* BlackjackGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */; };
 		DF14F76018AEBF990049F8AD /* BlackJackPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75F18AEBF990049F8AD /* BlackJackPlayer.m */; };
 		DF73E51118AC1F3E001A5048 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF73E51018AC1F3E001A5048 /* Foundation.framework */; };
@@ -44,7 +44,7 @@
 /* Begin PBXFileReference section */
 		8716B28B18BBFA1B004124F9 /* PlayingCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingCardView.h; sourceTree = "<group>"; };
 		8716B28C18BBFA1B004124F9 /* PlayingCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardView.m; sourceTree = "<group>"; };
-		DF14F75918AEB0000049F8AD /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = main.storyboard; path = ../main.storyboard; sourceTree = "<group>"; };
+		D178727E18BE68CE00C6EE3A /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = main.storyboard; sourceTree = "<group>"; };
 		DF14F75B18AEB1CC0049F8AD /* BlackjackGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackjackGameViewController.h; sourceTree = "<group>"; };
 		DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackjackGameViewController.m; sourceTree = "<group>"; };
 		DF14F75E18AEBF990049F8AD /* BlackJackPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackJackPlayer.h; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 		DF73E51618AC1F3E001A5048 /* BlackJack */ = {
 			isa = PBXGroup;
 			children = (
-				DF14F75918AEB0000049F8AD /* main.storyboard */,
+				D178727E18BE68CE00C6EE3A /* main.storyboard */,
 				DF14F75B18AEB1CC0049F8AD /* BlackjackGameViewController.h */,
 				DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */,
 				8716B28E18BBFA29004124F9 /* Models */,
@@ -275,7 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF73E51B18AC1F3E001A5048 /* InfoPlist.strings in Resources */,
-				DF14F75A18AEB0000049F8AD /* main.storyboard in Resources */,
+				D178727F18BE68CE00C6EE3A /* main.storyboard in Resources */,
 				DF73E52318AC1F3E001A5048 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
