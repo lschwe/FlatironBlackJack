@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8716B28518BBF85D004124F9 /* pokerFeltBackground640x1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 8716B28418BBF85D004124F9 /* pokerFeltBackground640x1136.png */; };
-		8716B28718BBF8DE004124F9 /* pokerFeltBackground320x568.png in Resources */ = {isa = PBXBuildFile; fileRef = 8716B28618BBF8DE004124F9 /* pokerFeltBackground320x568.png */; };
 		8716B28D18BBFA1B004124F9 /* PlayingCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716B28C18BBFA1B004124F9 /* PlayingCardView.m */; };
-		8716B29018BC0161004124F9 /* cardBack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8716B28F18BC0161004124F9 /* cardBack.jpg */; };
 		DF14F75A18AEB0000049F8AD /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF14F75918AEB0000049F8AD /* main.storyboard */; };
 		DF14F75D18AEB1CC0049F8AD /* BlackjackGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */; };
 		DF14F76018AEBF990049F8AD /* BlackJackPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75F18AEBF990049F8AD /* BlackJackPlayer.m */; };
@@ -45,11 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8716B28418BBF85D004124F9 /* pokerFeltBackground640x1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pokerFeltBackground640x1136.png; path = ../../../../../../Desktop/pokerFeltBackground640x1136.png; sourceTree = "<group>"; };
-		8716B28618BBF8DE004124F9 /* pokerFeltBackground320x568.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pokerFeltBackground320x568.png; path = ../../../../../../Desktop/pokerFeltBackground320x568.png; sourceTree = "<group>"; };
 		8716B28B18BBFA1B004124F9 /* PlayingCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingCardView.h; sourceTree = "<group>"; };
 		8716B28C18BBFA1B004124F9 /* PlayingCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardView.m; sourceTree = "<group>"; };
-		8716B28F18BC0161004124F9 /* cardBack.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = cardBack.jpg; path = ../../../../../../Desktop/cardBack.jpg; sourceTree = "<group>"; };
 		DF14F75918AEB0000049F8AD /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = main.storyboard; path = ../main.storyboard; sourceTree = "<group>"; };
 		DF14F75B18AEB1CC0049F8AD /* BlackjackGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackjackGameViewController.h; sourceTree = "<group>"; };
 		DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackjackGameViewController.m; sourceTree = "<group>"; };
@@ -177,9 +171,6 @@
 		DF73E51718AC1F3E001A5048 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8716B28F18BC0161004124F9 /* cardBack.jpg */,
-				8716B28618BBF8DE004124F9 /* pokerFeltBackground320x568.png */,
-				8716B28418BBF85D004124F9 /* pokerFeltBackground640x1136.png */,
 				DF73E51818AC1F3E001A5048 /* BlackJack-Info.plist */,
 				DF73E51918AC1F3E001A5048 /* InfoPlist.strings */,
 				DF73E51C18AC1F3E001A5048 /* main.m */,
@@ -283,9 +274,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8716B29018BC0161004124F9 /* cardBack.jpg in Resources */,
-				8716B28518BBF85D004124F9 /* pokerFeltBackground640x1136.png in Resources */,
-				8716B28718BBF8DE004124F9 /* pokerFeltBackground320x568.png in Resources */,
 				DF73E51B18AC1F3E001A5048 /* InfoPlist.strings in Resources */,
 				DF14F75A18AEB0000049F8AD /* main.storyboard in Resources */,
 				DF73E52318AC1F3E001A5048 /* Images.xcassets in Resources */,

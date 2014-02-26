@@ -45,8 +45,10 @@
         [[UIImage imageNamed:@"cardBack.jpg"] drawInRect:self.bounds];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        _cardBackSubview.backgroundColor = [UIColor colorWithPatternImage:image];
-//        _cardBackSubview.backgroundColor = UIColorFromRGB(0x1fa67a);
+//        _cardBackSubview.backgroundColor = [UIColor colorWithPatternImage:image];
+        _cardBackSubview.backgroundColor = UIColorFromRGB(0x73b9e6);
+        _cardBackSubview.layer.borderColor = [UIColor whiteColor].CGColor;
+        _cardBackSubview.layer.borderWidth = 5.0f;
 
         // Set up front of card subview
         _cardFrontSubview = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.frame.size.width, self.frame.size.height)];
