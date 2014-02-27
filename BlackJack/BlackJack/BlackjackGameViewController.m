@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *plusButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *helpBarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *hintBarButton;
+@property (weak, nonatomic) IBOutlet UIButton *doubleDownButton;
 
 
 @end
@@ -57,6 +58,7 @@
     dealerRect = CGRectMake(20, 100, cardWidth, cardHeight);
     playerRect = CGRectMake(20, 320, cardWidth, cardHeight);
     deckRect = CGRectMake(220, 106, cardWidth, cardHeight);
+    [self.doubleDownButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
     
     self.view.backgroundColor = UIColorFromRGB(0x2cc36b);
     
