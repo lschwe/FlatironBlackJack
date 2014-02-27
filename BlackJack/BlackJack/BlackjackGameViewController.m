@@ -58,7 +58,6 @@
     playerRect = CGRectMake(30, 320, cardWidth, cardHeight);
     deckRect = CGRectMake(220, 126, cardWidth, cardHeight);
     
-
     self.view.backgroundColor = UIColorFromRGB(0x2cc36b);
     
     PlayingCardView *deckCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(deckRect.origin.x-6, deckRect.origin.y-6, cardWidth, cardHeight) withRank:@"2" withSuit:@"♥" isVisible:NO];
@@ -208,7 +207,6 @@
         [UIView animateWithDuration:0.3 animations:^{
             dealerCardView1.frame = dealerRect;
         } completion:^(BOOL finished){
-            [dealerCardView1 tiltCardRandomly];
             [UIView animateWithDuration:0.3 animations:^{
                 playerCardView2.frame = CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight);
             } completion:^(BOOL finished){

@@ -31,9 +31,9 @@
         _dealerPlayer.hand = [NSMutableArray new];
        
         // start with 10 chips
-        _chips = @10;
+        _chips = @200;
         // start with 1 chip bets
-        _currentBet = @1;
+        _currentBet = @5;
     }
     return self;
 }
