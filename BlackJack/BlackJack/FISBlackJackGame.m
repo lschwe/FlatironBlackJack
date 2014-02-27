@@ -30,9 +30,9 @@
         _dealerPlayer.isBlackjack = NO;
         _dealerPlayer.hand = [NSMutableArray new];
        
-        // start with 10 chips
+        // start with 200 bucks
         _chips = @200;
-        // start with 1 chip bets
+        // start with 5 bucks bets
         _currentBet = @5;
     }
     return self;

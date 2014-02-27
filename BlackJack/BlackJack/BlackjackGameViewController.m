@@ -54,9 +54,9 @@
 	// Do any additional setup after loading the view.
     cardWidth = 80;
     cardHeight = 112;
-    dealerRect = CGRectMake(30, 120, cardWidth, cardHeight);
-    playerRect = CGRectMake(30, 320, cardWidth, cardHeight);
-    deckRect = CGRectMake(220, 126, cardWidth, cardHeight);
+    dealerRect = CGRectMake(20, 100, cardWidth, cardHeight);
+    playerRect = CGRectMake(20, 320, cardWidth, cardHeight);
+    deckRect = CGRectMake(220, 106, cardWidth, cardHeight);
     
     self.view.backgroundColor = UIColorFromRGB(0x2cc36b);
     
@@ -138,8 +138,8 @@
     xcoord = lastCard.frame.origin.x;
     ycoord = lastCard.frame.origin.y;
     
-    if (xcoord>100) {
-        xcoord = 0;
+    if (xcoord>90) {
+        xcoord = -10;
         ycoord = ycoord +20;
     }
     
@@ -236,8 +236,14 @@
     
     if ([self.blackJackGame.dealerPlayer.hand count]>2) {
         for (NSInteger i = 2; i < [self.blackJackGame.dealerPlayer.hand count]; i++) {
+            if (xcoord>90) {
+                xcoord = -10;
+                ycoord = ycoord +20;
+            }
+            
             xcoord = xcoord +30;
             ycoord = ycoord +10;
+
             
             PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[i];
             NSString *dealerCardRank = [dealerCard formattedCardRank];
