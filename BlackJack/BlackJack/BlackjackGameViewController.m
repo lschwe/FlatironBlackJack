@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *doubleDownButton;
 
 
+- (IBAction)doubleDownTapped:(id)sender;
 @end
 
 @implementation BlackjackGameViewController
@@ -272,6 +273,7 @@
     if (([self.blackJackGame.player.handScore integerValue] > [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) || (self.blackJackGame.dealerPlayer.isBusted == YES && self.blackJackGame.player.isBusted == NO)) {
         if (self.blackJackGame.player.isBlackjack) {
             self.result.text = @"Player Wins with Black Jack!";
+            multiple = 1.5;
             winner = @"Player";
         } else {
             self.result.text = @"Player Wins";
@@ -293,8 +295,8 @@
     }
     
     if ([winner isEqualToString:@"Player"]) {
-        if (self.blackJackGame.player.isBlackjack) {
-            multiple = 1.5;
+        if (self.blackJackGame.isDoubleDown) {
+            multiple = 2;
         }
         self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] + [self.blackJackGame.currentBet floatValue]*multiple);
         NSLog(@"Player has won %@ chips. Now he has %@", @([self.blackJackGame.currentBet floatValue]*multiple), self.blackJackGame.chips);
@@ -360,5 +362,11 @@
         self.blackJackGame.currentBet = @(bet+1);
     }
     [self updateLabels];
+}
+- (IBAction)doubleDownTapped:(id)sender {
+    self.blackJackGame.isDoubleDown = YES;
+    
+    [self hit:nil];
+    [self stay:nil];
 }
 @end

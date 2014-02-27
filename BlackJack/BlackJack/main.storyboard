@@ -78,6 +78,9 @@
                                 <state key="normal" title="X2">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="doubleDownTapped:" destination="GqW-35-3c0" eventType="touchUpInside" id="WH8-Qn-Qwz"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
