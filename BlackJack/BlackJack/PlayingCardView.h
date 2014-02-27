@@ -16,7 +16,7 @@
 @property (strong, nonatomic) UIView *cardFrontSubview;
 @property (strong, nonatomic) UIView *cardBackSubview;
  
-// Visual Card Properties
+// Card Label Properties
 @property (weak, nonatomic) NSString *suitFontFamily;
 @property (weak, nonatomic) NSString *rankFontFamily;
 @property (weak, nonatomic) UIColor *labelColor;

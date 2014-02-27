@@ -58,7 +58,6 @@
     playerRect = CGRectMake(40, 300, cardWidth, cardHeight);
     deckRect = CGRectMake(220, 106, cardWidth, cardHeight);
     
-
     self.view.backgroundColor = UIColorFromRGB(0x2cc36b);
     
     PlayingCardView *deckCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(deckRect.origin.x-6, deckRect.origin.y-6, cardWidth, cardHeight) withRank:@"2" withSuit:@"♥" isVisible:NO];
