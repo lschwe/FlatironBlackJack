@@ -54,9 +54,9 @@
 	// Do any additional setup after loading the view.
     cardWidth = 80;
     cardHeight = 112;
-    dealerRect = CGRectMake(40, 100, cardWidth, cardHeight);
-    playerRect = CGRectMake(40, 300, cardWidth, cardHeight);
-    deckRect = CGRectMake(220, 106, cardWidth, cardHeight);
+    dealerRect = CGRectMake(30, 120, cardWidth, cardHeight);
+    playerRect = CGRectMake(30, 320, cardWidth, cardHeight);
+    deckRect = CGRectMake(220, 126, cardWidth, cardHeight);
     
 
     self.view.backgroundColor = UIColorFromRGB(0x2cc36b);
@@ -88,9 +88,9 @@
 //    [gearButton setAttributedTitle:[gearIcon attributedString] forState:UIControlStateNormal];
 //    [self.view addSubview:gearButton];
     
-    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:25];
+    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:20];
     [bulbIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(20, 20)];
+    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(20, 20)];  
     self.hintBarButton.image = rightImage;
         
     self.blackJackGame = [[FISBlackJackGame alloc] init];
@@ -127,17 +127,25 @@
     CGFloat xcoord = 0;
     CGFloat ycoord = 0;
     
+    NSMutableArray *playerCardViews = [[NSMutableArray alloc] init];
+    
     for (PlayingCardView *card in self.cardsInGame) {
         if (card.frame.origin.y >= 300) {
-            if (card.frame.origin.x > xcoord) {
-                xcoord = card.frame.origin.x;
-                ycoord = card.frame.origin.y;
-            }
+            [playerCardViews addObject:card];
         }
     }
     
+    PlayingCardView *lastCard = [playerCardViews lastObject];
+    xcoord = lastCard.frame.origin.x;
+    ycoord = lastCard.frame.origin.y;
+    
+    if (xcoord>100) {
+        xcoord = 0;
+        ycoord = ycoord +20;
+    }
+    
     [UIView animateWithDuration:0.3 animations:^{
-        playerCardView.frame = CGRectMake(xcoord+20, ycoord+20, cardWidth, cardHeight);
+        playerCardView.frame = CGRectMake(xcoord+30, ycoord+10, cardWidth, cardHeight);
     } completion:^(BOOL finished){
         [playerCardView flipCard];
         [playerCardView tiltCardRandomly];
@@ -202,12 +210,12 @@
         } completion:^(BOOL finished){
             [dealerCardView1 tiltCardRandomly];
             [UIView animateWithDuration:0.3 animations:^{
-                playerCardView2.frame = CGRectMake(playerRect.origin.x+20, playerRect.origin.y+20, cardWidth, cardHeight);
+                playerCardView2.frame = CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight);
             } completion:^(BOOL finished){
                 [playerCardView2 flipCard];
                 [playerCardView2 tiltCardRandomly];
                 [UIView animateWithDuration:0.3 animations:^{
-                    dealerCardView2.frame = CGRectMake(dealerRect.origin.x+20, dealerRect.origin.y+20, cardWidth, cardHeight);
+                    dealerCardView2.frame = CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight);
                 } completion:^(BOOL finished){
                     [dealerCardView2 flipCard];
                     [dealerCardView2 tiltCardRandomly];
@@ -225,13 +233,13 @@
     PlayingCardView *dealerHiddenCard = self.cardsInGame[2];
     [dealerHiddenCard flipCard];
     
-    CGFloat xcoord = dealerRect.origin.x+20;
-    CGFloat ycoord = dealerRect.origin.y+20;
+    CGFloat xcoord = dealerRect.origin.x+30;
+    CGFloat ycoord = dealerRect.origin.y+10;
     
     if ([self.blackJackGame.dealerPlayer.hand count]>2) {
         for (NSInteger i = 2; i < [self.blackJackGame.dealerPlayer.hand count]; i++) {
-            xcoord = xcoord +20;
-            ycoord = ycoord +20;
+            xcoord = xcoord +30;
+            ycoord = ycoord +10;
             
             PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[i];
             NSString *dealerCardRank = [dealerCard formattedCardRank];
@@ -291,7 +299,7 @@
         NSLog(@"Push. Player keeps his %@ chips", self.blackJackGame.chips);
     }
     
-    self.chipCountLabel.text = [NSString stringWithFormat:@"%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
+    self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
 }
 
 - (void)updateLabels
