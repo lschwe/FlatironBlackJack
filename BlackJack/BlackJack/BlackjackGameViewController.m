@@ -289,7 +289,7 @@
             self.result.hidden = NO;
         } else {
             if (self.blackJackGame.player.isBusted) {
-                self.result.text = @"Player Busted and Dealer Wins :(";
+                self.result.text = @"Player Busted and Dealer Wins";
                 winner = @"Dealer";
             } else {
                 PlayingCard *dealerVisibleCard = self.blackJackGame.dealerPlayer.hand[1];
