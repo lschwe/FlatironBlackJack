@@ -124,9 +124,11 @@
         if ([currentPlayer.handScore integerValue] > 21) {
             currentPlayer.isBusted = YES;
         }
+        NSLog(@"%@", currentPlayer.handScore);
+        NSLog(@"%hhd", currentPlayer.isBlackjack);
+        NSLog(@"%hhd", currentPlayer.isBusted);
         
     }
-    NSLog(@"%@", @([self.playingCardDeck.cards count]));
 }
 
 

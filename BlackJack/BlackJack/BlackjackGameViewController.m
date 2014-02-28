@@ -157,38 +157,14 @@
     PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
     
 
-//    [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(NSString *response) {
-//        [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(NSString *response) {
-//            [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(NSString *response) {
-//                [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:nil];
-//            }];
-//        }];
-//    }];
-
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        playerCardView1.frame = playerRect;
-    } completion:^(BOOL finished){
-        [playerCardView1 flipCard];
-        [playerCardView1 tiltCardRandomly];
-        [UIView animateWithDuration:0.3 animations:^{
-            dealerCardView1.frame = dealerRect;
-        } completion:^(BOOL finished){
-            [UIView animateWithDuration:0.3 animations:^{
-                playerCardView2.frame = CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight);
-            } completion:^(BOOL finished){
-                [playerCardView2 flipCard];
-                [playerCardView2 tiltCardRandomly];
-                [UIView animateWithDuration:0.3 animations:^{
-                    dealerCardView2.frame = CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight);
-                } completion:^(BOOL finished){
-                    [dealerCardView2 flipCard];
-                    [dealerCardView2 tiltCardRandomly];
-                }];
+    [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
+        [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
+            [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
+                [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:nil];
             }];
         }];
     }];
-    
+
     [self updateLabels];
 
 }
@@ -215,13 +191,6 @@
 
             PlayingCardView *dealerCardView = [self drawCard:self.blackJackGame.dealerPlayer.hand[i] withFrame:deckRect isVisible:NO];
             [self animatePlayingCardView:dealerCardView withFlip:YES withTilt:YES toFrame:CGRectMake(xcoord, ycoord, cardWidth, cardHeight) onCompletion:nil];
-        
-//            [UIView animateWithDuration:0.3 animations:^{
-//                dealerCardView.frame = CGRectMake(xcoord, ycoord, cardWidth, cardHeight);
-//            } completion:^(BOOL finished){
-//                [dealerCardView flipCard];
-//                [dealerCardView tiltCardRandomly];
-//            }];
         }
     }
     
@@ -340,7 +309,7 @@
     return playerCardView;
 }
 
-- (void)animatePlayingCardView:(PlayingCardView *)cardView withFlip:(BOOL)toFlip withTilt:(BOOL)toTilt toFrame:(CGRect)frame onCompletion:(void (^) (NSString *response))handler
+- (void)animatePlayingCardView:(PlayingCardView *)cardView withFlip:(BOOL)toFlip withTilt:(BOOL)toTilt toFrame:(CGRect)frame onCompletion:(void (^) (void))handler
 {
     [UIView animateWithDuration:0.3 animations:^{
         cardView.frame = frame;
@@ -348,7 +317,9 @@
         if (toFlip) [cardView flipCard];
         if (toTilt) [cardView tiltCardRandomly];
         NSLog(@"handler:%@", handler);
-        
+        if (finished && handler) {
+            handler();
+        }
     }];
 }
 
