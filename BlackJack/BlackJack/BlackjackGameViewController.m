@@ -359,7 +359,6 @@
     } completion:^(BOOL finished){
         if (toFlip) [cardView flipCard];
         if (toTilt) [cardView tiltCardRandomly];
-        NSLog(@"handler:%@", handler);
         if (finished && handler) {
             handler();
         }
