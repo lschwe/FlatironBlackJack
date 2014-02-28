@@ -15,6 +15,7 @@
 @property (strong, nonatomic) FISPlayingCardDeck *playingCardDeck;
 @property (strong, nonatomic) BlackJackPlayer *player;
 @property (strong, nonatomic) BlackJackPlayer *dealerPlayer;
+@property (nonatomic) BOOL isDoubleDown;
 @property (strong, nonatomic) NSNumber *chips;
 @property (strong, nonatomic) NSNumber *currentBet;
 

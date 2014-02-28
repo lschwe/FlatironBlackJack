@@ -29,11 +29,13 @@
         _dealerPlayer.isBusted = NO;
         _dealerPlayer.isBlackjack = NO;
         _dealerPlayer.hand = [NSMutableArray new];
-       
+    
         // start with 200 bucks
-        _chips = @200;
+        _chips = @100;
         // start with 5 bucks bets
-        _currentBet = @5;
+        _currentBet = @25;
+        // start with doubldown false
+        _isDoubleDown = NO;
     }
     return self;
 }
@@ -41,6 +43,8 @@
 // should deal 2 new cards, add the cards to the hand, and add the card's value to the handscore.
 - (void)deal
 {
+    self.isDoubleDown = NO;
+    
     srand48(time(0));
     self.player.hand = [NSMutableArray new];
     self.dealerPlayer.hand = [NSMutableArray new];
@@ -66,7 +70,7 @@
 
 - (void)stay
 {
-    if (!self.player.isBusted) {
+    if (!self.player.isBusted && !self.player.isBlackjack) {
         srand48(time(0));
         
         NSInteger AceCount = 0;
