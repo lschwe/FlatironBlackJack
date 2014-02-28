@@ -110,7 +110,7 @@
 #pragma mark - IBActions
 - (IBAction)hit:(id)sender {
     NSLog(@"Hit was tapped");
-    PlayingCardView *dealerHiddenCard = self.cardsInGame[2];
+    PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];
     if (!self.blackJackGame.player.isBusted && !dealerHiddenCard.isVisible) {
         
         [self.blackJackGame hit];
