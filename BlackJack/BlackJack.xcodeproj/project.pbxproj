@@ -113,8 +113,6 @@
 				DF73E55118AC2E2A001A5048 /* PlayingCard.m */,
 				DF73E55218AC2E2A001A5048 /* Card.h */,
 				DF73E55318AC2E2A001A5048 /* Card.m */,
-				8716B28B18BBFA1B004124F9 /* PlayingCardView.h */,
-				8716B28C18BBFA1B004124F9 /* PlayingCardView.m */,
 				DF73E54218AC1FA2001A5048 /* FISPlayingCardDeck.h */,
 				DF73E54318AC1FA2001A5048 /* FISPlayingCardDeck.m */,
 				DF73E54A18AC22C4001A5048 /* FISBlackJackGame.h */,
@@ -125,6 +123,16 @@
 				DF73E54018AC1F90001A5048 /* FISDeck.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		8716B31718BFC7C3004124F9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8716B28B18BBFA1B004124F9 /* PlayingCardView.h */,
+				8716B28C18BBFA1B004124F9 /* PlayingCardView.m */,
+				D178727E18BE68CE00C6EE3A /* main.storyboard */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		DF73E50418AC1F3E001A5048 = {
@@ -162,9 +170,9 @@
 		DF73E51618AC1F3E001A5048 /* BlackJack */ = {
 			isa = PBXGroup;
 			children = (
-				D178727E18BE68CE00C6EE3A /* main.storyboard */,
 				DF14F75B18AEB1CC0049F8AD /* BlackjackGameViewController.h */,
 				DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */,
+				8716B31718BFC7C3004124F9 /* Views */,
 				8716B28E18BBFA29004124F9 /* Models */,
 				DF73E51F18AC1F3E001A5048 /* FISAppDelegate.h */,
 				DF73E52018AC1F3E001A5048 /* FISAppDelegate.m */,

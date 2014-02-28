@@ -82,7 +82,6 @@
         tilt += 360;
     }
     [self tiltCardWithDegrees:tilt];
-    NSLog(@"tilt: %f", tilt);
     
 }
 
@@ -176,6 +175,9 @@
     
 }
 
-
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"%@%@: %@", self.rank, self.suit, NSStringFromCGRect([super convertRect:super.frame fromView:self])];
+}
 
 @end

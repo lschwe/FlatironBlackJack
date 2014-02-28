@@ -42,7 +42,6 @@
 - (void)deal
 {
     srand48(time(0));
-//    self.playingCardDeck = [FISPlayingCardDeck new];
     self.player.hand = [NSMutableArray new];
     self.dealerPlayer.hand = [NSMutableArray new];
     [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
