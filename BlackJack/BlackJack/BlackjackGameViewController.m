@@ -88,6 +88,12 @@
     [self.view addSubview:deckCard2];
     [self.view addSubview:deckCard3];
     
+    UITapGestureRecognizer *singleTapOnDeck = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(deal:)];
+    singleTapOnDeck.numberOfTapsRequired = 1;
+    [deckCard1 addGestureRecognizer:singleTapOnDeck];
+    [deckCard2 addGestureRecognizer:singleTapOnDeck];
+    [deckCard3 addGestureRecognizer:singleTapOnDeck];
+    
     
     // Toolbar setup
     FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:20];
@@ -320,7 +326,13 @@
     
     PlayingCardView *playerCardView = [[PlayingCardView alloc] initWithFrame:frame withRank:playerCardRank withSuit:playerCardSuit isVisible:isVisible];
     
+    UITapGestureRecognizer *singleTapOnPlayerCard = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hit:)];
+    singleTapOnPlayerCard.numberOfTapsRequired = 1;
+
+    [playerCardView addGestureRecognizer:singleTapOnPlayerCard];
+    
     [self.currentCardsView addSubview:playerCardView];
+    
     return playerCardView;
 }
 
