@@ -45,6 +45,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    UISwipeGestureRecognizer* swipeOnView = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(stay:)];
+    swipeOnView.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:swipeOnView];
+    
+    
 	// Do any additional setup after loading the view.
     
     self.cardsInGame = [[NSMutableArray alloc] init];
@@ -326,10 +333,19 @@
     
     PlayingCardView *playerCardView = [[PlayingCardView alloc] initWithFrame:frame withRank:playerCardRank withSuit:playerCardSuit isVisible:isVisible];
     
-    UITapGestureRecognizer *singleTapOnPlayerCard = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hit:)];
-    singleTapOnPlayerCard.numberOfTapsRequired = 1;
-
-    [playerCardView addGestureRecognizer:singleTapOnPlayerCard];
+    UITapGestureRecognizer *singleTapOnCard = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hit:)];
+    singleTapOnCard.numberOfTapsRequired = 1;
+    
+    UITapGestureRecognizer *doubleTapOnCard = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleDownTapped:)];
+    doubleTapOnCard.numberOfTapsRequired = 2;
+    
+    [singleTapOnCard requireGestureRecognizerToFail:doubleTapOnCard];
+    
+    [playerCardView addGestureRecognizer:doubleTapOnCard];
+    [playerCardView addGestureRecognizer:singleTapOnCard];
+    
+    
+    
     
     [self.currentCardsView addSubview:playerCardView];
     
@@ -353,6 +369,7 @@
 
 - (IBAction)doubleDownTapped:(id)sender {
     self.blackJackGame.isDoubleDown = YES;
+    NSLog(@"Double Down");
     
     [self hit:nil];
     [self stay:nil];
