@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2E3A1EF3632347DC9DA458E0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3774FFD12C7A4EDB8E7717F2 /* libPods.a */; };
+		451F725918C3F8B300E1F4A2 /* CEPopupPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F725818C3F8B300E1F4A2 /* CEPopupPickerView.m */; };
 		8716B28D18BBFA1B004124F9 /* PlayingCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716B28C18BBFA1B004124F9 /* PlayingCardView.m */; };
 		D178727F18BE68CE00C6EE3A /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D178727E18BE68CE00C6EE3A /* main.storyboard */; };
 		DF14F75D18AEB1CC0049F8AD /* BlackjackGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */; };
@@ -44,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		3774FFD12C7A4EDB8E7717F2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		451F725718C3F8B300E1F4A2 /* CEPopupPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEPopupPickerView.h; sourceTree = "<group>"; };
+		451F725818C3F8B300E1F4A2 /* CEPopupPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEPopupPickerView.m; sourceTree = "<group>"; };
 		521E86CA76DC472E8E7B276D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		8716B28B18BBFA1B004124F9 /* PlayingCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingCardView.h; sourceTree = "<group>"; };
 		8716B28C18BBFA1B004124F9 /* PlayingCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardView.m; sourceTree = "<group>"; };
@@ -131,6 +134,8 @@
 				8716B28B18BBFA1B004124F9 /* PlayingCardView.h */,
 				8716B28C18BBFA1B004124F9 /* PlayingCardView.m */,
 				D178727E18BE68CE00C6EE3A /* main.storyboard */,
+				451F725718C3F8B300E1F4A2 /* CEPopupPickerView.h */,
+				451F725818C3F8B300E1F4A2 /* CEPopupPickerView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -345,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF73E55418AC2E2A001A5048 /* PlayingCard.m in Sources */,
+				451F725918C3F8B300E1F4A2 /* CEPopupPickerView.m in Sources */,
 				DF73E51D18AC1F3E001A5048 /* main.m in Sources */,
 				DF73E52118AC1F3E001A5048 /* FISAppDelegate.m in Sources */,
 				DF14F76018AEBF990049F8AD /* BlackJackPlayer.m in Sources */,
