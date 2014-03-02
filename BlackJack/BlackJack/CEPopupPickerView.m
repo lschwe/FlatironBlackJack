@@ -14,7 +14,7 @@
     NSArray* values;
     UIView* glassPane;
     UIView* parentView;
-    UIPickerView* pickerView;
+    UIPickerView* CEPickerView;
     NSInteger selectedIndex;
 }
 
@@ -60,7 +60,7 @@
 }
 
 - (NSInteger)selectedIndex {
-    return [pickerView selectedRowInComponent:0];
+    return [CEPickerView selectedRowInComponent:0];
 }
 
 - (void)setSelectedIndex:(NSInteger)theSelectedIndex {
@@ -70,7 +70,7 @@
     }
     selectedIndex = theSelectedIndex;
     BOOL animateSelection = [self isDisplaying];
-    [pickerView selectRow:selectedIndex inComponent:0 animated:animateSelection];
+    [CEPickerView selectRow:selectedIndex inComponent:0 animated:animateSelection];
 }
 
 - (void)setupGlasspane {
@@ -84,18 +84,18 @@
 }
 
 - (void)setupAndAddPickerView {
-    if(pickerView != nil) return;
+    if(CEPickerView != nil) return;
     
-    pickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
-    [glassPane addSubview:pickerView];
-    pickerView.delegate = self;
-    pickerView.dataSource = self;
-    pickerView.showsSelectionIndicator = YES;
-    pickerView.accessibilityLabel = self.pickerAccessibilityLabel;
-    [pickerView selectRow:selectedIndex inComponent:0 animated:YES];
+    CEPickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
+    [glassPane addSubview:CEPickerView];
+    CEPickerView.delegate = self;
+    CEPickerView.dataSource = self;
+    CEPickerView.showsSelectionIndicator = YES;
+    CEPickerView.accessibilityLabel = self.pickerAccessibilityLabel;
+    [CEPickerView selectRow:selectedIndex inComponent:0 animated:YES];
     UITapGestureRecognizer* pickerViewTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapPickerView:)];
     pickerViewTapGestureRecognizer.cancelsTouchesInView = NO;
-    [pickerView addGestureRecognizer:pickerViewTapGestureRecognizer];
+    [CEPickerView addGestureRecognizer:pickerViewTapGestureRecognizer];
 }
 
 - (void)animatePickerViewFromBottomOfParentView {
@@ -107,20 +107,20 @@
 
 - (void)movePickerViewToBottomOfParentView {
     CGFloat maxY = CGRectGetMaxY(parentView.bounds);
-    CGRect pickerFrame = pickerView.frame;
+    CGRect pickerFrame = CEPickerView.frame;
     pickerFrame.origin.y = maxY;
-    pickerView.frame = pickerFrame;
+    CEPickerView.frame = pickerFrame;
 }
 
 - (void)movePickerViewOutsideBoundsOfParentView {
     CGFloat maxY = CGRectGetMaxY(parentView.bounds);
-    CGRect pickerFrame = pickerView.frame;
+    CGRect pickerFrame = CEPickerView.frame;
     pickerFrame.origin.y = maxY - pickerFrame.size.height;
-    pickerView.frame = pickerFrame;
+    CEPickerView.frame = pickerFrame;
 }
 
 - (void)notifyDelegateAndClose {
-    selectedIndex = [pickerView selectedRowInComponent:0];
+    selectedIndex = [CEPickerView selectedRowInComponent:0];
     callback(selectedIndex);
     [self close];
 }
@@ -136,10 +136,10 @@
 }
 
 - (void)tapPickerView:(UITapGestureRecognizer*)sender {
-    CGPoint point = [sender locationInView:pickerView];
+    CGPoint point = [sender locationInView:CEPickerView];
     const CGFloat numberOfVisibleRows = 5;
     const CGFloat middleRow = 2;
-    CGFloat heightOfPickerRow = pickerView.frame.size.height/numberOfVisibleRows;
+    CGFloat heightOfPickerRow = CEPickerView.frame.size.height/numberOfVisibleRows;
     CGFloat tappedRow = floor(point.y / heightOfPickerRow);
     if(tappedRow == middleRow) {
         [self notifyDelegateAndClose];
@@ -165,7 +165,7 @@
 {
     NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, pickerView.frame.size.width, 44)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,pickerView.frame.size.width, 44)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
