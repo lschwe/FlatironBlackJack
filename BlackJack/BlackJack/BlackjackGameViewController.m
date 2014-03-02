@@ -311,6 +311,29 @@
 }
 
 
+#pragma mark - IBActions
+
+- (IBAction)betButtonTapped:(UIButton *)sender
+{
+    NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
+
+    self.betPicker = [[CEPopupPickerView alloc] initWithValues:betOptions callback:^(NSInteger selectedIndex) {
+        [self updateBet:[betOptions objectAtIndex:selectedIndex]];
+    }];
+    
+    [self.betPicker presentInView:self.view];
+    
+}
+
+- (IBAction)doubleDownTapped:(id)sender {
+    self.blackJackGame.isDoubleDown = YES;
+    NSLog(@"Double Down");
+    
+    [self hit:nil];
+    [self stay:nil];
+}
+
+
 #pragma mark - Helper Methods
 
 
@@ -351,9 +374,6 @@
     [playerCardView addGestureRecognizer:doubleTapOnCard];
     [playerCardView addGestureRecognizer:singleTapOnCard];
     
-    
-    
-    
     [self.currentCardsView addSubview:playerCardView];
     
     return playerCardView;
@@ -372,25 +392,11 @@
     }];
 }
 
-#pragma mark - IBActions
-
-- (IBAction)betButtonTapped:(UIButton *)sender
+- (void)updateBet:(NSString *)betString
 {
-    NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
-    self.betPicker = [[CEPopupPickerView alloc] initWithValues:betOptions callback:^(NSInteger selectedIndex) {
-        NSLog(@"you chose: %@", [betOptions objectAtIndex:selectedIndex]);
-    }];
-    
-    [self.betPicker presentInView:self.view];
-    
+    [self.currentBetLabel setTitle:[NSString stringWithFormat:@"$%@",betString] forState:UIControlStateNormal];
+    self.blackJackGame.currentBet = @([betString integerValue]);
 }
 
-- (IBAction)doubleDownTapped:(id)sender {
-    self.blackJackGame.isDoubleDown = YES;
-    NSLog(@"Double Down");
-    
-    [self hit:nil];
-    [self stay:nil];
-}
 
 @end
