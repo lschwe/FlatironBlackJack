@@ -46,6 +46,8 @@
 {
     [super viewDidLoad];
     
+    [self setNeedsStatusBarAppearanceUpdate];
+    
     
     UISwipeGestureRecognizer* swipeOnView = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(stay:)];
     swipeOnView.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
@@ -374,4 +376,7 @@
     [self stay:nil];
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
 @end
