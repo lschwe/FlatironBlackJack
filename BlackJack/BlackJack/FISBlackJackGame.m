@@ -129,8 +129,8 @@
             currentPlayer.isBusted = YES;
         }
         NSLog(@"%@", currentPlayer.handScore);
-        NSLog(@"%hhd", currentPlayer.isBlackjack);
-        NSLog(@"%hhd", currentPlayer.isBusted);
+        NSLog(@"%d", currentPlayer.isBlackjack);
+        NSLog(@"%d", currentPlayer.isBusted);
         
     }
 }

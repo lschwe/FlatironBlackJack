@@ -46,6 +46,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self setNeedsStatusBarAppearanceUpdate];
     
     UISwipeGestureRecognizer* swipeOnView = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(stay:)];
     swipeOnView.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
@@ -114,6 +116,10 @@
     self.hintBarButton.image = rightImage;
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)flashMessage
 {
     NSLog(@"flashing");
@@ -121,6 +127,7 @@
 }
 
 #pragma mark - IBActions
+
 - (IBAction)hit:(id)sender {
     NSLog(@"Hit was tapped");
     PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];
