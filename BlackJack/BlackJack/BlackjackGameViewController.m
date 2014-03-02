@@ -9,6 +9,7 @@
 #import "BlackjackGameViewController.h"
 #import "PlayingCardView.h"
 #import "PlayingCard.h"
+#import <CEPopupPickerView.h>
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
@@ -25,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *hintBarButton;
 @property (weak, nonatomic) IBOutlet UIButton *doubleDownButton;
 @property (weak, nonatomic) IBOutlet UIView *currentCardsView;
-
+@property (nonatomic) CEPopupPickerView *betPicker;
 
 - (IBAction)doubleDownTapped:(id)sender;
 @end
@@ -45,7 +46,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     
     UISwipeGestureRecognizer* swipeOnView = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(stay:)];
     swipeOnView.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
@@ -365,6 +365,18 @@
     }];
 }
 
+#pragma mark - IBActions
+
+- (IBAction)betButtonTapped:(UIButton *)sender
+{
+    NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
+    self.betPicker = [[CEPopupPickerView alloc] initWithValues:betOptions callback:^(NSInteger selectedIndex) {
+        NSLog(@"you chose: %@", [betOptions objectAtIndex:selectedIndex]);
+    }];
+    
+    [self.betPicker presentInView:self.view];
+    
+}
 
 - (IBAction)doubleDownTapped:(id)sender {
     self.blackJackGame.isDoubleDown = YES;

@@ -1,27 +1,30 @@
 PODS:
+  - CEPopupPickerView (0.1)
   - CWStatusBarNotification (2.1.0)
-  - FontAwesomeKit (2.1.4):
+  - FontAwesomeKit (2.1.5):
     - FontAwesomeKit/Core
     - FontAwesomeKit/FontAwesome
     - FontAwesomeKit/FoundationIcons
     - FontAwesomeKit/IonIcons
     - FontAwesomeKit/Zocial
-  - FontAwesomeKit/Core (2.1.4)
-  - FontAwesomeKit/FontAwesome (2.1.4):
+  - FontAwesomeKit/Core (2.1.5)
+  - FontAwesomeKit/FontAwesome (2.1.5):
     - FontAwesomeKit/Core
-  - FontAwesomeKit/FoundationIcons (2.1.4):
+  - FontAwesomeKit/FoundationIcons (2.1.5):
     - FontAwesomeKit/Core
-  - FontAwesomeKit/IonIcons (2.1.4):
+  - FontAwesomeKit/IonIcons (2.1.5):
     - FontAwesomeKit/Core
-  - FontAwesomeKit/Zocial (2.1.4):
+  - FontAwesomeKit/Zocial (2.1.5):
     - FontAwesomeKit/Core
 
 DEPENDENCIES:
+  - CEPopupPickerView (~> 0.1)
   - CWStatusBarNotification (~> 2.1.0)
   - FontAwesomeKit (~> 2.1.0)
 
 SPEC CHECKSUMS:
+  CEPopupPickerView: 5e4eb8b0cfd28a741bcc9f38a4a13814aaba92a2
   CWStatusBarNotification: 8d9c4a866a4137b00016433c9476db86052a883a
-  FontAwesomeKit: 082a427b37f26cd535b7f295cb686f8ab0da707e
+  FontAwesomeKit: 7d935e100337d503bdaefde2ea16be740b81ed13
 
 COCOAPODS: 0.29.0
