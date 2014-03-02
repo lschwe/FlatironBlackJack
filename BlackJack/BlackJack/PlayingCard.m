@@ -51,7 +51,7 @@
 
 - (BOOL)validRank:(NSNumber *)rank
 {
-    if ([rank integerValue]  >= 1 && [rank integerValue] <= 13 && strcmp([rank objCType], @encode(int)) == 0) {
+    if ([rank integerValue]  >= 1 && [rank integerValue] <= 13 && strcmp([rank objCType], @encode(NSInteger)) == 0) {
         return YES;
     } else {
         NSLog(@"Rank not valid");
