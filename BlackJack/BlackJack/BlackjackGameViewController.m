@@ -374,6 +374,7 @@
         NSLog(@"you chose: %@", [betOptions objectAtIndex:selectedIndex]);
     }];
     
+    
     [self.betPicker presentInView:self.view];
     
 }
