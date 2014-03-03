@@ -11,6 +11,7 @@
 #import "PlayingCard.h"
 #import "CEPopupPickerView.h"
 
+
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static NSInteger const cardWidth = 80;
@@ -32,8 +33,9 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 @property (strong, nonatomic) CWStatusBarNotification *notification;
 @property (strong, nonatomic) UILabel *betLabel;
 @property (strong, nonatomic) UILabel *ddLabel;
+- (IBAction)helpButtonTapped:(id)sender;
 
-- (IBAction)doubleDownTapped:(id)sender;
+
 @end
 
 @implementation BlackjackGameViewController
@@ -52,9 +54,9 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 {
     [super viewDidLoad];
     
-
-	// Do any additional setup after loading the view.
     [self setNeedsStatusBarAppearanceUpdate];
+	// Do any additional setup after loading the view.
+    
     
     // Set up gesture recognizers
     UISwipeGestureRecognizer* swipeOnView = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(stay:)];
@@ -121,6 +123,10 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     [self.betPicker presentInView:self.view];
     
+}
+
+- (IBAction)helpButtonTapped:(id)sender {
+
 }
 
 - (IBAction)doubleDownTapped:(id)sender {
