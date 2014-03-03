@@ -45,13 +45,14 @@
 {
     self.isDoubleDown = NO;
     
+    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
     srand48(time(0));
     self.player.hand = [NSMutableArray new];
     self.dealerPlayer.hand = [NSMutableArray new];
     [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
-    [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+    [self.dealerPlayer.hand addObject:ace];
     [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
-    [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+    [self.dealerPlayer.hand addObject:ace];
     
 //    testing when dealer gets soft 17
 //    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
@@ -105,6 +106,7 @@
         NSInteger score = 0;
         NSSortDescriptor *sortByRank = [NSSortDescriptor sortDescriptorWithKey:@"rank" ascending:NO];
         NSArray *currentHandInOrder = [currentPlayer.hand sortedArrayUsingDescriptors:@[sortByRank]];
+        NSInteger aceCount = 0;
         
         for (PlayingCard *card in currentHandInOrder) {
             NSInteger cardScore = [card.rank integerValue];
@@ -112,13 +114,17 @@
                 cardScore = 10;
             }
             if (cardScore == 1) {
+                aceCount = aceCount + 1;
                 cardScore = 11;
-                if (score + cardScore > 21) {
-                    cardScore = 1;
-                }
             }
             score += cardScore;
         }
+        
+        while (aceCount > 0 && score > 21) {
+            score = score - 10;
+            aceCount = aceCount -1;
+        }
+        
         currentPlayer.handScore = @(score);
         
         if ([currentPlayer.handScore isEqualToNumber:@21] && [currentPlayer.hand count] == 2) {

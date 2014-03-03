@@ -67,8 +67,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     [self layoutGame];
     self.blackJackGame = [[FISBlackJackGame alloc] init];
-    
     [self deal:nil];
+    
 }
 
 
@@ -180,13 +180,18 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     }
     
     [self.blackJackGame deal];
-    
+
     // Remove cards from previous hand from view
     for (PlayingCardView *card in self.currentCardsView.subviews) {
         [card removeFromSuperview];
     }
     [self.betLabel setFrame:betStartRect];
     [self.ddLabel removeFromSuperview];
+    
+    NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[0]);
+    NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[1]);
+    NSLog(@"%@", self.blackJackGame.player.hand[0]);
+    NSLog(@"%@", self.blackJackGame.player.hand[1]);
     
     // Draw new hand
     PlayingCardView *dealerCardView1 = [self drawCard:self.blackJackGame.dealerPlayer.hand[0] withFrame:deckRect isVisible:NO];
@@ -195,27 +200,25 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     PlayingCardView *playerCardView1 = [self drawCard:self.blackJackGame.player.hand[0] withFrame:deckRect isVisible:NO];
     PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
     
-    
-
-    
     [self animatebetLabel:self.betLabel toFrame:betEndRect onCompletion:^(void) {
         [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
             [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
                 [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
-                    [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:nil];
+                    [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
+                        [self updateLabels];
+                    }];
                 }];
             }];
         }];
     }];
+  
     
-    [self updateLabels];
-    
+
 }
 
 - (IBAction)stay:(id)sender {
     
     PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
-    
     if (dealerHiddenCard.isVisible == NO) {
         
         [self.blackJackGame stay];
