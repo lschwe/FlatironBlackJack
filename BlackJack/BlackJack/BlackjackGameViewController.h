@@ -12,8 +12,6 @@
 #import <CWStatusBarNotification.h>
 
 @interface BlackjackGameViewController : UIViewController<UIAlertViewDelegate>
-@property (strong, nonatomic) FISBlackJackGame *blackJackGame;
-@property (strong, nonatomic) CWStatusBarNotification *notification;
 
 @property (weak, nonatomic) IBOutlet UILabel *score;
 @property (weak, nonatomic) IBOutlet UILabel *dealerScore;
@@ -22,12 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *currentBetLabel;
 @property (weak, nonatomic) IBOutlet UILabel *chipCountLabel;
 
-- (void)flashMessage;
 - (IBAction)hit:(id)sender;
 - (IBAction)deal:(id)sender;
 - (IBAction)stay:(id)sender;
-- (IBAction)lessBet:(id)sender;
-- (IBAction)moreBet:(id)sender;
-
 
 @end

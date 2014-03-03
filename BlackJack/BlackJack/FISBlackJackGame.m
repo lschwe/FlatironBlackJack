@@ -31,9 +31,9 @@
         _dealerPlayer.hand = [NSMutableArray new];
     
         // start with 200 bucks
-        _chips = @100;
+        _chips = @200;
         // start with 5 bucks bets
-        _currentBet = @25;
+        _currentBet = @5;
         // start with doubldown false
         _isDoubleDown = NO;
     }
@@ -129,8 +129,8 @@
             currentPlayer.isBusted = YES;
         }
         NSLog(@"%@", currentPlayer.handScore);
-        NSLog(@"%hhd", currentPlayer.isBlackjack);
-        NSLog(@"%hhd", currentPlayer.isBusted);
+        NSLog(@"%d", currentPlayer.isBlackjack);
+        NSLog(@"%d", currentPlayer.isBusted);
         
     }
 }
