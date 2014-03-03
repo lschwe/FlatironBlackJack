@@ -52,7 +52,6 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 {
     [super viewDidLoad];
     
-
 	// Do any additional setup after loading the view.
     [self setNeedsStatusBarAppearanceUpdate];
     
@@ -365,10 +364,21 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 - (void)animatePlayingCardView:(PlayingCardView *)cardView withFlip:(BOOL)toFlip withTilt:(BOOL)toTilt toFrame:(CGRect)frame onCompletion:(void (^) (void))handler
 {
     [UIView animateWithDuration:0.3 animations:^{
-        cardView.frame = frame;
+        if (self.blackJackGame.isDoubleDown == YES && frame.origin.y > playerRect.origin.y) {
+            cardView.frame = CGRectMake(frame.origin.x-20,frame.origin.y+30, frame.size.width, frame.size.height);
+        } else {
+            cardView.frame = frame;
+        }
+        
     } completion:^(BOOL finished){
+        if (toTilt) {
+            if (self.blackJackGame.isDoubleDown == YES && frame.origin.y > playerRect.origin.y) {
+                [cardView tiltCardWithDegrees:90];
+            } else {
+                [cardView tiltCardRandomly];
+            }
+        }
         if (toFlip) [cardView flipCard];
-        if (toTilt) [cardView tiltCardRandomly];
         if (finished && handler) {
             handler();
         }
