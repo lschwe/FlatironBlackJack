@@ -51,6 +51,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 
 	// Do any additional setup after loading the view.
     [self setNeedsStatusBarAppearanceUpdate];
@@ -390,6 +391,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     [self.currentBetLabel setTitle:[NSString stringWithFormat:@"$%@",betString] forState:UIControlStateNormal];
     self.blackJackGame.currentBet = @([betString integerValue]);
 }
+
+
 
 
 @end
