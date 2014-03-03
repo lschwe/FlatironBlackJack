@@ -168,7 +168,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,pickerView.frame.size.width, 44)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor whiteColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
+    label.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
     label.text = [NSString stringWithFormat:@"%@", [betOptions objectAtIndex:row]];
     label.textAlignment = NSTextAlignmentCenter;
     return label;
