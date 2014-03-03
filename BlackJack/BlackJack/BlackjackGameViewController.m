@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *doubleDownButton;
 @property (weak, nonatomic) IBOutlet UIView *currentCardsView;
 @property (nonatomic) CEPopupPickerView *betPicker;
+@property (strong, nonatomic) FISBlackJackGame *blackJackGame;
+@property (strong, nonatomic) CWStatusBarNotification *notification;
 
 - (IBAction)doubleDownTapped:(id)sender;
 @end
@@ -66,7 +68,7 @@
     
     // Setup Notification Bar
     self.notification = [CWStatusBarNotification new];
-    self.notification.notificationStyle = CWNotificationStyleNavigationBarNotification;
+//    self.notification.notificationStyle = CWNotificationStyleNavigationBarNotification;
     self.notification.notificationLabelBackgroundColor = UIColorFromRGB(0x45A1CD);
     
     [self layoutGame];
@@ -85,7 +87,7 @@
 - (void)layoutGame;
 {
     // Background setup
-    self.view.backgroundColor = UIColorFromRGB(0x2cc36b);
+    self.view.backgroundColor = UIColorFromRGB(0x2ecc71);
     [self.doubleDownButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
     
     // Display Deck
@@ -126,7 +128,50 @@
     [self.notification displayNotificationWithMessage:@"Testing" forDuration:0.4];
 }
 
+#pragma mark - Gestures / Motion
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake) {
+        UIAlertView *shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?" message:@"Click OK to quit the current game and deal fresh decks" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        [shakeAlert show];
+        
+        
+    }
+}
+
+#pragma mark - UIAlertView
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex){
+        
+    }else{
+        [self.blackJackGame.playingCardDeck.cards removeAllObjects];
+        [self deal:nil];
+    }
+}
+
 #pragma mark - IBActions
+
+- (IBAction)betButtonTapped:(UIButton *)sender
+{
+    NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
+
+    self.betPicker = [[CEPopupPickerView alloc] initWithValues:betOptions callback:^(NSInteger selectedIndex) {
+        [self updateBet:[betOptions objectAtIndex:selectedIndex]];
+    }];
+    
+    [self.betPicker presentInView:self.view];
+    
+}
+
+- (IBAction)doubleDownTapped:(id)sender {
+    self.blackJackGame.isDoubleDown = YES;
+    NSLog(@"Double Down");
+    
+    [self hit:nil];
+    [self stay:nil];
+}
 
 - (IBAction)hit:(id)sender {
     NSLog(@"Hit was tapped");
@@ -157,6 +202,7 @@
 - (IBAction)deal:(id)sender {
     
     self.result.hidden = YES;
+    [self.notification dismissNotification];
     
     if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
         CGFloat chipCount = [self.blackJackGame.chips floatValue];
@@ -227,31 +273,26 @@
         self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
         if (([self.blackJackGame.player.handScore integerValue] > [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) || (self.blackJackGame.dealerPlayer.isBusted == YES && self.blackJackGame.player.isBusted == NO)) {
             if (self.blackJackGame.player.isBlackjack) {
-                self.result.text = @"Player Wins with Black Jack!";
+                [self.notification displayNotificationWithMessage:@"You got Blackjack!" completion:nil];
                 multiple = 1.5;
-                winner = @"Player";
             } else {
-                self.result.text = @"Player Wins!";
-                winner = @"Player";
+                [self.notification displayNotificationWithMessage:@"You Win!" completion:nil];
             }
-            self.result.hidden = NO;
+            winner = @"Player";
         } else if ([self.blackJackGame.player.handScore integerValue] == [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) {
-            self.result.text = @"Push";
-            self.result.hidden = NO;
+            [self.notification displayNotificationWithMessage:@"Push." completion:nil];
         } else {
             if (self.blackJackGame.player.isBusted) {
-                self.result.text = @"Player Busted and Dealer Wins";
-                winner = @"Dealer";
+                [self.notification displayNotificationWithMessage:@"You Busted." completion:nil];
             } else {
                 PlayingCard *dealerVisibleCard = self.blackJackGame.dealerPlayer.hand[1];
                 if (self.blackJackGame.dealerPlayer.isBlackjack && [dealerVisibleCard.rank isEqual:@1]) {
-                    self.result.text = @"Dealer Wins with Black Jack :(";
+                    [self.notification displayNotificationWithMessage:@"Dealer got Blackjack. :(" completion:nil];
                 } else {
-                    self.result.text = @"Dealer Wins :(";
+                    [self.notification displayNotificationWithMessage:@"You lost." completion:nil];
                 }
-                winner = @"Dealer";
             }
-            self.result.hidden = NO;
+            winner = @"Dealer";
         }
         
         if ([winner isEqualToString:@"Player"]) {
@@ -259,80 +300,17 @@
                 multiple = 2;
             }
             self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] + [self.blackJackGame.currentBet floatValue]*multiple);
-            NSLog(@"Player has won %@ chips. Now he has %@", @([self.blackJackGame.currentBet floatValue]*multiple), self.blackJackGame.chips);
+//            NSLog(@"Player has won %@ chips. Now he has %@", @([self.blackJackGame.currentBet floatValue]*multiple), self.blackJackGame.chips);
         } else if ([winner isEqualToString:@"Dealer"]){
             self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue]);
-            NSLog(@"Player has lost %@ chips. Now he has %@", self.blackJackGame.currentBet, self.blackJackGame.chips);
+//            NSLog(@"Player has lost %@ chips. Now he has %@", self.blackJackGame.currentBet, self.blackJackGame.chips);
         } else {
-            NSLog(@"Push. Player keeps his %@ chips", self.blackJackGame.chips);
+//            NSLog(@"Push. Player keeps his %@ chips", self.blackJackGame.chips);
         }
         
         self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
     }
 }
-
-#pragma mark - Gestures / Motion
-
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (motion == UIEventSubtypeMotionShake) {
-        UIAlertView *shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?" message:@"Click OK to quit the current game and deal fresh decks" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-        [shakeAlert show];
-        
-        
-    }
-}
-
-#pragma mark - UIAlertView
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == alertView.cancelButtonIndex){
-        
-    }else{
-        [self.blackJackGame.playingCardDeck.cards removeAllObjects];
-        [self deal:nil];
-    }
-}
-
-- (IBAction)lessBet:(id)sender {
-    NSInteger bet = [self.blackJackGame.currentBet integerValue];
-    if (bet-1 != 0) {
-        self.blackJackGame.currentBet = @(bet-1);
-    }
-    [self updateLabels];
-}
-
-- (IBAction)moreBet:(id)sender {
-    NSInteger bet = [self.blackJackGame.currentBet integerValue];
-    if (bet+1 <= [self.blackJackGame.chips integerValue]) {
-        self.blackJackGame.currentBet = @(bet+1);
-    }
-    [self updateLabels];
-}
-
-
-#pragma mark - IBActions
-
-- (IBAction)betButtonTapped:(UIButton *)sender
-{
-    NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
-
-    self.betPicker = [[CEPopupPickerView alloc] initWithValues:betOptions callback:^(NSInteger selectedIndex) {
-        [self updateBet:[betOptions objectAtIndex:selectedIndex]];
-    }];
-    
-    [self.betPicker presentInView:self.view];
-    
-}
-
-- (IBAction)doubleDownTapped:(id)sender {
-    self.blackJackGame.isDoubleDown = YES;
-    NSLog(@"Double Down");
-    
-    [self hit:nil];
-    [self stay:nil];
-}
-
 
 #pragma mark - Helper Methods
 
@@ -343,15 +321,7 @@
     self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
     [self.currentBetLabel setTitle:[NSString stringWithFormat:@"$%@",self.blackJackGame.currentBet] forState:UIControlStateNormal];
     self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
-    if (self.blackJackGame.player.isBlackjack) {
-        self.result.text = @"Blackjack!";
-        self.result.hidden = NO;
-        [self stay:nil];
-    }
-    
-    if (self.blackJackGame.player.isBusted) {
-        self.result.text = @"Busted!";
-        self.result.hidden = NO;
+    if (self.blackJackGame.player.isBlackjack || self.blackJackGame.player.isBusted) {
         [self stay:nil];
     }
 }
