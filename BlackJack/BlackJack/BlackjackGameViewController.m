@@ -15,9 +15,13 @@
 
 static NSInteger const cardWidth = 80;
 static NSInteger const cardHeight = 112;
-const CGRect playerRect = {{20, 320}, {cardWidth, cardHeight}};
-const CGRect deckRect = {{220, 106}, {cardWidth, cardHeight}};
-const CGRect dealerRect = {{20, 100}, {cardWidth, cardHeight}};
+static NSInteger const chipSize = 50;
+const CGRect playerRect = {{20, 320}, {cardWidth,cardHeight}};
+const CGRect deckRect = {{220, 76}, {cardWidth,cardHeight}};
+const CGRect dealerRect = {{20, 70}, {cardWidth,cardHeight}};
+const CGRect betStartRect = {{240, 350}, {chipSize,chipSize}};
+const CGRect betEndRect = {{50, 255}, {chipSize,chipSize}};
+const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 @interface BlackjackGameViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *helpBarButton;
@@ -26,6 +30,8 @@ const CGRect dealerRect = {{20, 100}, {cardWidth, cardHeight}};
 @property (nonatomic) CEPopupPickerView *betPicker;
 @property (strong, nonatomic) FISBlackJackGame *blackJackGame;
 @property (strong, nonatomic) CWStatusBarNotification *notification;
+@property (strong, nonatomic) UILabel *betLabel;
+@property (strong, nonatomic) UILabel *ddLabel;
 
 - (IBAction)doubleDownTapped:(id)sender;
 @end
@@ -117,11 +123,23 @@ const CGRect dealerRect = {{20, 100}, {cardWidth, cardHeight}};
 }
 
 - (IBAction)doubleDownTapped:(id)sender {
-    self.blackJackGame.isDoubleDown = YES;
-    NSLog(@"Double Down");
-    
-    [self hit:nil];
-    [self stay:nil];
+    PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];
+    if (!self.blackJackGame.player.isBusted && !dealerHiddenCard.isVisible) {
+        self.blackJackGame.isDoubleDown = YES;
+        NSLog(@"Double Down");
+        FAKFontAwesome *chipIcon = [FAKFontAwesome certificateIconWithSize:chipSize];
+        [chipIcon addAttribute:NSForegroundColorAttributeName value:UIColorFromRGB(0x45A1CD)];
+        self.ddLabel = [[UILabel alloc] initWithFrame:betStartRect];
+        self.ddLabel.text = @"//";
+        self.ddLabel.textColor = [UIColor whiteColor];
+        self.ddLabel.attributedText = [chipIcon attributedString];
+        [self.view addSubview:self.ddLabel];
+        [self.view sendSubviewToBack:self.betLabel];
+        [self.view sendSubviewToBack:self.ddLabel];
+        [self animatebetLabel:self.ddLabel toFrame:ddEndRect onCompletion:nil];
+        [self hit:nil];
+        [self stay:nil];
+    }
 }
 
 - (IBAction)hit:(id)sender {
@@ -167,6 +185,8 @@ const CGRect dealerRect = {{20, 100}, {cardWidth, cardHeight}};
     for (PlayingCardView *card in self.currentCardsView.subviews) {
         [card removeFromSuperview];
     }
+    [self.betLabel setFrame:betStartRect];
+    [self.ddLabel removeFromSuperview];
     
     // Draw new hand
     PlayingCardView *dealerCardView1 = [self drawCard:self.blackJackGame.dealerPlayer.hand[0] withFrame:deckRect isVisible:NO];
@@ -176,10 +196,14 @@ const CGRect dealerRect = {{20, 100}, {cardWidth, cardHeight}};
     PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
     
     
-    [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
-        [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
-            [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
-                [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:nil];
+
+    
+    [self animatebetLabel:self.betLabel toFrame:betEndRect onCompletion:^(void) {
+        [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
+            [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
+                [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
+                    [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:nil];
+                }];
             }];
         }];
     }];
@@ -293,6 +317,13 @@ const CGRect dealerRect = {{20, 100}, {cardWidth, cardHeight}};
     [bulbIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
     UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(20, 20)];
     self.hintBarButton.image = rightImage;
+    
+    FAKFontAwesome *chipIcon = [FAKFontAwesome certificateIconWithSize:chipSize];
+    [chipIcon addAttribute:NSForegroundColorAttributeName value:UIColorFromRGB(0x45A1CD)];
+    self.betLabel = [[UILabel alloc] initWithFrame:betStartRect];
+    self.betLabel.attributedText = [chipIcon attributedString];
+    [self.view addSubview:self.betLabel];
+    [self.view sendSubviewToBack:self.betLabel];
 }
 
 
@@ -337,6 +368,17 @@ const CGRect dealerRect = {{20, 100}, {cardWidth, cardHeight}};
     } completion:^(BOOL finished){
         if (toFlip) [cardView flipCard];
         if (toTilt) [cardView tiltCardRandomly];
+        if (finished && handler) {
+            handler();
+        }
+    }];
+}
+
+- (void)animatebetLabel:(UILabel *)label toFrame:(CGRect)frame onCompletion:(void (^) (void))handler
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        label.frame = frame;
+    } completion:^(BOOL finished){
         if (finished && handler) {
             handler();
         }
