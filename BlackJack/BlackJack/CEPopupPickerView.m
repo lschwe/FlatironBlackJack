@@ -166,11 +166,12 @@
     NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,pickerView.frame.size.width, 44)];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor whiteColor];
+    label.textColor = [UIColor blackColor];
     label.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
     label.text = [NSString stringWithFormat:@"%@", [betOptions objectAtIndex:row]];
     label.textAlignment = NSTextAlignmentCenter;
+    NSLog(@"%@",label.backgroundColor);
     return label;
 }
 
