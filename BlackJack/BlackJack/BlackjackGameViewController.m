@@ -372,6 +372,7 @@
     NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
     self.betPicker = [[CEPopupPickerView alloc] initWithValues:betOptions callback:^(NSInteger selectedIndex) {
         NSLog(@"you chose: %@", [betOptions objectAtIndex:selectedIndex]);
+      
     }];
     
     

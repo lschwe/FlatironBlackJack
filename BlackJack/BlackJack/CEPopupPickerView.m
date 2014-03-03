@@ -171,7 +171,7 @@
     label.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
     label.text = [NSString stringWithFormat:@"%@", [betOptions objectAtIndex:row]];
     label.textAlignment = NSTextAlignmentCenter;
-    NSLog(@"%@",label.backgroundColor);
+   
     return label;
 }
 
