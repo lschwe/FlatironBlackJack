@@ -13,18 +13,15 @@
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-@interface BlackjackGameViewController () {
-    CGRect dealerRect;
-    CGRect playerRect;
-    CGRect deckRect;
-    NSInteger cardWidth;
-    NSInteger cardHeight;
-    
-}
-@property (strong, nonatomic) NSMutableArray *cardsInGame;
+static NSInteger const cardWidth = 80;
+static NSInteger const cardHeight = 112;
+const CGRect playerRect = {{20, 320}, {cardWidth, cardHeight}};
+const CGRect deckRect = {{220, 106}, {cardWidth, cardHeight}};
+const CGRect dealerRect = {{20, 100}, {cardWidth, cardHeight}};
+
+@interface BlackjackGameViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *helpBarButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *hintBarButton;
-@property (weak, nonatomic) IBOutlet UIButton *doubleDownButton;
 @property (weak, nonatomic) IBOutlet UIView *currentCardsView;
 @property (nonatomic) CEPopupPickerView *betPicker;
 @property (strong, nonatomic) FISBlackJackGame *blackJackGame;
@@ -49,24 +46,15 @@
 {
     [super viewDidLoad];
 
+	// Do any additional setup after loading the view.
     [self setNeedsStatusBarAppearanceUpdate];
     
+    // Set up gesture recognizers
     UISwipeGestureRecognizer* swipeOnView = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(stay:)];
     swipeOnView.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:swipeOnView];
     
-    
-	// Do any additional setup after loading the view.
-    
-    self.cardsInGame = [[NSMutableArray alloc] init];
-    
-    cardWidth = 80;
-    cardHeight = 112;
-    dealerRect = CGRectMake(20, 100, cardWidth, cardHeight);
-    playerRect = CGRectMake(20, 320, cardWidth, cardHeight);
-    deckRect = CGRectMake(220, 106, cardWidth, cardHeight);
-    
-    // Setup Notification Bar
+    // Setup notification bar
     self.notification = [CWStatusBarNotification new];
 //    self.notification.notificationStyle = CWNotificationStyleNavigationBarNotification;
     self.notification.notificationLabelBackgroundColor = UIColorFromRGB(0x45A1CD);
@@ -84,48 +72,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)layoutGame;
-{
-    // Background setup
-    self.view.backgroundColor = UIColorFromRGB(0x2ecc71);
-    [self.doubleDownButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
-    
-    // Display Deck
-    PlayingCardView *deckCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(deckRect.origin.x-6, deckRect.origin.y-6, cardWidth, cardHeight) withRank:@"2" withSuit:@"♥" isVisible:NO];
-    PlayingCardView *deckCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(deckRect.origin.x-3, deckRect.origin.y-3, cardWidth, cardHeight) withRank:@"3" withSuit:@"♥" isVisible:NO];
-    PlayingCardView *deckCard3 = [[PlayingCardView alloc] initWithFrame:deckRect withRank:@"4" withSuit:@"♥" isVisible:NO];
-    
-    [self.view addSubview:deckCard1];
-    [self.view addSubview:deckCard2];
-    [self.view addSubview:deckCard3];
-    
-    UITapGestureRecognizer *singleTapOnDeck = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(deal:)];
-    singleTapOnDeck.numberOfTapsRequired = 1;
-    [deckCard1 addGestureRecognizer:singleTapOnDeck];
-    [deckCard2 addGestureRecognizer:singleTapOnDeck];
-    [deckCard3 addGestureRecognizer:singleTapOnDeck];
-    
-    
-    // Toolbar setup
-    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:20];
-    [questionIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *leftImage = [questionIcon imageWithSize:CGSizeMake(20, 20)];
-    self.helpBarButton.image = leftImage;
-    
-    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:20];
-    [bulbIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(20, 20)];
-    self.hintBarButton.image = rightImage;
-}
+
+#pragma mark - Overrides
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
-}
-
-- (void)flashMessage
-{
-    NSLog(@"flashing");
-    [self.notification displayNotificationWithMessage:@"Testing" forDuration:0.4];
 }
 
 #pragma mark - Gestures / Motion
@@ -201,17 +152,14 @@
 
 - (IBAction)deal:(id)sender {
     
-    self.result.hidden = YES;
     [self.notification dismissNotification];
     
     if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
         CGFloat chipCount = [self.blackJackGame.chips floatValue];
         self.blackJackGame = [FISBlackJackGame new];
         self.blackJackGame.chips = @(chipCount);
-        self.result.text = @"Fresh Deck";
-        self.result.hidden = NO;
+        [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
     }
-    
     
     [self.blackJackGame deal];
     
@@ -313,6 +261,39 @@
 }
 
 #pragma mark - Helper Methods
+
+- (void)layoutGame;
+{
+    // Background setup
+    self.view.backgroundColor = UIColorFromRGB(0x2ecc71);
+    
+    // Display Deck
+    PlayingCardView *deckCard1 = [[PlayingCardView alloc] initWithFrame:CGRectMake(deckRect.origin.x-6, deckRect.origin.y-6, cardWidth, cardHeight) withRank:@"2" withSuit:@"♥" isVisible:NO];
+    PlayingCardView *deckCard2 = [[PlayingCardView alloc] initWithFrame:CGRectMake(deckRect.origin.x-3, deckRect.origin.y-3, cardWidth, cardHeight) withRank:@"3" withSuit:@"♥" isVisible:NO];
+    PlayingCardView *deckCard3 = [[PlayingCardView alloc] initWithFrame:deckRect withRank:@"4" withSuit:@"♥" isVisible:NO];
+    
+    [self.view addSubview:deckCard1];
+    [self.view addSubview:deckCard2];
+    [self.view addSubview:deckCard3];
+    
+    UITapGestureRecognizer *singleTapOnDeck = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(deal:)];
+    singleTapOnDeck.numberOfTapsRequired = 1;
+    [deckCard1 addGestureRecognizer:singleTapOnDeck];
+    [deckCard2 addGestureRecognizer:singleTapOnDeck];
+    [deckCard3 addGestureRecognizer:singleTapOnDeck];
+    
+    
+    // Toolbar setup
+    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:20];
+    [questionIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *leftImage = [questionIcon imageWithSize:CGSizeMake(20, 20)];
+    self.helpBarButton.image = leftImage;
+    
+    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:20];
+    [bulbIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(20, 20)];
+    self.hintBarButton.image = rightImage;
+}
 
 
 - (void)updateLabels

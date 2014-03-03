@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *currentBetLabel;
 @property (weak, nonatomic) IBOutlet UILabel *chipCountLabel;
 
-- (void)flashMessage;
 - (IBAction)hit:(id)sender;
 - (IBAction)deal:(id)sender;
 - (IBAction)stay:(id)sender;
