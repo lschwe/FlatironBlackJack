@@ -65,8 +65,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     // Setup notification bar
     self.notification = [CWStatusBarNotification new];
-    self.notification.notificationLabelBackgroundColor = UIColorFromRGB(0x45A1CD);
-    
+    self.notification.notificationLabelBackgroundColor = [UIColor whiteColor];
+    self.notification.notificationLabelTextColor = [UIColor blackColor];
     [self layoutGame];
     self.blackJackGame = [[FISBlackJackGame alloc] init];
     [self deal:nil];
@@ -94,7 +94,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     if (motion == UIEventSubtypeMotionShake) {
         
         UIAlertView *shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?"
-                                                            message:@"Click OK to quit the current game and reshuffle"
+                                                            message:@"Click OK to quit the current game and reshuffle."
                                                            delegate:self
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:@"OK", nil];
@@ -560,7 +560,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         advice = @"hit";
     }
     
-    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %d. You should %@", trueCount, advice] forDuration:2.0];
+    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %d. You should %@.", trueCount, advice] forDuration:3];
 }
 
 
@@ -588,14 +588,14 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     
     // Toolbar setup
-    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:20];
+    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:30];
     [questionIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *leftImage = [questionIcon imageWithSize:CGSizeMake(20, 20)];
+    UIImage *leftImage = [questionIcon imageWithSize:CGSizeMake(30, 30)];
     self.helpBarButton.image = leftImage;
     
-    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:20];
+    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:30];
     [bulbIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(20, 20)];
+    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(30, 30)];
     self.hintBarButton.image = rightImage;
     
     FAKFontAwesome *chipIcon = [FAKFontAwesome certificateIconWithSize:chipSize];
