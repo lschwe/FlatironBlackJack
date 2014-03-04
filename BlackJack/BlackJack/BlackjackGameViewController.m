@@ -651,7 +651,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
     [self.currentBetLabel setTitle:[NSString stringWithFormat:@"$%@",self.blackJackGame.currentBet] forState:UIControlStateNormal];
     self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
-    if (self.blackJackGame.player.isBlackjack || self.blackJackGame.player.isBusted) {
+    if (self.blackJackGame.player.isBlackjack || self.blackJackGame.player.isBusted || self.blackJackGame.dealerPlayer.isBlackjack) {
         [self stay:nil];
     }
 }
