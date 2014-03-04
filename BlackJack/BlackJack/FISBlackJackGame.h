@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FISPlayingCardDeck.h"
 #import "BlackJackPlayer.h"
+#import "Bet.h"
 #import "PlayingCard.h"
 
 @interface FISBlackJackGame : NSObject

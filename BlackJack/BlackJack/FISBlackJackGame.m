@@ -33,11 +33,13 @@
         _chips = @200;
         // start with 5 bucks bets
         _currentBet = @5;
+ 
         // start with doubldown false
         _isDoubleDown = NO;
         
         // initialize cardCount
         _cardCount = @0;
+
     }
     return self;
 }
@@ -47,25 +49,25 @@
 {
     self.isDoubleDown = NO;
     
-//    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
-    srand48(time(0));
-    self.player.hand = [NSMutableArray new];
-    self.dealerPlayer.hand = [NSMutableArray new];
-    [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
-    [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
-    [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
-    [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
-    
-    [self countCard:self.dealerPlayer.hand[1]];
-    [self countCard:self.player.hand[0]];
-    [self countCard:self.player.hand[1]];
-    
-//    testing when dealer gets soft 17
-//    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
-//    PlayingCard *six = [[PlayingCard alloc] initWithRank:@6 Suit:@"♠"];
-//    [self.dealerPlayer.hand addObjectsFromArray:@[ace,six]];
-    
-    [self updateScore];
+    if ([self.chips floatValue] - [self.currentBet floatValue] >= 0) {
+        
+        srand48(time(0));
+        self.player.hand = [NSMutableArray new];
+        self.dealerPlayer.hand = [NSMutableArray new];
+        [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
+        [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+        [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
+        [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+        
+        //    testing when dealer gets soft 17
+        //    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
+        //    PlayingCard *six = [[PlayingCard alloc] initWithRank:@6 Suit:@"♠"];
+        //    [self.dealerPlayer.hand addObjectsFromArray:@[ace,six]];
+        
+        [self updateScore];
+    } else {
+        NSLog(@"no money left");
+    }
 }
 
 - (void)hit
@@ -152,6 +154,8 @@
         NSLog(@"%@", currentPlayer.handScore);
         NSLog(@"%d", currentPlayer.isBlackjack);
         NSLog(@"%d", currentPlayer.isBusted);
+        
+        NSLog(@"Chips are: %@", self.chips);
         
     }
 }

@@ -10,6 +10,7 @@
 #import "PlayingCardView.h"
 #import "PlayingCard.h"
 #import "CEPopupPickerView.h"
+#import "Bet.h"
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
@@ -33,6 +34,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 @property (strong, nonatomic) UILabel *betLabel;
 @property (strong, nonatomic) UILabel *ddLabel;
 @property (strong, nonatomic) UIView *pickerView;
+
 
 - (IBAction)doubleDownTapped:(id)sender;
 @end
@@ -63,9 +65,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     // Setup notification bar
     self.notification = [CWStatusBarNotification new];
-//    self.notification.notificationStyle = CWNotificationStyleNavigationBarNotification;
-    self.notification.notificationLabelBackgroundColor = UIColorFromRGB(0x45A1CD);
-    
+    self.notification.notificationLabelBackgroundColor = [UIColor whiteColor];
+    self.notification.notificationLabelTextColor = [UIColor blackColor];
     [self layoutGame];
     self.blackJackGame = [[FISBlackJackGame alloc] init];
     [self deal:nil];
@@ -89,8 +90,17 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 #pragma mark - Gestures / Motion
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    
     if (motion == UIEventSubtypeMotionShake) {
-        UIAlertView *shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?" message:@"Click OK to quit the current game and deal fresh decks" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        
+        UIAlertView *shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?"
+                                                            message:@"Click OK to quit the current game and reshuffle."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"OK", nil];
+        
+        shakeAlert.tag = 1;
+        
         [shakeAlert show];
         
         
@@ -101,27 +111,38 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == alertView.cancelButtonIndex){
-        
-    }else{
-        [self.blackJackGame.playingCardDeck.cards removeAllObjects];
-        [self deal:nil];
+    
+    if (alertView.tag == 1 || alertView.tag == 2) {
+        if (buttonIndex == alertView.cancelButtonIndex){
+            
+        }else{
+            
+            [self.blackJackGame.playingCardDeck.cards removeAllObjects];
+            self.blackJackGame.chips = @200;
+            [self deal:nil];
+        }
     }
+    
 }
 
 #pragma mark - IBActions
 
+
 - (IBAction)betButtonTapped:(UIButton *)sender
 {
     NSArray *betOptions = @[@"5",@"10",@"15",@"20",@"25",@"50",@"75",@"100"];
-
+    
+    __block NSMutableString *bet = [[NSMutableString alloc]init];
+    
     self.betPicker = [[CEPopupPickerView alloc] initWithValues:betOptions callback:^(NSInteger selectedIndex) {
+        
+        bet = [betOptions objectAtIndex:selectedIndex];
+        
         [self updateBet:[betOptions objectAtIndex:selectedIndex]];
         [self.pickerView removeFromSuperview];
         
     }];
     
-   
     self.pickerView = [[UIView alloc]initWithFrame:self.view.frame];
     self.pickerView.alpha = 0.5;
     self.pickerView.backgroundColor = [UIColor blackColor];
@@ -176,7 +197,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     }
     
     NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
-
+    
 }
 
 - (IBAction)deal:(id)sender {
@@ -191,66 +212,23 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     }
     
     if (dealerHiddenCard.isVisible) {
-        
-        self.score.hidden = YES;
-        self.dealerScore.hidden = YES;
-        [self.notification dismissNotification];
-        
-        if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
-            CGFloat chipCount = [self.blackJackGame.chips floatValue];
-            self.blackJackGame = [FISBlackJackGame new];
-            self.blackJackGame.chips = @(chipCount);
-            [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
+        if ([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue] >= 0) {
+            [self dealCards];
+        } else {
+            [self showGameOverAlert];
         }
-        
-        [self.blackJackGame deal];
-        
-        // Remove cards from previous hand from view
-        for (PlayingCardView *card in self.currentCardsView.subviews) {
-            [card removeFromSuperview];
-        }
-        [self.betLabel setFrame:betStartRect];
-        [self.ddLabel removeFromSuperview];
-        
-        NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[0]);
-        NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[1]);
-        NSLog(@"%@", self.blackJackGame.player.hand[0]);
-        NSLog(@"%@", self.blackJackGame.player.hand[1]);
-        
-        // Draw new hand
-        PlayingCardView *dealerCardView1 = [self drawCard:self.blackJackGame.dealerPlayer.hand[0] withFrame:deckRect isVisible:NO];
-        PlayingCardView *dealerCardView2 = [self drawCard:self.blackJackGame.dealerPlayer.hand[1] withFrame:deckRect isVisible:NO];
-        
-        PlayingCardView *playerCardView1 = [self drawCard:self.blackJackGame.player.hand[0] withFrame:deckRect isVisible:NO];
-        PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
-        
-        
-        [self animatebetLabel:self.betLabel toFrame:betEndRect onCompletion:^(void) {
-            [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
-                [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
-                    [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
-                        [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
-                            [self updateLabels];
-                            self.score.hidden = NO;
-                        }];
-                    }];
-                }];
-            }];
-        }];
-        
-        NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
     }
 }
 
+
 - (IBAction)stay:(id)sender {
     
-    self.dealerScore.hidden = NO;
-
     PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
     if (dealerHiddenCard.isVisible == NO) {
         
         [self.blackJackGame stay];
         [dealerHiddenCard flipCard];
+        self.dealerScore.hidden = NO;
         
         CGFloat xcoord = dealerRect.origin.x+30;
         CGFloat ycoord = dealerRect.origin.y+10;
@@ -273,6 +251,10 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         
         NSString *winner = @"";
         CGFloat multiple = 1;
+        if (self.blackJackGame.isDoubleDown) {
+            multiple = 2;
+        }
+        
         self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
         if (([self.blackJackGame.player.handScore integerValue] > [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) || (self.blackJackGame.dealerPlayer.isBusted == YES && self.blackJackGame.player.isBusted == NO)) {
             if (self.blackJackGame.player.isBlackjack) {
@@ -299,19 +281,24 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         }
         
         if ([winner isEqualToString:@"Player"]) {
-            if (self.blackJackGame.isDoubleDown) {
-                multiple = 2;
-            }
             self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] + [self.blackJackGame.currentBet floatValue]*multiple);
-//            NSLog(@"Player has won %@ chips. Now he has %@", @([self.blackJackGame.currentBet floatValue]*multiple), self.blackJackGame.chips);
+            NSLog(@"Player has won %@ chips. Now he has %@", @([self.blackJackGame.currentBet floatValue]*multiple), self.blackJackGame.chips);
+            
+            
+            
         } else if ([winner isEqualToString:@"Dealer"]){
-            self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue]);
-//            NSLog(@"Player has lost %@ chips. Now he has %@", self.blackJackGame.currentBet, self.blackJackGame.chips);
+            self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue]*multiple);
+            
+            
+            
+            
+            NSLog(@"Player has lost %@ chips. Now he has %@", self.blackJackGame.currentBet, self.blackJackGame.chips);
         } else {
-//            NSLog(@"Push. Player keeps his %@ chips", self.blackJackGame.chips);
+            NSLog(@"Push. Player keeps his %@ chips", self.blackJackGame.chips);
         }
         
-        self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
+        self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue])];
+        //                                    - [self.blackJackGame.currentBet floatValue])];
     }
     NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
 }
@@ -598,7 +585,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         advice = @"hit";
     }
     
-    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %@. You should %@", @(trueCount), advice] forDuration:2.0];
+    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %d. You should %@.", trueCount, advice] forDuration:3];
 }
 
 
@@ -626,14 +613,14 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     
     // Toolbar setup
-    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:20];
+    FAKFontAwesome *questionIcon = [FAKFontAwesome questionIconWithSize:30];
     [questionIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *leftImage = [questionIcon imageWithSize:CGSizeMake(20, 20)];
+    UIImage *leftImage = [questionIcon imageWithSize:CGSizeMake(30, 30)];
     self.helpBarButton.image = leftImage;
     
-    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:20];
+    FAKFontAwesome *bulbIcon = [FAKFontAwesome lightbulbOIconWithSize:30];
     [bulbIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
-    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(20, 20)];
+    UIImage *rightImage = [bulbIcon imageWithSize:CGSizeMake(30, 30)];
     self.hintBarButton.image = rightImage;
     
     FAKFontAwesome *chipIcon = [FAKFontAwesome certificateIconWithSize:chipSize];
@@ -650,8 +637,9 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     self.score.text = [NSString stringWithFormat:@"%@", self.blackJackGame.player.handScore];
     self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
     [self.currentBetLabel setTitle:[NSString stringWithFormat:@"$%@",self.blackJackGame.currentBet] forState:UIControlStateNormal];
-    self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
-    if (self.blackJackGame.player.isBlackjack || self.blackJackGame.player.isBusted || self.blackJackGame.dealerPlayer.isBlackjack) {
+    self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue])];
+    //                                - [self.blackJackGame.currentBet floatValue])];
+    if (self.blackJackGame.player.isBlackjack || self.blackJackGame.dealerPlayer.isBlackjack  || self.blackJackGame.player.isBusted) {
         [self stay:nil];
     }
 }
@@ -717,10 +705,67 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 - (void)updateBet:(NSString *)betString
 {
     [self.currentBetLabel setTitle:[NSString stringWithFormat:@"$%@",betString] forState:UIControlStateNormal];
+    
     self.blackJackGame.currentBet = @([betString integerValue]);
 }
 
+- (void)dealCards
+{
+    
+    
+    [self.notification dismissNotification];
+    
+    if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
+        CGFloat chipCount = [self.blackJackGame.chips floatValue];
+        self.blackJackGame = [FISBlackJackGame new];
+        self.blackJackGame.chips = @(chipCount);
+        [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
+    }
+    
+    [self.blackJackGame deal];
+    
+    // Remove cards from previous hand from view
+    for (PlayingCardView *card in self.currentCardsView.subviews) {
+        [card removeFromSuperview];
+    }
+    
+    [self.betLabel setFrame:betStartRect];
+    [self.ddLabel removeFromSuperview];
+    self.score.text = @"";
+    self.dealerScore.text = @"";
+    self.dealerScore.hidden = YES;
+    self.score.hidden = YES;
+    
+    // Draw new hand
+    PlayingCardView *dealerCardView1 = [self drawCard:self.blackJackGame.dealerPlayer.hand[0] withFrame:deckRect isVisible:NO];
+    PlayingCardView *dealerCardView2 = [self drawCard:self.blackJackGame.dealerPlayer.hand[1] withFrame:deckRect isVisible:NO];
+    
+    PlayingCardView *playerCardView1 = [self drawCard:self.blackJackGame.player.hand[0] withFrame:deckRect isVisible:NO];
+    PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
+    
+    [self animatebetLabel:self.betLabel toFrame:betEndRect onCompletion:^(void) {
+        [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
+            [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
+                [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
+                    [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
+                        [self updateLabels];
+                        self.score.hidden = NO;
+                    }];
+                }];
+            }];
+        }];
+    }];
+}
 
-
+- (void)showGameOverAlert
+{
+    UIAlertView *gameOver = [[UIAlertView alloc]initWithTitle:@"Do you want to start over?"
+                                                      message:@"Click OK to hit the ATM and reshuffle."
+                                                     delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            otherButtonTitles:@"OK", nil];
+    gameOver.tag = 2;
+    [gameOver show];
+}
 
 @end
