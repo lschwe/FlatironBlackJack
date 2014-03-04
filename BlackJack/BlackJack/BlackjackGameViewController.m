@@ -180,53 +180,66 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 }
 
 - (IBAction)deal:(id)sender {
-    self.score.hidden = YES;
-    self.dealerScore.hidden = YES;
-    [self.notification dismissNotification];
     
-    if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
-        CGFloat chipCount = [self.blackJackGame.chips floatValue];
-        self.blackJackGame = [FISBlackJackGame new];
-        self.blackJackGame.chips = @(chipCount);
-        [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
+    PlayingCardView *dealerHiddenCard;
+    
+    if ([[self.currentCardsView subviews] count] > 0) {
+        dealerHiddenCard = [self.currentCardsView subviews][0];
+    } else {
+        dealerHiddenCard = [[PlayingCardView alloc] init];
+        dealerHiddenCard.isVisible = YES;
     }
     
-    [self.blackJackGame deal];
-
-    // Remove cards from previous hand from view
-    for (PlayingCardView *card in self.currentCardsView.subviews) {
-        [card removeFromSuperview];
-    }
-    [self.betLabel setFrame:betStartRect];
-    [self.ddLabel removeFromSuperview];
-    
-    NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[0]);
-    NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[1]);
-    NSLog(@"%@", self.blackJackGame.player.hand[0]);
-    NSLog(@"%@", self.blackJackGame.player.hand[1]);
-    
-    // Draw new hand
-    PlayingCardView *dealerCardView1 = [self drawCard:self.blackJackGame.dealerPlayer.hand[0] withFrame:deckRect isVisible:NO];
-    PlayingCardView *dealerCardView2 = [self drawCard:self.blackJackGame.dealerPlayer.hand[1] withFrame:deckRect isVisible:NO];
-    
-    PlayingCardView *playerCardView1 = [self drawCard:self.blackJackGame.player.hand[0] withFrame:deckRect isVisible:NO];
-    PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
-    
-    
-    [self animatebetLabel:self.betLabel toFrame:betEndRect onCompletion:^(void) {
-        [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
-            [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
-                [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
-                    [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
-                        [self updateLabels];
-                        self.score.hidden = NO;
+    if (dealerHiddenCard.isVisible) {
+        
+        self.score.hidden = YES;
+        self.dealerScore.hidden = YES;
+        [self.notification dismissNotification];
+        
+        if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
+            CGFloat chipCount = [self.blackJackGame.chips floatValue];
+            self.blackJackGame = [FISBlackJackGame new];
+            self.blackJackGame.chips = @(chipCount);
+            [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
+        }
+        
+        [self.blackJackGame deal];
+        
+        // Remove cards from previous hand from view
+        for (PlayingCardView *card in self.currentCardsView.subviews) {
+            [card removeFromSuperview];
+        }
+        [self.betLabel setFrame:betStartRect];
+        [self.ddLabel removeFromSuperview];
+        
+        NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[0]);
+        NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[1]);
+        NSLog(@"%@", self.blackJackGame.player.hand[0]);
+        NSLog(@"%@", self.blackJackGame.player.hand[1]);
+        
+        // Draw new hand
+        PlayingCardView *dealerCardView1 = [self drawCard:self.blackJackGame.dealerPlayer.hand[0] withFrame:deckRect isVisible:NO];
+        PlayingCardView *dealerCardView2 = [self drawCard:self.blackJackGame.dealerPlayer.hand[1] withFrame:deckRect isVisible:NO];
+        
+        PlayingCardView *playerCardView1 = [self drawCard:self.blackJackGame.player.hand[0] withFrame:deckRect isVisible:NO];
+        PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
+        
+        
+        [self animatebetLabel:self.betLabel toFrame:betEndRect onCompletion:^(void) {
+            [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
+                [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
+                    [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
+                        [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
+                            [self updateLabels];
+                            self.score.hidden = NO;
+                        }];
                     }];
                 }];
             }];
         }];
-    }];
-    
-    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
+        
+        NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
+    }
 }
 
 - (IBAction)stay:(id)sender {
