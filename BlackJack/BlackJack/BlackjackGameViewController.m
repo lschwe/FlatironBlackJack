@@ -180,7 +180,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 }
 
 - (IBAction)deal:(id)sender {
-    
+    self.score.hidden = YES;
+    self.dealerScore.hidden = YES;
     [self.notification dismissNotification];
     
     if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
@@ -218,6 +219,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
                 [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
                     [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
                         [self updateLabels];
+                        self.score.hidden = NO;
                     }];
                 }];
             }];
@@ -229,6 +231,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 - (IBAction)stay:(id)sender {
     
+    self.dealerScore.hidden = NO;
+
     PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
     if (dealerHiddenCard.isVisible == NO) {
         
