@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FISPlayingCardDeck.h"
 #import "BlackJackPlayer.h"
+#import "Bet.h"
 
 @interface FISBlackJackGame : NSObject
 
@@ -18,6 +19,8 @@
 @property (nonatomic) BOOL isDoubleDown;
 @property (strong, nonatomic) NSNumber *chips;
 @property (strong, nonatomic) NSNumber *currentBet;
+
+
 
 
 - (id)init; // should initialize playingCardDeck with a new deck and set score and isBusted to default values

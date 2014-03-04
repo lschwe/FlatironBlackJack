@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		051DFB4F18C54D390078D304 /* Bet.m in Sources */ = {isa = PBXBuildFile; fileRef = 051DFB4E18C54D390078D304 /* Bet.m */; };
 		2E3A1EF3632347DC9DA458E0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3774FFD12C7A4EDB8E7717F2 /* libPods.a */; };
 		451F725918C3F8B300E1F4A2 /* CEPopupPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451F725818C3F8B300E1F4A2 /* CEPopupPickerView.m */; };
 		8716B28D18BBFA1B004124F9 /* PlayingCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716B28C18BBFA1B004124F9 /* PlayingCardView.m */; };
@@ -44,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		051DFB4D18C54D390078D304 /* Bet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bet.h; sourceTree = "<group>"; };
+		051DFB4E18C54D390078D304 /* Bet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bet.m; sourceTree = "<group>"; };
 		3774FFD12C7A4EDB8E7717F2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		451F725718C3F8B300E1F4A2 /* CEPopupPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEPopupPickerView.h; sourceTree = "<group>"; };
 		451F725818C3F8B300E1F4A2 /* CEPopupPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEPopupPickerView.m; sourceTree = "<group>"; };
@@ -143,6 +146,8 @@
 		DF73E50418AC1F3E001A5048 = {
 			isa = PBXGroup;
 			children = (
+				051DFB4D18C54D390078D304 /* Bet.h */,
+				051DFB4E18C54D390078D304 /* Bet.m */,
 				DF73E51618AC1F3E001A5048 /* BlackJack */,
 				DF73E52F18AC1F3E001A5048 /* BlackJackTests */,
 				DF73E50F18AC1F3E001A5048 /* Frameworks */,
@@ -352,6 +357,7 @@
 				DF73E55418AC2E2A001A5048 /* PlayingCard.m in Sources */,
 				451F725918C3F8B300E1F4A2 /* CEPopupPickerView.m in Sources */,
 				DF73E51D18AC1F3E001A5048 /* main.m in Sources */,
+				051DFB4F18C54D390078D304 /* Bet.m in Sources */,
 				DF73E52118AC1F3E001A5048 /* FISAppDelegate.m in Sources */,
 				DF14F76018AEBF990049F8AD /* BlackJackPlayer.m in Sources */,
 				DF73E54418AC1FA2001A5048 /* FISPlayingCardDeck.m in Sources */,
