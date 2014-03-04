@@ -124,7 +124,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 - (IBAction)doubleDownTapped:(id)sender {
     PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];
-    if (!self.blackJackGame.player.isBusted && !dealerHiddenCard.isVisible) {
+    if (!self.blackJackGame.player.isBusted && !dealerHiddenCard.isVisible && [self.blackJackGame.player.hand count]==2) {
         self.blackJackGame.isDoubleDown = YES;
         NSLog(@"Double Down");
         FAKFontAwesome *chipIcon = [FAKFontAwesome certificateIconWithSize:chipSize];
@@ -166,6 +166,9 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         
         [self updateLabels];
     }
+    
+    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
+
 }
 
 - (IBAction)deal:(id)sender {
@@ -200,6 +203,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     PlayingCardView *playerCardView1 = [self drawCard:self.blackJackGame.player.hand[0] withFrame:deckRect isVisible:NO];
     PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
     
+    
     [self animatebetLabel:self.betLabel toFrame:betEndRect onCompletion:^(void) {
         [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
             [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
@@ -211,9 +215,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
             }];
         }];
     }];
-  
     
-
+    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
 }
 
 - (IBAction)stay:(id)sender {
@@ -285,7 +288,271 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         
         self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue])];
     }
+    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
 }
+
+
+- (IBAction)hintTapped:(id)sender {
+    NSString *advice;
+    NSInteger playerScore = [self.blackJackGame.player.handScore integerValue];
+    PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[1];
+    PlayingCard *playerCard1 = self.blackJackGame.player.hand[0];
+    PlayingCard *playerCard2 = self.blackJackGame.player.hand[1];
+    NSInteger dealerCardRank = [dealerCard.rank integerValue];
+    NSInteger trueCount = (NSInteger)round([self.blackJackGame.cardCount floatValue]/6);
+    
+    if (dealerCardRank == 1) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12,@13,@14,@15,@16,@17,@18] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else {
+                advice = @"stay";
+            }
+        } else if ([@[@8,@9,@10,@12,@13,@14,@15,@16] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 10) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12,@13,@14,@15,@16,@17,@18] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else {
+                advice = @"stay";
+            }
+        } else if ([@[@8,@9,@10,@12,@13,@14,@15,@16] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 9) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12,@13,@14,@15,@16,@17,@18] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else {
+                advice = @"stay";
+            }
+        } else if ([@[@8,@9,@12,@13,@14,@15,@16] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@10,@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 8) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12,@13,@14,@15,@16,@17] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else {
+                advice = @"stay";
+            }
+        } else if ([@[@8,@9,@12,@13,@14,@15,@16] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@10,@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 7) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12,@13,@14,@15,@16,@17] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else {
+                advice = @"stay";
+            }
+        } else if ([@[@8,@9,@12,@13,@14,@15,@16] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@10,@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 6) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
+                advice = @"stay";
+            } else {
+                advice = @"double down";
+            }
+        } else if ([@[@8] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@9,@10,@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 5) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
+                advice = @"stay";
+            } else {
+                advice = @"double down";
+            }
+        } else if ([@[@8] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@9,@10,@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 4) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12,@13,@14] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
+                advice = @"stay";
+            } else {
+                advice = @"double down";
+            }
+        } else if ([@[@8] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@9,@10,@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 3) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12,@13,@14,@15,@16] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
+                advice = @"stay";
+            } else {
+                advice = @"double down";
+            }
+        } else if ([@[@8,@12] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@9,@10,@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    } else if (dealerCardRank >= 2) {
+        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+            if ([@[@12,@13,@14,@15,@16,@17] containsObject:@(playerScore)]) {
+                advice = @"hit";
+            } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
+                advice = @"stay";
+            } else {
+                advice = @"double down";
+            }
+        } else if ([@[@8,@9,@12] containsObject:@(playerScore)] || playerScore < 8) {
+            advice = @"hit";
+        } else if ([@[@10,@11] containsObject:@(playerScore)]) {
+            advice = @"double down";
+        } else {
+            advice = @"stay";
+        }
+    }
+    
+    // advice considering count
+    if (playerScore == 16 && dealerCardRank >= 10) {
+        if (trueCount >= 0) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 15 && dealerCardRank >= 10 ) {
+        if (trueCount >= 4) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 10 && dealerCardRank >= 10) {
+        if (trueCount >= 4) {
+            advice = @"double down";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 12 && dealerCardRank == 3) {
+        if (trueCount >= 2) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 12 && dealerCardRank == 2) {
+        if (trueCount >= 3) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 11 && dealerCardRank == 1) {
+        if (trueCount >= 1) {
+            advice = @"double down";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 9 && dealerCardRank == 2){
+        if (trueCount >= 1) {
+            advice = @"double down";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 10 && dealerCardRank == 1){
+        if (trueCount >= 4) {
+            advice = @"double down";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 9 && dealerCardRank == 7){
+        if (trueCount >= 3) {
+            advice = @"double down";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 16 && dealerCardRank == 9){
+        if (trueCount >= 5) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 13 && dealerCardRank == 2){
+        if (trueCount >= -1) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 12 && dealerCardRank == 4){
+        if (trueCount >= 0) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 12 && dealerCardRank == 5){
+        if (trueCount >= -2) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 12 && dealerCardRank == 6) {
+        if (trueCount >= -1) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    } else if (playerScore == 13 && dealerCardRank == 3) {
+        if (trueCount >= -2) {
+            advice = @"stay";
+        } else {
+            advice = @"hit";
+        }
+    }
+    
+    if ([advice isEqualToString:@"double down"] && [self.blackJackGame.player.hand count] > 2) {
+        advice = @"hit";
+    }
+    
+    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %d. You should %@", trueCount, advice] forDuration:2.0];
+}
+
 
 #pragma mark - Helper Methods
 
