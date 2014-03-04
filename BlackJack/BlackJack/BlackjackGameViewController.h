@@ -26,4 +26,5 @@
 - (IBAction)deal:(id)sender;
 - (IBAction)stay:(id)sender;
 
+- (IBAction)hintTapped:(id)sender;
 @end

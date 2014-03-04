@@ -8,7 +8,6 @@
 
 #import "FISBlackJackGame.h"
 #import "FISPlayingCardDeck.h"
-#import "PlayingCard.h"
 #import "Card.h"
 
 @implementation FISBlackJackGame
@@ -36,6 +35,9 @@
         _currentBet = @5;
         // start with doubldown false
         _isDoubleDown = NO;
+        
+        // initialize cardCount
+        _cardCount = @0;
     }
     return self;
 }
@@ -45,14 +47,18 @@
 {
     self.isDoubleDown = NO;
     
-    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
+//    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
     srand48(time(0));
     self.player.hand = [NSMutableArray new];
     self.dealerPlayer.hand = [NSMutableArray new];
     [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
-    [self.dealerPlayer.hand addObject:ace];
+    [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
     [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
-    [self.dealerPlayer.hand addObject:ace];
+    [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+    
+    [self countCard:self.dealerPlayer.hand[1]];
+    [self countCard:self.player.hand[0]];
+    [self countCard:self.player.hand[1]];
     
 //    testing when dealer gets soft 17
 //    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];
@@ -66,6 +72,9 @@
 {
     srand48(time(0));
     [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
+    
+    [self countCard:[self.player.hand lastObject]];
+    
     [self updateScore];
 }
 
@@ -94,6 +103,12 @@
             [self updateScore];
             NSLog(@"%@",[self.dealerPlayer.hand lastObject]);
         }
+    }
+    
+    NSMutableArray *dealerFinalHand = [NSMutableArray arrayWithArray:self.dealerPlayer.hand];
+    [dealerFinalHand removeObjectAtIndex:1];
+    for (PlayingCard *card in dealerFinalHand) {
+        [self countCard:card];
     }
 }
 
@@ -141,5 +156,22 @@
     }
 }
 
+- (void)increaseCardCount
+{
+    self.cardCount = @([self.cardCount integerValue]+1);
+}
 
+- (void)decreaseCardCount
+{
+    self.cardCount = @([self.cardCount integerValue]-1);
+}
+
+- (void)countCard:(PlayingCard *)card
+{
+    if ([card.rank integerValue] >= 10 || [card.rank isEqual:@1]) {
+        [self decreaseCardCount];
+    } else if ([card.rank integerValue] <= 6 && ![card.rank isEqual:@1]) {
+        [self increaseCardCount];
+    }
+}
 @end
