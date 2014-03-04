@@ -32,6 +32,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 @property (strong, nonatomic) CWStatusBarNotification *notification;
 @property (strong, nonatomic) UILabel *betLabel;
 @property (strong, nonatomic) UILabel *ddLabel;
+@property (strong, nonatomic) UIView *pickerView;
 
 - (IBAction)doubleDownTapped:(id)sender;
 @end
@@ -116,8 +117,15 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
     self.betPicker = [[CEPopupPickerView alloc] initWithValues:betOptions callback:^(NSInteger selectedIndex) {
         [self updateBet:[betOptions objectAtIndex:selectedIndex]];
+        [self.pickerView removeFromSuperview];
+        
     }];
     
+   
+    self.pickerView = [[UIView alloc]initWithFrame:self.view.frame];
+    self.pickerView.alpha = 0.5;
+    self.pickerView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:self.pickerView];
     [self.betPicker presentInView:self.view];
     
 }
