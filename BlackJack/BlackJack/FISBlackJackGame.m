@@ -8,10 +8,7 @@
 
 #import "FISBlackJackGame.h"
 #import "FISPlayingCardDeck.h"
-#import "PlayingCard.h"
 #import "Card.h"
-
-
 
 @implementation FISBlackJackGame
 
@@ -40,6 +37,9 @@
         // start with doubldown false
         _isDoubleDown = NO;
         
+        // initialize cardCount
+        _cardCount = @0;
+
     }
     return self;
 }
@@ -66,18 +66,17 @@
         
         [self updateScore];
     } else {
-        
-        
-        
         NSLog(@"no money left");
     }
-    
 }
 
 - (void)hit
 {
     srand48(time(0));
     [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
+    
+    [self countCard:[self.player.hand lastObject]];
+    
     [self updateScore];
 }
 
@@ -107,6 +106,12 @@
             NSLog(@"%@",[self.dealerPlayer.hand lastObject]);
         }
     }
+    
+    NSMutableArray *dealerFinalHand = [NSMutableArray arrayWithArray:self.dealerPlayer.hand];
+    [dealerFinalHand removeObjectAtIndex:1];
+    for (PlayingCard *card in dealerFinalHand) {
+        [self countCard:card];
+    }
 }
 
 - (void)updateScore
@@ -118,6 +123,7 @@
         NSInteger score = 0;
         NSSortDescriptor *sortByRank = [NSSortDescriptor sortDescriptorWithKey:@"rank" ascending:NO];
         NSArray *currentHandInOrder = [currentPlayer.hand sortedArrayUsingDescriptors:@[sortByRank]];
+        NSInteger aceCount = 0;
         
         for (PlayingCard *card in currentHandInOrder) {
             NSInteger cardScore = [card.rank integerValue];
@@ -125,13 +131,17 @@
                 cardScore = 10;
             }
             if (cardScore == 1) {
+                aceCount = aceCount + 1;
                 cardScore = 11;
-                if (score + cardScore > 21) {
-                    cardScore = 1;
-                }
             }
             score += cardScore;
         }
+        
+        while (aceCount > 0 && score > 21) {
+            score = score - 10;
+            aceCount = aceCount -1;
+        }
+        
         currentPlayer.handScore = @(score);
         
         if ([currentPlayer.handScore isEqualToNumber:@21] && [currentPlayer.hand count] == 2) {
@@ -150,5 +160,22 @@
     }
 }
 
+- (void)increaseCardCount
+{
+    self.cardCount = @([self.cardCount integerValue]+1);
+}
 
+- (void)decreaseCardCount
+{
+    self.cardCount = @([self.cardCount integerValue]-1);
+}
+
+- (void)countCard:(PlayingCard *)card
+{
+    if ([card.rank integerValue] >= 10 || [card.rank isEqual:@1]) {
+        [self decreaseCardCount];
+    } else if ([card.rank integerValue] <= 6 && ![card.rank isEqual:@1]) {
+        [self increaseCardCount];
+    }
+}
 @end

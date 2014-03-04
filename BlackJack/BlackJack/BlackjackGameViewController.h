@@ -11,6 +11,8 @@
 #import <FontAwesomeKit/FontAwesomeKit.h>
 #import <CWStatusBarNotification.h>
 
+
+
 @interface BlackjackGameViewController : UIViewController<UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *score;
@@ -26,4 +28,5 @@
 - (IBAction)deal:(id)sender;
 - (IBAction)stay:(id)sender;
 
+- (IBAction)hintTapped:(id)sender;
 @end
