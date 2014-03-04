@@ -22,8 +22,7 @@
 //    while (blackJackGame.isBusted == NO && blackJackGame.isBlackjack == NO) {
 //        [blackJackGame hit];
 //    }
-    
-    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     return YES;
 }
 

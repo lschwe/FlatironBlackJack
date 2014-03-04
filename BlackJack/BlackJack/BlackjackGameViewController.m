@@ -585,7 +585,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         advice = @"hit";
     }
     
-    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %d. You should %@.", trueCount, advice] forDuration:3];
+    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %ld. You should %@.", trueCount, advice] forDuration:3];
 }
 
 
