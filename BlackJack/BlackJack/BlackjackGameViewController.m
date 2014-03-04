@@ -304,13 +304,15 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     NSString *advice;
     NSInteger playerScore = [self.blackJackGame.player.handScore integerValue];
     PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[1];
-    PlayingCard *playerCard1 = self.blackJackGame.player.hand[0];
-    PlayingCard *playerCard2 = self.blackJackGame.player.hand[1];
     NSInteger dealerCardRank = [dealerCard.rank integerValue];
     NSInteger trueCount = (NSInteger)round([self.blackJackGame.cardCount floatValue]/6);
+    NSInteger sumOfRanks = 0;
+    for (PlayingCard *card in self.blackJackGame.player.hand) {
+        sumOfRanks = sumOfRanks + [card.rank integerValue];
+    }
     
     if (dealerCardRank == 1) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12,@13,@14,@15,@16,@17,@18] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else {
@@ -324,7 +326,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
             advice = @"stay";
         }
     } else if (dealerCardRank >= 10) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12,@13,@14,@15,@16,@17,@18] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else {
@@ -337,8 +339,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else {
             advice = @"stay";
         }
-    } else if (dealerCardRank >= 9) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+    } else if (dealerCardRank == 9) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12,@13,@14,@15,@16,@17,@18] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else {
@@ -351,8 +353,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else {
             advice = @"stay";
         }
-    } else if (dealerCardRank >= 8) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+    } else if (dealerCardRank == 8) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12,@13,@14,@15,@16,@17] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else {
@@ -365,8 +367,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else {
             advice = @"stay";
         }
-    } else if (dealerCardRank >= 7) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+    } else if (dealerCardRank == 7) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12,@13,@14,@15,@16,@17] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else {
@@ -379,8 +381,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else {
             advice = @"stay";
         }
-    } else if (dealerCardRank >= 6) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+    } else if (dealerCardRank == 6) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
@@ -395,8 +397,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else {
             advice = @"stay";
         }
-    } else if (dealerCardRank >= 5) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+    } else if (dealerCardRank == 5) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
@@ -411,8 +413,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else {
             advice = @"stay";
         }
-    } else if (dealerCardRank >= 4) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+    } else if (dealerCardRank == 4) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12,@13,@14] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
@@ -427,8 +429,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else {
             advice = @"stay";
         }
-    } else if (dealerCardRank >= 3) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+    } else if (dealerCardRank == 3) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12,@13,@14,@15,@16] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
@@ -443,8 +445,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else {
             advice = @"stay";
         }
-    } else if (dealerCardRank >= 2) {
-        if ([@[playerCard1.rank,playerCard2.rank] containsObject:@1] && [self.blackJackGame.player.hand count] == 2) {
+    } else if (dealerCardRank == 2) {
+        if (playerScore - 10 == sumOfRanks) {
             if ([@[@12,@13,@14,@15,@16,@17] containsObject:@(playerScore)]) {
                 advice = @"hit";
             } else if ([@[@18,@19,@20] containsObject:@(playerScore)]) {
@@ -461,15 +463,20 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         }
     }
     
-    // advice considering count
+    // advice considering count. also if its a soft something, it should hit.
+    
     if (playerScore == 16 && dealerCardRank >= 10) {
-        if (trueCount >= 0) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= 0) {
             advice = @"stay";
         } else {
             advice = @"hit";
         }
     } else if (playerScore == 15 && dealerCardRank >= 10 ) {
-        if (trueCount >= 4) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= 4) {
             advice = @"stay";
         } else {
             advice = @"hit";
@@ -481,13 +488,17 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
             advice = @"hit";
         }
     } else if (playerScore == 12 && dealerCardRank == 3) {
-        if (trueCount >= 2) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= 2) {
             advice = @"stay";
         } else {
             advice = @"hit";
         }
     } else if (playerScore == 12 && dealerCardRank == 2) {
-        if (trueCount >= 3) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= 3) {
             advice = @"stay";
         } else {
             advice = @"hit";
@@ -517,37 +528,49 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
             advice = @"hit";
         }
     } else if (playerScore == 16 && dealerCardRank == 9){
-        if (trueCount >= 5) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= 5) {
             advice = @"stay";
         } else {
             advice = @"hit";
         }
     } else if (playerScore == 13 && dealerCardRank == 2){
-        if (trueCount >= -1) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= -1) {
             advice = @"stay";
         } else {
             advice = @"hit";
         }
     } else if (playerScore == 12 && dealerCardRank == 4){
-        if (trueCount >= 0) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= 0) {
             advice = @"stay";
         } else {
             advice = @"hit";
         }
     } else if (playerScore == 12 && dealerCardRank == 5){
-        if (trueCount >= -2) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= -2) {
             advice = @"stay";
         } else {
             advice = @"hit";
         }
     } else if (playerScore == 12 && dealerCardRank == 6) {
-        if (trueCount >= -1) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= -1) {
             advice = @"stay";
         } else {
             advice = @"hit";
         }
     } else if (playerScore == 13 && dealerCardRank == 3) {
-        if (trueCount >= -2) {
+        if (playerScore - 10 == sumOfRanks){
+            advice = @"hit";
+        } else if (trueCount >= -2) {
             advice = @"stay";
         } else {
             advice = @"hit";
@@ -558,7 +581,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         advice = @"hit";
     }
     
-    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %d. You should %@", trueCount, advice] forDuration:2.0];
+    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %@. You should %@", @(trueCount), advice] forDuration:2.0];
 }
 
 
