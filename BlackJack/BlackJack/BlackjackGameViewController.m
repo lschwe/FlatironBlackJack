@@ -65,7 +65,6 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     // Setup notification bar
     self.notification = [CWStatusBarNotification new];
-//    self.notification.notificationStyle = CWNotificationStyleNavigationBarNotification;
     self.notification.notificationLabelBackgroundColor = UIColorFromRGB(0x45A1CD);
     
     [self layoutGame];
@@ -95,7 +94,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     if (motion == UIEventSubtypeMotionShake) {
         
         UIAlertView *shakeAlert = [[UIAlertView alloc]initWithTitle:@"Do you want to change tables?"
-                                                            message:@"Click OK to quit the current game and deal fresh decks"
+                                                            message:@"Click OK to quit the current game and reshuffle"
                                                            delegate:self
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:@"OK", nil];
@@ -615,7 +614,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     [self.currentBetLabel setTitle:[NSString stringWithFormat:@"$%@",self.blackJackGame.currentBet] forState:UIControlStateNormal];
     self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue])];
 //                                - [self.blackJackGame.currentBet floatValue])];
-    if (self.blackJackGame.player.isBlackjack || self.blackJackGame.player.isBusted) {
+    if (self.blackJackGame.player.isBlackjack || self.blackJackGame.dealerPlayer.isBlackjack  || self.blackJackGame.player.isBusted) {
         [self stay:nil];
     }
 }
@@ -724,7 +723,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 - (void)showGameOverAlert
 {
     UIAlertView *gameOver = [[UIAlertView alloc]initWithTitle:@"Do you want to start over?"
-                                                      message:@"Click OK to deal fresh decks"
+                                                      message:@"Click OK to hit the ATM and reshuffle."
                                                      delegate:self
                                             cancelButtonTitle:@"Cancel"
                                             otherButtonTitles:@"OK", nil];
