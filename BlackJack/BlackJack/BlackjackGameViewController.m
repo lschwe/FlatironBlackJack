@@ -11,7 +11,6 @@
 #import "PlayingCard.h"
 #import "CEPopupPickerView.h"
 
-
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static NSInteger const cardWidth = 80;
@@ -33,9 +32,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 @property (strong, nonatomic) CWStatusBarNotification *notification;
 @property (strong, nonatomic) UILabel *betLabel;
 @property (strong, nonatomic) UILabel *ddLabel;
-- (IBAction)helpButtonTapped:(id)sender;
 
-
+- (IBAction)doubleDownTapped:(id)sender;
 @end
 
 @implementation BlackjackGameViewController
@@ -54,9 +52,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 {
     [super viewDidLoad];
     
-    [self setNeedsStatusBarAppearanceUpdate];
 	// Do any additional setup after loading the view.
-    
+    [self setNeedsStatusBarAppearanceUpdate];
     
     // Set up gesture recognizers
     UISwipeGestureRecognizer* swipeOnView = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(stay:)];
@@ -70,8 +67,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     [self layoutGame];
     self.blackJackGame = [[FISBlackJackGame alloc] init];
-    
     [self deal:nil];
+    
 }
 
 
@@ -123,10 +120,6 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     [self.betPicker presentInView:self.view];
     
-}
-
-- (IBAction)helpButtonTapped:(id)sender {
-
 }
 
 - (IBAction)doubleDownTapped:(id)sender {
@@ -187,13 +180,18 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     }
     
     [self.blackJackGame deal];
-    
+
     // Remove cards from previous hand from view
     for (PlayingCardView *card in self.currentCardsView.subviews) {
         [card removeFromSuperview];
     }
     [self.betLabel setFrame:betStartRect];
     [self.ddLabel removeFromSuperview];
+    
+    NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[0]);
+    NSLog(@"%@", self.blackJackGame.dealerPlayer.hand[1]);
+    NSLog(@"%@", self.blackJackGame.player.hand[0]);
+    NSLog(@"%@", self.blackJackGame.player.hand[1]);
     
     // Draw new hand
     PlayingCardView *dealerCardView1 = [self drawCard:self.blackJackGame.dealerPlayer.hand[0] withFrame:deckRect isVisible:NO];
@@ -202,27 +200,25 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     PlayingCardView *playerCardView1 = [self drawCard:self.blackJackGame.player.hand[0] withFrame:deckRect isVisible:NO];
     PlayingCardView *playerCardView2 = [self drawCard:self.blackJackGame.player.hand[1] withFrame:deckRect isVisible:NO];
     
-    
-
-    
     [self animatebetLabel:self.betLabel toFrame:betEndRect onCompletion:^(void) {
         [self animatePlayingCardView:playerCardView1 withFlip:YES withTilt:YES toFrame:playerRect onCompletion:^(void) {
             [self animatePlayingCardView:dealerCardView1 withFlip:NO withTilt:NO toFrame:dealerRect onCompletion:^(void) {
                 [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
-                    [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:nil];
+                    [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
+                        [self updateLabels];
+                    }];
                 }];
             }];
         }];
     }];
+  
     
-    [self updateLabels];
-    
+
 }
 
 - (IBAction)stay:(id)sender {
     
     PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
-    
     if (dealerHiddenCard.isVisible == NO) {
         
         [self.blackJackGame stay];
@@ -371,10 +367,21 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 - (void)animatePlayingCardView:(PlayingCardView *)cardView withFlip:(BOOL)toFlip withTilt:(BOOL)toTilt toFrame:(CGRect)frame onCompletion:(void (^) (void))handler
 {
     [UIView animateWithDuration:0.3 animations:^{
-        cardView.frame = frame;
+        if (self.blackJackGame.isDoubleDown == YES && frame.origin.y > playerRect.origin.y) {
+            cardView.frame = CGRectMake(frame.origin.x-20,frame.origin.y+30, frame.size.width, frame.size.height);
+        } else {
+            cardView.frame = frame;
+        }
+        
     } completion:^(BOOL finished){
+        if (toTilt) {
+            if (self.blackJackGame.isDoubleDown == YES && frame.origin.y > playerRect.origin.y) {
+                [cardView tiltCardWithDegrees:90];
+            } else {
+                [cardView tiltCardRandomly];
+            }
+        }
         if (toFlip) [cardView flipCard];
-        if (toTilt) [cardView tiltCardRandomly];
         if (finished && handler) {
             handler();
         }
