@@ -227,6 +227,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         
         [self.blackJackGame stay];
         [dealerHiddenCard flipCard];
+        self.dealerScore.hidden = NO;
         
         CGFloat xcoord = dealerRect.origin.x+30;
         CGFloat ycoord = dealerRect.origin.y+10;
@@ -696,6 +697,9 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     [self.betLabel setFrame:betStartRect];
     [self.ddLabel removeFromSuperview];
+    self.score.text = @"";
+    self.dealerScore.text = @"";
+    self.dealerScore.hidden = YES;
     
     // Draw new hand
     PlayingCardView *dealerCardView1 = [self drawCard:self.blackJackGame.dealerPlayer.hand[0] withFrame:deckRect isVisible:NO];
