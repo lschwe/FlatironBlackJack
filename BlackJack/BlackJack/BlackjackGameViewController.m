@@ -116,13 +116,26 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
-    if (alertView.tag == 1 || alertView.tag == 2) {
+    if (alertView.tag == 2) {
         if (buttonIndex == alertView.cancelButtonIndex){
             
         }else{
             
-            [self.blackJackGame.playingCardDeck.cards removeAllObjects];
+            self.blackJackGame = [FISBlackJackGame new];
             self.blackJackGame.chips = @200;
+            [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
+            
+            [self deal:nil];
+        }
+    } else if (alertView.tag == 1) {
+        if (buttonIndex == alertView.cancelButtonIndex){
+            
+        }else{
+            CGFloat chipCount = [self.blackJackGame.chips floatValue];
+            self.blackJackGame = [FISBlackJackGame new];
+            self.blackJackGame.chips = @(chipCount);
+            [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
+            
             [self deal:nil];
         }
     }
@@ -590,9 +603,12 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     if ([advice isEqualToString:@"double down"] && [self.blackJackGame.player.hand count] > 2) {
         advice = @"hit";
     }
-    [self.notification dismissNotification];
-    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %ld. You should %@.", (long)trueCount, advice] forDuration:1];
     
+    PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
+    if (dealerHiddenCard.isVisible == NO) {
+        [self.notification dismissNotification];
+        [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %ld. You should %@.", (long)trueCount, advice] forDuration:1];
+    }
     
     if (self.isAiMode) {
         if ([advice isEqualToString:@"double down"]) {
@@ -608,13 +624,13 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
             [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(stay:) userInfo:nil repeats:NO];
 //            [self stay:nil];
         }
-        
-        PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
         if (dealerHiddenCard.isVisible == YES) {
             [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(deal:) userInfo:nil repeats:NO];
 //            [self deal:nil];
         }
     }
+    
+    
 }
 
 
