@@ -34,7 +34,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 @property (strong, nonatomic) UILabel *betLabel;
 @property (strong, nonatomic) UILabel *ddLabel;
 @property (strong, nonatomic) UIView *pickerView;
-
+@property (nonatomic) BOOL isAiMode;
 
 - (IBAction)doubleDownTapped:(id)sender;
 @end
@@ -67,6 +67,10 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     self.notification = [CWStatusBarNotification new];
     self.notification.notificationLabelBackgroundColor = [UIColor whiteColor];
     self.notification.notificationLabelTextColor = [UIColor blackColor];
+    
+    // Setup AI
+    self.isAiMode = YES;
+    
     [self layoutGame];
     self.blackJackGame = [[FISBlackJackGame alloc] init];
     [self deal:nil];
@@ -155,7 +159,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];
     if (!self.blackJackGame.player.isBusted && !dealerHiddenCard.isVisible && [self.blackJackGame.player.hand count]==2) {
         self.blackJackGame.isDoubleDown = YES;
-        NSLog(@"Double Down");
+//        NSLog(@"Double Down");
         FAKFontAwesome *chipIcon = [FAKFontAwesome certificateIconWithSize:chipSize];
         [chipIcon addAttribute:NSForegroundColorAttributeName value:UIColorFromRGB(0x45A1CD)];
         self.ddLabel = [[UILabel alloc] initWithFrame:betStartRect];
@@ -172,7 +176,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 }
 
 - (IBAction)hit:(id)sender {
-    NSLog(@"Hit was tapped");
+//    NSLog(@"Hit was tapped");
     [self.notification dismissNotification];
     PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];
     if (!self.blackJackGame.player.isBusted && !dealerHiddenCard.isVisible) {
@@ -192,12 +196,14 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         }
         
         // Draw animation
-        [self animatePlayingCardView:playerCardView withFlip:YES withTilt:YES toFrame:CGRectMake(lastCardX+30, lastCardY+10, cardWidth, cardHeight) onCompletion:nil];
+        [self animatePlayingCardView:playerCardView withFlip:YES withTilt:YES toFrame:CGRectMake(lastCardX+30, lastCardY+10, cardWidth, cardHeight) onCompletion:^{
+            [self hintTapped:nil];
+        }];
         
         [self updateLabels];
     }
     
-    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
+//    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
     
 }
 
@@ -296,8 +302,10 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         
         self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue])];
         //                                    - [self.blackJackGame.currentBet floatValue])];
+//        sleep(2);
+        [self hintTapped:nil];
     }
-    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
+//    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
 }
 
 
@@ -583,6 +591,22 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     }
     [self.notification dismissNotification];
     [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %ld. You should %@.", (long)trueCount, advice] forDuration:1];
+    
+    
+    if (self.isAiMode) {
+        if ([advice isEqualToString:@"double down"]) {
+            [self doubleDownTapped:nil];
+        } else if ([advice isEqualToString:@"hit"]) {
+            [self hit:nil];
+        } else if ([advice isEqualToString:@"stay"]) {
+            [self stay:nil];
+        }
+        
+        PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
+        if (dealerHiddenCard.isVisible == YES) {
+            [self deal:nil];
+        }
+    }
 }
 
 
@@ -664,9 +688,9 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     return playerCardView;
 }
 
-- (void)animatePlayingCardView:(PlayingCardView *)cardView withFlip:(BOOL)toFlip withTilt:(BOOL)toTilt toFrame:(CGRect)frame onCompletion:(void (^) (void))handler
+- (void)animatePlayingCardView:(PlayingCardView *)cardView withFlip:(BOOL)toFlip withDelay:(NSTimeInterval)toDelay withTilt:(BOOL)toTilt toFrame:(CGRect)frame onCompletion:(void (^) (void))handler
 {
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.3 delay:toDelay options:UIViewAnimationOptionTransitionNone animations:^{
         if (self.blackJackGame.isDoubleDown == YES && frame.origin.y > playerRect.origin.y) {
             cardView.frame = CGRectMake(frame.origin.x-20,frame.origin.y+30, frame.size.width, frame.size.height);
         } else {
@@ -686,6 +710,11 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
             handler();
         }
     }];
+}
+
+- (void)animatePlayingCardView:(PlayingCardView *)cardView withFlip:(BOOL)toFlip withTilt:(BOOL)toTilt toFrame:(CGRect)frame onCompletion:(void (^) (void))handler
+{
+    [self animatePlayingCardView:cardView withFlip:toFlip withDelay:0 withTilt:toTilt toFrame:frame onCompletion:handler];
 }
 
 - (void)animatebetLabel:(UILabel *)label toFrame:(CGRect)frame onCompletion:(void (^) (void))handler
@@ -744,7 +773,9 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
                 [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
                     [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
                         [self updateLabels];
+                        [self hintTapped:nil];
                         self.score.hidden = NO;
+//                        sleep(2);
                     }];
                 }];
             }];
@@ -754,6 +785,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 - (void)showGameOverAlert
 {
+    self.isAiMode = NO;
     UIAlertView *gameOver = [[UIAlertView alloc]initWithTitle:@"Do you want to start over?"
                                                       message:@"Click OK to hit the ATM and reshuffle."
                                                      delegate:self

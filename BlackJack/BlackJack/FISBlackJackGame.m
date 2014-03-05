@@ -32,7 +32,7 @@
         // start with 200 bucks
         _chips = @200;
         // start with 5 bucks bets
-        _currentBet = @5;
+        _currentBet = @50;
  
         // start with doubldown false
         _isDoubleDown = NO;
@@ -91,19 +91,19 @@
                 AceCount ++;
             }
         }
-        NSLog(@"%@", self.dealerPlayer.hand);
+//        NSLog(@"%@", self.dealerPlayer.hand);
         
         if ([self.dealerPlayer.handScore integerValue] == 17 && AceCount > 0) {
             [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
             [self updateScore];
-            NSLog(@"soft 17");
-            NSLog(@"%@",[self.dealerPlayer.hand lastObject]);
+//            NSLog(@"soft 17");
+//            NSLog(@"%@",[self.dealerPlayer.hand lastObject]);
         }
         
         while ([self.dealerPlayer.handScore integerValue] < 17) {
             [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
             [self updateScore];
-            NSLog(@"%@",[self.dealerPlayer.hand lastObject]);
+//            NSLog(@"%@",[self.dealerPlayer.hand lastObject]);
         }
     }
     
@@ -151,11 +151,11 @@
         if ([currentPlayer.handScore integerValue] > 21) {
             currentPlayer.isBusted = YES;
         }
-        NSLog(@"%@", currentPlayer.handScore);
-        NSLog(@"%d", currentPlayer.isBlackjack);
-        NSLog(@"%d", currentPlayer.isBusted);
+//        NSLog(@"%@", currentPlayer.handScore);
+//        NSLog(@"%d", currentPlayer.isBlackjack);
+//        NSLog(@"%d", currentPlayer.isBusted);
         
-        NSLog(@"Chips are: %@", self.chips);
+//        NSLog(@"Chips are: %@", self.chips);
         
     }
 }
