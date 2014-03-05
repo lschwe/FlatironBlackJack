@@ -32,7 +32,7 @@
         // start with 200 bucks
         _chips = @200;
         // start with 5 bucks bets
-        _currentBet = @50;
+        _currentBet = @5;
  
         // start with doubldown false
         _isDoubleDown = NO;

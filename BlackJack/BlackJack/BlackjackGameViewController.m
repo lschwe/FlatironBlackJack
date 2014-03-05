@@ -68,7 +68,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     self.notification.notificationLabelBackgroundColor = [UIColor whiteColor];
     self.notification.notificationLabelTextColor = [UIColor blackColor];
     
-    // Setup AI
+    // Setup AI Mode
     self.isAiMode = YES;
     
     [self layoutGame];
@@ -176,6 +176,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 }
 
 - (IBAction)hit:(id)sender {
+    sleep(1);
 //    NSLog(@"Hit was tapped");
     [self.notification dismissNotification];
     PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];
@@ -595,16 +596,23 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     
     if (self.isAiMode) {
         if ([advice isEqualToString:@"double down"]) {
-            [self doubleDownTapped:nil];
+            
+            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(doubleDownTapped:) userInfo:nil repeats:NO];
+//            [self doubleDownTapped:nil];
         } else if ([advice isEqualToString:@"hit"]) {
-            [self hit:nil];
+            
+            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(hit:) userInfo:nil repeats:NO];
+//            [self hit:nil];
         } else if ([advice isEqualToString:@"stay"]) {
-            [self stay:nil];
+            
+            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(stay:) userInfo:nil repeats:NO];
+//            [self stay:nil];
         }
         
         PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
         if (dealerHiddenCard.isVisible == YES) {
-            [self deal:nil];
+            [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(deal:) userInfo:nil repeats:NO];
+//            [self deal:nil];
         }
     }
 }
