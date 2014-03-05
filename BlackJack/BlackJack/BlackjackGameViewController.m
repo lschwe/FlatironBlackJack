@@ -329,10 +329,12 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 - (IBAction)hintTapped:(id)sender {
     if (sender) {
         if (self.isAiMode) {
-            NSLog(@"ai mode is off");
+            [self.notification dismissNotification];
+            [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
             self.isAiMode = NO;
         } else {
-            NSLog(@"ai mode is on");
+            [self.notification dismissNotification];
+            [self.notification displayNotificationWithMessage:@"AI MODE ON" completion:nil];
             self.isAiMode = YES;
         }
     }
@@ -625,19 +627,19 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     if (self.isAiMode) {
         if ([advice isEqualToString:@"double down"]) {
             
-            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(doubleDownTapped:) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(doubleDownTapped:) userInfo:nil repeats:NO];
 //            [self doubleDownTapped:nil];
         } else if ([advice isEqualToString:@"hit"]) {
             
-            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(hit:) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(hit:) userInfo:nil repeats:NO];
 //            [self hit:nil];
         } else if ([advice isEqualToString:@"stay"]) {
             
-            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(stay:) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(stay:) userInfo:nil repeats:NO];
 //            [self stay:nil];
         }
         if (dealerHiddenCard.isVisible == YES) {
-            [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(deal:) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(deal:) userInfo:nil repeats:NO];
 //            [self deal:nil];
         }
     }
@@ -820,7 +822,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 - (void)showGameOverAlert
 {
-    NSLog(@"ai mode is off");
+    [self.notification dismissNotification];
+    [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
     self.isAiMode = NO;
     UIAlertView *gameOver = [[UIAlertView alloc]initWithTitle:@"Do you want to start over?"
                                                       message:@"Click OK to hit the ATM and reshuffle."
