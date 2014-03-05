@@ -619,10 +619,10 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     }
     
     PlayingCardView *dealerHiddenCard = self.currentCardsView.subviews[0];
-    if (dealerHiddenCard.isVisible == NO) {
-        [self.notification dismissNotification];
-        [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %ld. You should %@.", (long)trueCount, advice] forDuration:1];
-    }
+//    if (dealerHiddenCard.isVisible == NO) {
+//        [self.notification dismissNotification];
+//        [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %ld. You should %@.", (long)trueCount, advice] forDuration:1];
+//    }
     
     if (self.isAiMode) {
         if ([advice isEqualToString:@"double down"]) {
