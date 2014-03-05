@@ -173,6 +173,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 - (IBAction)hit:(id)sender {
     NSLog(@"Hit was tapped");
+    [self.notification dismissNotification];
     PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];
     if (!self.blackJackGame.player.isBusted && !dealerHiddenCard.isVisible) {
         
@@ -201,7 +202,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 }
 
 - (IBAction)deal:(id)sender {
-    
+    [self.notification dismissNotification];
     PlayingCardView *dealerHiddenCard;
     
     if ([[self.currentCardsView subviews] count] > 0) {
@@ -218,6 +219,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
             [self showGameOverAlert];
         }
     }
+    
 }
 
 
@@ -254,7 +256,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         if (self.blackJackGame.isDoubleDown) {
             multiple = 2;
         }
-        
+        [self.notification dismissNotification];
         self.dealerScore.text = [NSString stringWithFormat:@"%@", self.blackJackGame.dealerPlayer.handScore];
         if (([self.blackJackGame.player.handScore integerValue] > [self.blackJackGame.dealerPlayer.handScore integerValue] && self.blackJackGame.player.isBusted == NO) || (self.blackJackGame.dealerPlayer.isBusted == YES && self.blackJackGame.player.isBusted == NO)) {
             if (self.blackJackGame.player.isBlackjack) {
@@ -283,14 +285,9 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         if ([winner isEqualToString:@"Player"]) {
             self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] + [self.blackJackGame.currentBet floatValue]*multiple);
             NSLog(@"Player has won %@ chips. Now he has %@", @([self.blackJackGame.currentBet floatValue]*multiple), self.blackJackGame.chips);
-            
-            
-            
+        
         } else if ([winner isEqualToString:@"Dealer"]){
             self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue]*multiple);
-            
-            
-            
             
             NSLog(@"Player has lost %@ chips. Now he has %@", self.blackJackGame.currentBet, self.blackJackGame.chips);
         } else {
@@ -584,8 +581,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     if ([advice isEqualToString:@"double down"] && [self.blackJackGame.player.hand count] > 2) {
         advice = @"hit";
     }
-    
-    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %ld. You should %@.", (long)trueCount, advice] forDuration:3];
+    [self.notification dismissNotification];
+    [self.notification displayNotificationWithMessage:[NSString stringWithFormat:@"The True Count is %ld. You should %@.", (long)trueCount, advice] forDuration:1];
 }
 
 
@@ -711,8 +708,6 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 - (void)dealCards
 {
-    
-    
     [self.notification dismissNotification];
     
     if ([self.blackJackGame.playingCardDeck.cards count] < 20) {
