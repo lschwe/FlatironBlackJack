@@ -69,7 +69,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     self.notification.notificationLabelTextColor = [UIColor blackColor];
     
     // Setup AI Mode
-//    self.isAiMode = YES;
+    self.isAiMode = NO;
     
     [self layoutGame];
     self.blackJackGame = [[FISBlackJackGame alloc] init];
@@ -317,14 +317,25 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         self.chipCountLabel.text = [NSString stringWithFormat:@"$%@", @([self.blackJackGame.chips floatValue])];
         //                                    - [self.blackJackGame.currentBet floatValue])];
 //        sleep(2);
-        [self hintTapped:nil];
+        
+        if ([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue] >= 0) {
+            [self hintTapped:nil];
+        }
     }
 //    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
 }
 
 
 - (IBAction)hintTapped:(id)sender {
-    self.isAiMode = YES;
+    if (sender) {
+        if (self.isAiMode) {
+            NSLog(@"ai mode is off");
+            self.isAiMode = NO;
+        } else {
+            NSLog(@"ai mode is on");
+            self.isAiMode = YES;
+        }
+    }
     NSString *advice;
     NSInteger playerScore = [self.blackJackGame.player.handScore integerValue];
     PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[1];
@@ -798,9 +809,8 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
                 [self animatePlayingCardView:playerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(playerRect.origin.x+30, playerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void) {
                     [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
                         [self updateLabels];
-                        [self hintTapped:nil];
                         self.score.hidden = NO;
-//                        sleep(2);
+                        [self hintTapped:nil];
                     }];
                 }];
             }];
@@ -810,6 +820,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 - (void)showGameOverAlert
 {
+    NSLog(@"ai mode is off");
     self.isAiMode = NO;
     UIAlertView *gameOver = [[UIAlertView alloc]initWithTitle:@"Do you want to start over?"
                                                       message:@"Click OK to hit the ATM and reshuffle."
