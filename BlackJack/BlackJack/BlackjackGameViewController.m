@@ -309,7 +309,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         } else if ([winner isEqualToString:@"Dealer"]){
             self.blackJackGame.chips = @([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue]*multiple);
             
-            NSLog(@"Player has lost %@ chips. Now he has %@", self.blackJackGame.currentBet, self.blackJackGame.chips);
+            NSLog(@"Player has lost %@ chips. Now he has %@", @([self.blackJackGame.currentBet floatValue]*multiple), self.blackJackGame.chips);
         } else {
             NSLog(@"Push. Player keeps his %@ chips", self.blackJackGame.chips);
         }
