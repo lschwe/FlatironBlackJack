@@ -14,14 +14,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    FISPlayingCardDeck *testDeck = [[FISPlayingCardDeck alloc] init];
-//    NSLog(@"%@", testDeck.cards);
-    
-//    FISBlackJackGame *blackJackGame = [[FISBlackJackGame alloc] init];
-//    [blackJackGame deal];
-//    while (blackJackGame.isBusted == NO && blackJackGame.isBlackjack == NO) {
-//        [blackJackGame hit];
-//    }
+    sleep(1);
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     return YES;
 }
