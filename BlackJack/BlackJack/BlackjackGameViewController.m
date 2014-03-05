@@ -69,7 +69,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
     self.notification.notificationLabelTextColor = [UIColor blackColor];
     
     // Setup AI Mode
-    self.isAiMode = YES;
+//    self.isAiMode = YES;
     
     [self layoutGame];
     self.blackJackGame = [[FISBlackJackGame alloc] init];
@@ -324,6 +324,7 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 
 - (IBAction)hintTapped:(id)sender {
+    self.isAiMode = YES;
     NSString *advice;
     NSInteger playerScore = [self.blackJackGame.player.handScore integerValue];
     PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[1];
