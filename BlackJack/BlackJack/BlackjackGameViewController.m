@@ -17,12 +17,12 @@
 static NSInteger const cardWidth = 80;
 static NSInteger const cardHeight = 112;
 static NSInteger const chipSize = 50;
-const CGRect playerRect = {{20, 320}, {cardWidth,cardHeight}};
-const CGRect deckRect = {{220, 76}, {cardWidth,cardHeight}};
-const CGRect dealerRect = {{20, 70}, {cardWidth,cardHeight}};
-const CGRect betStartRect = {{240, 350}, {chipSize,chipSize}};
-const CGRect betEndRect = {{50, 255}, {chipSize,chipSize}};
-const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
+const CGRect dealerRect = {{20, 60}, {cardWidth,cardHeight}};
+const CGRect deckRect = {{220, 66}, {cardWidth,cardHeight}};
+const CGRect playerRect = {{20, 300}, {cardWidth,cardHeight}};
+const CGRect betStartRect = {{240, 330}, {chipSize,chipSize}};
+const CGRect betEndRect = {{50, 245}, {chipSize,chipSize}};
+const CGRect ddEndRect = {{100, 245}, {chipSize,chipSize}};
 
 @interface BlackjackGameViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *helpBarButton;
