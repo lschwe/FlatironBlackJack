@@ -150,13 +150,6 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		87D4E4AE18C596DA003E16BF /* Images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Images;
-			sourceTree = "<group>";
-		};
 		DF73E50418AC1F3E001A5048 = {
 			isa = PBXGroup;
 			children = (
@@ -210,7 +203,6 @@
 		DF73E51718AC1F3E001A5048 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				87D4E4AE18C596DA003E16BF /* Images */,
 				DF73E51818AC1F3E001A5048 /* BlackJack-Info.plist */,
 				DF73E51918AC1F3E001A5048 /* InfoPlist.strings */,
 				DF73E51C18AC1F3E001A5048 /* main.m */,
