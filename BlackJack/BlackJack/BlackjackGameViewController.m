@@ -122,24 +122,32 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
         }else{
             
             self.blackJackGame = [FISBlackJackGame new];
+            //[self deal:nil];
+            //[self.blackJackGame deal];
+            [self dealCards];
             self.blackJackGame.chips = @200;
             [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
             
-            [self deal:nil];
+            
         }
     } else if (alertView.tag == 1) {
         if (buttonIndex == alertView.cancelButtonIndex){
             
         }else{
-            CGFloat chipCount = [self.blackJackGame.chips floatValue];
-            self.blackJackGame = [FISBlackJackGame new];
-            self.blackJackGame.chips = @(chipCount);
+          
             [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
-            
-            [self deal:nil];
+            self.blackJackGame = [[FISBlackJackGame alloc] init];
+            //[self deal:nil];
+            //[self.blackJackGame deal];
+            [self dealCards];
+           
+            CGFloat chipCount = [self.blackJackGame.chips floatValue];
+            //[self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
+            self.blackJackGame.chips = @(chipCount);
+
         }
     }
-    
+
 }
 
 #pragma mark - IBActions
