@@ -54,11 +54,10 @@
         srand48(time(0));
         self.player.hand = [NSMutableArray new];
         self.dealerPlayer.hand = [NSMutableArray new];
-        PlayingCard *ace = [[PlayingCard alloc] initWithRank:@2 Suit:@"♠"];
-        [self.player.hand addObject:ace];
-        [self.dealerPlayer.hand addObject:ace];
-        [self.player.hand addObject:ace];
-        [self.dealerPlayer.hand addObject:ace];
+        [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
+        [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
+        [self.player.hand addObject:[self.playingCardDeck drawRandomCard]];
+        [self.dealerPlayer.hand addObject:[self.playingCardDeck drawRandomCard]];
         
         //    testing when dealer gets soft 17
         //    PlayingCard *ace = [[PlayingCard alloc] initWithRank:@1 Suit:@"♠"];

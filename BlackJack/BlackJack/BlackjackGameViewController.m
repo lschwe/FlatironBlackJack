@@ -22,7 +22,7 @@ const CGRect deckRect = {{220, 59}, {cardWidth,cardHeight}};
 const CGRect playerRect = {{20, 280}, {cardWidth,cardHeight}};
 const CGRect betStartRect = {{240, 310}, {chipSize,chipSize}};
 const CGRect betEndRect = {{50, 226}, {chipSize,chipSize}};
-const CGRect ddEndRect = {{100, 227}, {chipSize,chipSize}};
+const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
 
 @interface BlackjackGameViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *helpBarButton;
@@ -34,8 +34,6 @@ const CGRect ddEndRect = {{100, 227}, {chipSize,chipSize}};
 @property (strong, nonatomic) UILabel *betLabel;
 @property (strong, nonatomic) UILabel *ddLabel;
 @property (strong, nonatomic) UIView *pickerView;
-
-
 - (IBAction)doubleDownTapped:(id)sender;
 @end
 
