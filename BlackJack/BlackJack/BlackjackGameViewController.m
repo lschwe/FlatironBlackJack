@@ -72,6 +72,13 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
     self.isAiMode = NO;
     
     [self layoutGame];
+    
+    // Setup gesture
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(toggleAi:)];
+    longPress.minimumPressDuration = .5;
+    [self.view addGestureRecognizer:longPress];
+    
+    
     self.blackJackGame = [[FISBlackJackGame alloc] init];
     [self deal:nil];
     
@@ -125,7 +132,7 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
             self.blackJackGame.chips = @200;
             [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
             
-            [self deal:nil];
+            [self dealCards];
         }
     } else if (alertView.tag == 1) {
         if (buttonIndex == alertView.cancelButtonIndex){
@@ -136,7 +143,7 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
             self.blackJackGame.chips = @(chipCount);
             [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
             
-            [self deal:nil];
+            [self dealCards];
         }
     }
     
@@ -327,17 +334,6 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
 
 
 - (IBAction)hintTapped:(id)sender {
-    // if (sender) {
-    //     if (self.isAiMode) {
-    //         [self.notification dismissNotification];
-    //         [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
-    //         self.isAiMode = NO;
-    //     } else {
-    //         [self.notification dismissNotification];
-    //         [self.notification displayNotificationWithMessage:@"AI MODE ON" completion:nil];
-    //         self.isAiMode = YES;
-    //     }
-    // }
     NSString *advice;
     NSInteger playerScore = [self.blackJackGame.player.handScore integerValue];
     PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[1];
@@ -832,6 +828,36 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
                                             otherButtonTitles:@"OK", nil];
     gameOver.tag = 2;
     [gameOver show];
+}
+
+- (void)toggleAi:(UILongPressGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        if (self.isAiMode) {
+            [self.notification dismissNotification];
+            self.isAiMode = NO;
+        } else {
+            [self.notification dismissNotification];
+            self.isAiMode = YES;
+            [self hintTapped:nil];
+        }
+    } else {
+        if (self.isAiMode) {
+            if (!self.notification.notificationIsShowing) {
+                [self.notification dismissNotification];
+                [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
+            }
+        } else {
+            if (!self.notification.notificationIsShowing) {
+                [self.notification dismissNotification];
+                [self.notification displayNotificationWithMessage:@"AI MODE ON" completion:nil];
+            }
+        }
+    }
+    
+    
+    
+
 }
 
 @end
