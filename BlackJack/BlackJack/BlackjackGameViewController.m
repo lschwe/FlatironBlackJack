@@ -17,12 +17,12 @@
 static NSInteger const cardWidth = 80;
 static NSInteger const cardHeight = 112;
 static NSInteger const chipSize = 50;
-const CGRect playerRect = {{20, 320}, {cardWidth,cardHeight}};
-const CGRect deckRect = {{220, 76}, {cardWidth,cardHeight}};
-const CGRect dealerRect = {{20, 70}, {cardWidth,cardHeight}};
-const CGRect betStartRect = {{240, 350}, {chipSize,chipSize}};
-const CGRect betEndRect = {{50, 255}, {chipSize,chipSize}};
-const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
+const CGRect dealerRect = {{20, 53}, {cardWidth,cardHeight}};
+const CGRect deckRect = {{220, 59}, {cardWidth,cardHeight}};
+const CGRect playerRect = {{20, 280}, {cardWidth,cardHeight}};
+const CGRect betStartRect = {{240, 310}, {chipSize,chipSize}};
+const CGRect betEndRect = {{50, 226}, {chipSize,chipSize}};
+const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
 
 @interface BlackjackGameViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *helpBarButton;
@@ -327,17 +327,17 @@ const CGRect ddEndRect = {{100, 255}, {chipSize,chipSize}};
 
 
 - (IBAction)hintTapped:(id)sender {
-    if (sender) {
-        if (self.isAiMode) {
-            [self.notification dismissNotification];
-            [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
-            self.isAiMode = NO;
-        } else {
-            [self.notification dismissNotification];
-            [self.notification displayNotificationWithMessage:@"AI MODE ON" completion:nil];
-            self.isAiMode = YES;
-        }
-    }
+    // if (sender) {
+    //     if (self.isAiMode) {
+    //         [self.notification dismissNotification];
+    //         [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
+    //         self.isAiMode = NO;
+    //     } else {
+    //         [self.notification dismissNotification];
+    //         [self.notification displayNotificationWithMessage:@"AI MODE ON" completion:nil];
+    //         self.isAiMode = YES;
+    //     }
+    // }
     NSString *advice;
     NSInteger playerScore = [self.blackJackGame.player.handScore integerValue];
     PlayingCard *dealerCard = self.blackJackGame.dealerPlayer.hand[1];

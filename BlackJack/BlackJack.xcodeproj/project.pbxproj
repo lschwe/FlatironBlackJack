@@ -13,6 +13,9 @@
 		4597EBAB18C54C4800B6032A /* HelpViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4597EBAA18C54C4800B6032A /* HelpViewViewController.m */; };
 		45F86C7818C55E65001211E0 /* HelpScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 45F86C7718C55E65001211E0 /* HelpScreen.png */; };
 		8716B28D18BBFA1B004124F9 /* PlayingCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8716B28C18BBFA1B004124F9 /* PlayingCardView.m */; };
+		87AF7B0918E1EEE1001C6FCC /* Deck.png in Resources */ = {isa = PBXBuildFile; fileRef = 87AF7B0818E1EEE1001C6FCC /* Deck.png */; };
+		87AF7B0C18E1EF10001C6FCC /* Hit.png in Resources */ = {isa = PBXBuildFile; fileRef = 87AF7B0A18E1EF10001C6FCC /* Hit.png */; };
+		87AF7B0D18E1EF10001C6FCC /* CurrentBet.png in Resources */ = {isa = PBXBuildFile; fileRef = 87AF7B0B18E1EF10001C6FCC /* CurrentBet.png */; };
 		D178727F18BE68CE00C6EE3A /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D178727E18BE68CE00C6EE3A /* main.storyboard */; };
 		DF14F75D18AEB1CC0049F8AD /* BlackjackGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */; };
 		DF14F76018AEBF990049F8AD /* BlackJackPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = DF14F75F18AEBF990049F8AD /* BlackJackPlayer.m */; };
@@ -58,6 +61,9 @@
 		521E86CA76DC472E8E7B276D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		8716B28B18BBFA1B004124F9 /* PlayingCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayingCardView.h; sourceTree = "<group>"; };
 		8716B28C18BBFA1B004124F9 /* PlayingCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayingCardView.m; sourceTree = "<group>"; };
+		87AF7B0818E1EEE1001C6FCC /* Deck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Deck.png; sourceTree = "<group>"; };
+		87AF7B0A18E1EF10001C6FCC /* Hit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hit.png; sourceTree = "<group>"; };
+		87AF7B0B18E1EF10001C6FCC /* CurrentBet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CurrentBet.png; sourceTree = "<group>"; };
 		D178727E18BE68CE00C6EE3A /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = main.storyboard; sourceTree = "<group>"; };
 		DF14F75B18AEB1CC0049F8AD /* BlackjackGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackjackGameViewController.h; sourceTree = "<group>"; };
 		DF14F75C18AEB1CC0049F8AD /* BlackjackGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackjackGameViewController.m; sourceTree = "<group>"; };
@@ -150,13 +156,6 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		87D4E4AE18C596DA003E16BF /* Images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Images;
-			sourceTree = "<group>";
-		};
 		DF73E50418AC1F3E001A5048 = {
 			isa = PBXGroup;
 			children = (
@@ -210,7 +209,9 @@
 		DF73E51718AC1F3E001A5048 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				87D4E4AE18C596DA003E16BF /* Images */,
+				87AF7B0818E1EEE1001C6FCC /* Deck.png */,
+				87AF7B0A18E1EF10001C6FCC /* Hit.png */,
+				87AF7B0B18E1EF10001C6FCC /* CurrentBet.png */,
 				DF73E51818AC1F3E001A5048 /* BlackJack-Info.plist */,
 				DF73E51918AC1F3E001A5048 /* InfoPlist.strings */,
 				DF73E51C18AC1F3E001A5048 /* main.m */,
@@ -317,7 +318,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				45F86C7818C55E65001211E0 /* HelpScreen.png in Resources */,
+				87AF7B0D18E1EF10001C6FCC /* CurrentBet.png in Resources */,
+				87AF7B0918E1EEE1001C6FCC /* Deck.png in Resources */,
 				DF73E51B18AC1F3E001A5048 /* InfoPlist.strings in Resources */,
+				87AF7B0C18E1EF10001C6FCC /* Hit.png in Resources */,
 				D178727F18BE68CE00C6EE3A /* main.storyboard in Resources */,
 				DF73E52318AC1F3E001A5048 /* Images.xcassets in Resources */,
 			);
