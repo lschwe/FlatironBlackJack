@@ -218,7 +218,9 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
         
         // Draw animation
         [self animatePlayingCardView:playerCardView withFlip:YES withTilt:YES toFrame:CGRectMake(lastCardX+30, lastCardY+10, cardWidth, cardHeight) onCompletion:^{
-            [self hintTapped:nil];
+            if (self.isAiMode) {
+                [self hintTapped:nil];
+            }
         }];
         
         [self updateLabels];
@@ -326,7 +328,9 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
 //        sleep(2);
         
         if ([self.blackJackGame.chips floatValue] - [self.blackJackGame.currentBet floatValue] >= 0) {
-            [self hintTapped:nil];
+            if (self.isAiMode) {
+                [self hintTapped:nil];
+            }
         }
     }
 //    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
@@ -808,7 +812,9 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
                     [self animatePlayingCardView:dealerCardView2 withFlip:YES withTilt:YES toFrame:CGRectMake(dealerRect.origin.x+30, dealerRect.origin.y+10, cardWidth, cardHeight) onCompletion:^(void){
                         [self updateLabels];
                         self.score.hidden = NO;
-                        [self hintTapped:nil];
+                        if (self.isAiMode) {
+                            [self hintTapped:nil];
+                        }
                     }];
                 }];
             }];
@@ -834,30 +840,17 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
 {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if (self.isAiMode) {
-            [self.notification dismissNotification];
             self.isAiMode = NO;
+            [self.notification dismissNotification];
+            [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
         } else {
             [self.notification dismissNotification];
+            [self.notification displayNotificationWithMessage:@"AI MODE ON" completion:nil];
             self.isAiMode = YES;
-            [self hintTapped:nil];
-        }
-    } else {
-        if (self.isAiMode) {
-            if (!self.notification.notificationIsShowing) {
-                [self.notification dismissNotification];
-                [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
-            }
-        } else {
-            if (!self.notification.notificationIsShowing) {
-                [self.notification dismissNotification];
-                [self.notification displayNotificationWithMessage:@"AI MODE ON" completion:nil];
-            }
+            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(hintTapped:) userInfo:nil repeats:NO];
+//            [self hintTapped:nil];
         }
     }
-    
-    
-    
-
 }
 
 @end
