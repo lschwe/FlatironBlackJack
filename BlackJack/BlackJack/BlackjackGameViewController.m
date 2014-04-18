@@ -196,7 +196,6 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
 }
 
 - (IBAction)hit:(id)sender {
-    sleep(1);
 //    NSLog(@"Hit was tapped");
     [self.notification dismissNotification];
     PlayingCardView *dealerHiddenCard = [self.currentCardsView subviews][0];

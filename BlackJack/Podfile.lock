@@ -24,4 +24,4 @@ SPEC CHECKSUMS:
   CWStatusBarNotification: 34a428684a6fd0b2b7ef5fcf6341c142b506ad46
   FontAwesomeKit: 7d935e100337d503bdaefde2ea16be740b81ed13
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.32.1
