@@ -129,7 +129,7 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
         }else{
             
             self.blackJackGame = [FISBlackJackGame new];
-            self.blackJackGame.chips = @200;
+            self.blackJackGame.chips = @100;
             [self.notification displayNotificationWithMessage:@"Shuffling" forDuration:1];
             
             [self dealCards];
@@ -223,6 +223,8 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
         }];
         
         [self updateLabels];
+    } else if (dealerHiddenCard.isVisible) {
+        [self deal:nil];
     }
     
 //    NSLog(@"The current card count is %@", self.blackJackGame.cardCount);
@@ -842,12 +844,13 @@ const CGRect ddEndRect = {{100, 226}, {chipSize,chipSize}};
             self.isAiMode = NO;
             [self.notification dismissNotification];
             [self.notification displayNotificationWithMessage:@"AI MODE OFF" completion:nil];
+            self.view.backgroundColor = UIColorFromRGB(0x2ecc71);
         } else {
             [self.notification dismissNotification];
             [self.notification displayNotificationWithMessage:@"AI MODE ON" completion:nil];
             self.isAiMode = YES;
             [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(hintTapped:) userInfo:nil repeats:NO];
-//            [self hintTapped:nil];
+            self.view.backgroundColor = UIColorFromRGB(0xd14233);
         }
     }
 }
